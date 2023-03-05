@@ -12,6 +12,6 @@ describe('App', () => {
       screen.getByRole('heading', {
         level: 1,
       })
-    ).toHaveTextContent('Hello world');
+    ).toHaveTextContent(/hello world/i);
   });
 });
