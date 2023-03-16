@@ -1,4 +1,5 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
+import QueryClientProvider from '@/components/state/QueryClientProvider';
 import Home from '@/pages/Home';
 import NotFound from '@/pages/NotFound';
 
@@ -14,7 +15,9 @@ export function App() {
 export function WrappedApp() {
   return (
     <HashRouter>
-      <App />
+      <QueryClientProvider>
+        <App />
+      </QueryClientProvider>
     </HashRouter>
   );
 }
