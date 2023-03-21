@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "emulators": "firebase emulators:start --only firestore",
+    "emulators:import": "firebase emulators:start --only firestore --import=./firebase-export",
+    "emulators:clean": "firebase emulators:start --only firestore",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
