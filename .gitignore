@@ -25,3 +25,6 @@ dist-ssr
 
 # Firebase cache
 .firebase
+
+# Firestore emulator data
+firebase-export
