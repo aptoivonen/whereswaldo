@@ -19,7 +19,7 @@ if (import.meta.env.PROD) {
 
 const db = getFirestore(app);
 
-if (import.meta.env.DEV) {
+if (!import.meta.env.PROD) {
   const { port } = firebaseJson.emulators.firestore;
   connectFirestoreEmulator(db, 'localhost', port);
 }
