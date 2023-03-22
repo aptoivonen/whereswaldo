@@ -45,42 +45,44 @@ describe('BackendApi', () => {
     await testEnv.cleanup();
   });
 
-  it('can gets non-null for an existing document', async () => {
-    // setup
-    const ref = doc(unauthedDb, 'messages', 'newDocId');
-    await setDoc(ref, { text: 'new text' });
-    // read
-    const result = await backendApi.get('messages/newDocId');
-    // assert
-    expect(result).not.toBeNull();
-  });
+  describe('Get', () => {
+    it('resolves with an existing document', async () => {
+      // setup
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+      await setDoc(ref, { text: 'new text' });
+      // read
+      const resultPromise = backendApi.get('messages/newDocId');
+      // assert
+      await expect(resultPromise).resolves.toBeTruthy();
+    });
 
-  it('can get an existing document', async () => {
-    // setup
-    const ref = doc(unauthedDb, 'messages', 'newDocId');
-    await setDoc(ref, { text: 'new text' });
-    // read
-    const result = await backendApi.get('messages/newDocId');
-    // assert
-    expect(result).toEqual({ id: 'newDocId', text: 'new text' });
-  });
+    it('can get an existing document', async () => {
+      // setup
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+      await setDoc(ref, { text: 'new text' });
+      // read
+      const result = await backendApi.get('messages/newDocId');
+      // assert
+      expect(result).toEqual({ id: 'newDocId', text: 'new text' });
+    });
 
-  it('can get a document with correct date object', async () => {
-    const ref = doc(unauthedDb, 'messages', 'newDocId');
-    const timestamp = serverTimestamp();
-    await setDoc(ref, { createdAt: timestamp });
-    const result = await backendApi.get('messages/newDocId');
+    it('can get a document with correct date object', async () => {
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+      const timestamp = serverTimestamp();
+      await setDoc(ref, { createdAt: timestamp });
+      const result = await backendApi.get('messages/newDocId');
 
-    let createdAt;
-    if (result) {
-      ({ createdAt } = result);
-    }
-    expect(createdAt instanceof Date).toBe(true);
-  });
+      let createdAt;
+      if ('id' in result) {
+        ({ createdAt } = result);
+      }
+      expect(createdAt instanceof Date).toBe(true);
+    });
 
-  it('gets null for a non-existing document', async () => {
-    // Don't setup document
-    const result = await backendApi.get('messages/newDocId');
-    expect(result).toBeNull();
+    it('rejects for a non-existing document', async () => {
+      // Don't setup document
+      const resultPromise = backendApi.get('messages/newDocId');
+      await expect(resultPromise).rejects.toThrowError();
+    });
   });
 });

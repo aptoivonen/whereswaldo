@@ -8,13 +8,22 @@ import db from '@/config/firebaseConfig';
  * @param collectionPath Path to doc "collectionId/docId"
  * @returns Promise with document
  */
-function get(collectionPath: string): Promise<BasicDocument | null> {
+function get(collectionPath: string): Promise<BasicDocument | Error> {
   const [collectionId, docId] = collectionPath.split('/');
-  if (!collectionId || !docId) {
-    return Promise.resolve(null);
+  if (!collectionId) {
+    return Promise.reject(new Error('CollectionId was empty'));
+  }
+  if (!docId) {
+    return Promise.reject(new Error('DocId was empty'));
   }
 
-  return getDoc(doc(db, collectionId, docId)).then(transformDoc);
+  return getDoc(doc(db, collectionId, docId))
+    .then(transformDoc)
+    .then((docData) =>
+      docData === null
+        ? Promise.reject(new Error('Document not found'))
+        : docData
+    );
 }
 
 /**
