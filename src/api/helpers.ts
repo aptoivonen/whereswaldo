@@ -41,9 +41,11 @@ export function constructQuery(
 export function transformDoc(
   docData: DocumentSnapshot | QueryDocumentSnapshot
 ): BasicDocument {
-  const data = Object.entries({ ...docData.data() }).map(([key, value]) => [
-    key,
-    value instanceof Timestamp ? value.toDate() : value,
-  ]);
+  const data = Object.fromEntries(
+    Object.entries({ ...docData.data() }).map(([key, value]) => [
+      key,
+      value instanceof Timestamp ? value.toDate() : value,
+    ])
+  );
   return { id: docData.id, ...data };
 }
