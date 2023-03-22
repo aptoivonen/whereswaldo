@@ -5,6 +5,7 @@ export type DB = typeof db;
 
 export interface BasicDocument {
   id: string;
+  [key: string]: string | number | boolean | null | undefined | Date;
 }
 
 export type QueryOptions = {
