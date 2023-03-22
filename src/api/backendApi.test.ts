@@ -114,7 +114,7 @@ describe('BackendApi', () => {
       await setDoc(ref2, { text: 'text 2' });
 
       const result = await backendApi.getAll('messages');
-      await expect(result).toEqual([
+      expect(result).toEqual([
         { id: 'docId_1', text: 'text 1' },
         { id: 'docId_2', text: 'text 2' },
       ]);
@@ -124,6 +124,11 @@ describe('BackendApi', () => {
       // Don't setup document
       const resultPromise = backendApi.getAll('no-such-collection');
       await expect(resultPromise).rejects.toThrowError();
+    });
+
+    it('gets empty array for empty collection', async () => {
+      const result = await backendApi.getAll('messages');
+      expect(result).toHaveLength(0);
     });
   });
 });
