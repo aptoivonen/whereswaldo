@@ -70,11 +70,11 @@ describe('BackendApi', () => {
     const timestamp = serverTimestamp();
     await setDoc(ref, { createdAt: timestamp });
     const result = await backendApi.get('messages/newDocId');
-    if (!result) {
-      return;
-    }
 
-    const { createdAt } = result;
+    let createdAt;
+    if (result) {
+      ({ createdAt } = result);
+    }
     expect(createdAt instanceof Date).toBe(true);
   });
 
