@@ -1,7 +1,16 @@
-/* eslint-disable import/prefer-default-export */
-import { query, orderBy, limit, collection } from 'firebase/firestore';
-import type { QueryConstraint } from 'firebase/firestore';
-import type { DB, QueryOptions } from './types';
+import {
+  query,
+  orderBy,
+  limit,
+  collection,
+  Timestamp,
+} from 'firebase/firestore';
+import type {
+  QueryConstraint,
+  DocumentSnapshot,
+  QueryDocumentSnapshot,
+} from 'firebase/firestore';
+import type { BasicDocument, DB, QueryOptions } from './types';
 
 export function constructQuery(
   collectionId: string,
@@ -21,4 +30,20 @@ export function constructQuery(
   }
 
   return query(docsRef, ...queryConstraints);
+}
+
+/**
+ * Transforms a Firestore QuerySnapshot or DocumentSnapshot to a BasicDocument with
+ * Firestore dates as JS Date objects.
+ * @param docData Firestore document data
+ * @returns BasicDocument object with JS dates
+ */
+export function transformDoc(
+  docData: DocumentSnapshot | QueryDocumentSnapshot
+): BasicDocument {
+  const data = Object.entries({ ...docData.data() }).map(([key, value]) => [
+    key,
+    value instanceof Timestamp ? value.toDate() : value,
+  ]);
+  return { id: docData.id, ...data };
 }
