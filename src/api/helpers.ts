@@ -40,7 +40,11 @@ export function constructQuery(
  */
 export function transformDoc(
   docData: DocumentSnapshot | QueryDocumentSnapshot
-): BasicDocument {
+): BasicDocument | null {
+  if (!docData.exists || !docData.data()) {
+    return null;
+  }
+
   const data = Object.fromEntries(
     Object.entries({ ...docData.data() }).map(([key, value]) => [
       key,
