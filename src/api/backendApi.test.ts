@@ -46,7 +46,7 @@ describe('BackendApi', () => {
   });
 
   describe('Get', () => {
-    it('resolves with an existing document', async () => {
+    it('resolves if there is an existing document', async () => {
       // setup
       const ref = doc(unauthedDb, 'messages', 'newDocId');
       await setDoc(ref, { text: 'new text' });
@@ -82,6 +82,47 @@ describe('BackendApi', () => {
     it('rejects for a non-existing document', async () => {
       // Don't setup document
       const resultPromise = backendApi.get('messages/newDocId');
+      await expect(resultPromise).rejects.toThrowError();
+    });
+  });
+
+  describe('GetAll', () => {
+    it('resolves if there are existing documents', async () => {
+      const ref1 = doc(unauthedDb, 'messages', 'docId_1');
+      await setDoc(ref1, { text: 'text 1' });
+      const ref2 = doc(unauthedDb, 'messages', 'docId_2');
+      await setDoc(ref2, { text: 'text 2' });
+
+      const resultPromise = backendApi.getAll('messages');
+      await expect(resultPromise).resolves.toBeTruthy();
+    });
+
+    it('gets correct number of documents', async () => {
+      const ref1 = doc(unauthedDb, 'messages', 'docId_1');
+      await setDoc(ref1, { text: 'text 1' });
+      const ref2 = doc(unauthedDb, 'messages', 'docId_2');
+      await setDoc(ref2, { text: 'text 2' });
+
+      const result = await backendApi.getAll('messages');
+      await expect(result).toHaveLength(2);
+    });
+
+    it('gets correct documents', async () => {
+      const ref1 = doc(unauthedDb, 'messages', 'docId_1');
+      await setDoc(ref1, { text: 'text 1' });
+      const ref2 = doc(unauthedDb, 'messages', 'docId_2');
+      await setDoc(ref2, { text: 'text 2' });
+
+      const result = await backendApi.getAll('messages');
+      await expect(result).toEqual([
+        { id: 'docId_1', text: 'text 1' },
+        { id: 'docId_2', text: 'text 2' },
+      ]);
+    });
+
+    it('rejects for a non-existing collection', async () => {
+      // Don't setup document
+      const resultPromise = backendApi.getAll('no-such-collection');
       await expect(resultPromise).rejects.toThrowError();
     });
   });
