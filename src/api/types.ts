@@ -5,6 +5,7 @@ export type DB = typeof db;
 
 export interface BasicDocument {
   id: string;
+  [key: string]: unknown;
 }
 
 export type QueryOptions = {
