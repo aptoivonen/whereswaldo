@@ -4,6 +4,8 @@ import {
   limit,
   collection,
   Timestamp,
+  serverTimestamp,
+  FieldValue,
 } from 'firebase/firestore';
 import type {
   QueryConstraint,
@@ -52,4 +54,30 @@ export function transformDoc(
     ])
   );
   return { id: docData.id, ...data };
+}
+
+/**
+ * Converts a JS Date object to a Firestore timestamp or server timestamp, if it is immediate.
+ * @param date JS Date object
+ * @returns Firestore Timestamp or server timestamp
+ */
+function jsDateToFirestoreDate(date: Date): Timestamp | FieldValue {
+  const isNow =
+    Timestamp.fromDate(date).toMillis() === Timestamp.now().toMillis();
+
+  return isNow ? serverTimestamp() : Timestamp.fromDate(date);
+}
+
+/**
+ * Transforms a JS object to an object with Firestore-compatible timestamps.
+ * @param data Data to transform for sending to Firestore
+ * @returns Transform data object
+ */
+export function transformData(data: object): object {
+  return Object.fromEntries(
+    Object.entries(data).map(([key, value]) => [
+      key,
+      value instanceof Date ? jsDateToFirestoreDate(value) : value,
+    ])
+  );
 }
