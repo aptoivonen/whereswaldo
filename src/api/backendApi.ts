@@ -1,4 +1,4 @@
-import { doc, getDoc, getDocs } from 'firebase/firestore';
+import { doc, getDoc, getDocs, deleteDoc } from 'firebase/firestore';
 import { transformDoc, constructQuery } from './helpers';
 import type { BasicDocument, QueryOptions } from './types';
 import db from '@/config/firebaseConfig';
@@ -44,9 +44,27 @@ function getAll(collectionId: string, queryOptions: QueryOptions = {}) {
 }
 
 /**
+ * Deletes a firestore document.
+ * @param collectionPath Path to doc "collectionId/docId"
+ * @returns Promise that resolves once deleting is successful
+ */
+function remove(collectionPath: string): Promise<void | Error> {
+  const [collectionId, docId] = collectionPath.split('/');
+  if (!collectionId) {
+    return Promise.reject(new Error('CollectionId was empty'));
+  }
+  if (!docId) {
+    return Promise.reject(new Error('DocId was empty'));
+  }
+
+  return deleteDoc(doc(db, collectionId, docId));
+}
+
+/**
  * Wraps around firebase functions providing promise-land functions.
  */
 export default {
   get,
   getAll,
+  remove,
 };
