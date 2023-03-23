@@ -9,6 +9,7 @@ import {
   doc,
   serverTimestamp,
   Firestore,
+  Timestamp,
 } from 'firebase/firestore';
 import * as firebaseJson from '../../firebase.json';
 import backendApi from './backendApi';
@@ -130,6 +131,7 @@ describe('BackendApi', () => {
       expect(result).toHaveLength(0);
     });
   });
+
   describe('Remove', () => {
     it('resolves after deleting an existing document', async () => {
       const ref = doc(unauthedDb, 'messages', 'newDocId');
@@ -151,6 +153,55 @@ describe('BackendApi', () => {
       await backendApi.remove('messages/newDocId');
       const result = await getDoc(doc(unauthedDb, 'messages', 'newDocId'));
       expect(result.data()).toBeUndefined();
+    });
+  });
+
+  describe('Post', () => {
+    it('resolves after creating a new document', async () => {
+      const data = { text: 'new text' };
+      const resultPromise = backendApi.post('messages', data);
+      await expect(resultPromise).resolves.toBeTruthy();
+    });
+
+    it('returns an id after creating a new document', async () => {
+      const data = { text: 'new text' };
+      const result = await backendApi.post('messages', data);
+      expect(typeof result === 'string').toBe(true);
+    });
+
+    it('returns an object with Timestamp field for JS date', async () => {
+      const data = { text: 'new text', createdAt: new Date() };
+      const docId = await backendApi.post('messages', data);
+
+      const result = (
+        await getDoc(doc(unauthedDb, 'messages', docId as string))
+      ).data();
+
+      let createdAt;
+      if (result && 'createdAt' in result) {
+        ({ createdAt } = result);
+      }
+
+      expect(createdAt instanceof Timestamp).toBe(true);
+    });
+
+    it('returns an object with correct timestamp', async () => {
+      const data = {
+        text: 'new text',
+        createdAt: new Date(2023, 2, 23, 19, 5),
+      };
+      const docId = await backendApi.post('messages', data);
+
+      const result = (
+        await getDoc(doc(unauthedDb, 'messages', docId as string))
+      ).data();
+
+      let createdAt;
+      if (result && 'createdAt' in result) {
+        ({ createdAt } = result);
+      }
+
+      expect(createdAt.toMillis()).toBe(data.createdAt.getTime());
     });
   });
 });
