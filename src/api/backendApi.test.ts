@@ -47,22 +47,16 @@ describe('BackendApi', () => {
 
   describe('Get', () => {
     it('resolves if there is an existing document', async () => {
-      // setup
       const ref = doc(unauthedDb, 'messages', 'newDocId');
       await setDoc(ref, { text: 'new text' });
-      // read
       const resultPromise = backendApi.get('messages/newDocId');
-      // assert
       await expect(resultPromise).resolves.toBeTruthy();
     });
 
     it('can get an existing document', async () => {
-      // setup
       const ref = doc(unauthedDb, 'messages', 'newDocId');
       await setDoc(ref, { text: 'new text' });
-      // read
       const result = await backendApi.get('messages/newDocId');
-      // assert
       expect(result).toEqual({ id: 'newDocId', text: 'new text' });
     });
 
@@ -73,16 +67,16 @@ describe('BackendApi', () => {
       const result = await backendApi.get('messages/newDocId');
 
       let createdAt;
-      if ('id' in result) {
+      if (result && 'id' in result) {
         ({ createdAt } = result);
       }
       expect(createdAt instanceof Date).toBe(true);
     });
 
-    it('rejects for a non-existing document', async () => {
+    it('receives null for a non-existing document', async () => {
       // Don't setup document
-      const resultPromise = backendApi.get('messages/newDocId');
-      await expect(resultPromise).rejects.toThrowError();
+      const result = await backendApi.get('messages/newDocId');
+      expect(result).toBeNull();
     });
   });
 
