@@ -3,7 +3,13 @@ import {
   initializeTestEnvironment,
   RulesTestEnvironment,
 } from '@firebase/rules-unit-testing';
-import { setDoc, doc, serverTimestamp, Firestore } from 'firebase/firestore';
+import {
+  setDoc,
+  getDoc,
+  doc,
+  serverTimestamp,
+  Firestore,
+} from 'firebase/firestore';
 import * as firebaseJson from '../../firebase.json';
 import backendApi from './backendApi';
 
@@ -122,6 +128,29 @@ describe('BackendApi', () => {
     it('gets empty array for empty collection', async () => {
       const result = await backendApi.getAll('messages');
       expect(result).toHaveLength(0);
+    });
+  });
+  describe('Remove', () => {
+    it('resolves after deleting an existing document', async () => {
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+      await setDoc(ref, { text: 'new text' });
+
+      const resultPromise = backendApi.remove('messages/newDocId');
+      await expect(resultPromise).resolves.toBeUndefined();
+    });
+
+    it('resolves after trying to delete a non-existing document', async () => {
+      const resultPromise = backendApi.remove('messages/newDocId');
+      await expect(resultPromise).resolves.toBeUndefined();
+    });
+
+    it('deleted an existing document', async () => {
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+      await setDoc(ref, { text: 'new text' });
+
+      await backendApi.remove('messages/newDocId');
+      const result = await getDoc(doc(unauthedDb, 'messages', 'newDocId'));
+      expect(result.data()).toBeUndefined();
     });
   });
 });
