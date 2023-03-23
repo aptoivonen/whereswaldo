@@ -1,12 +1,19 @@
-import { doc, getDoc, getDocs, deleteDoc } from 'firebase/firestore';
-import { transformDoc, constructQuery } from './helpers';
+import {
+  collection,
+  doc,
+  addDoc,
+  getDoc,
+  getDocs,
+  deleteDoc,
+} from 'firebase/firestore';
+import { transformDoc, constructQuery, transformData } from './helpers';
 import type { BasicDocument, QueryOptions } from './types';
 import db from '@/config/firebaseConfig';
 
 /**
  * Gets one document from firestore and returns it (or null if not found) inside a promise.
  * @param collectionPath Path to doc "collectionId/docId"
- * @returns Promise with document
+ * @returns Promise with document, null if not found, or error
  */
 function get(collectionPath: string): Promise<BasicDocument | Error | null> {
   const [collectionId, docId] = collectionPath.split('/');
@@ -29,7 +36,7 @@ function get(collectionPath: string): Promise<BasicDocument | Error | null> {
  * @param [queryOptions.orderBy] order of entries
  * @param queryOptions.orderBy.property name of property to sort by
  * @param [queryOptions.orderBy.direction] 'asc' or 'desc'
- * @returns Array of documents
+ * @returns Array of documents or error
  */
 function getAll(collectionId: string, queryOptions: QueryOptions = {}) {
   if (!collectionId) {
@@ -41,6 +48,22 @@ function getAll(collectionId: string, queryOptions: QueryOptions = {}) {
     (snapshot) =>
       snapshot.docs.map(transformDoc).filter(Boolean) as BasicDocument[]
   );
+}
+
+/**
+ * Creates a new firestore document under a collection and returns its id.
+ * @param collectionId id of the collection
+ * @param data Data to create a new document from
+ * @returns Id of the newly created document or error
+ */
+function post(collectionId: string, data: object): Promise<string | Error> {
+  if (!collectionId) {
+    return Promise.reject(new Error('CollectionId was empty'));
+  }
+
+  const collectionRef = collection(db, collectionId);
+  const transformedData = transformData(data);
+  return addDoc(collectionRef, transformedData).then((docRef) => docRef.id);
 }
 
 /**
@@ -66,5 +89,6 @@ function remove(collectionPath: string): Promise<void | Error> {
 export default {
   get,
   getAll,
+  post,
   remove,
 };
