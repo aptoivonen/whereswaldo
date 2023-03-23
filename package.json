@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "emulators:import": "firebase emulators:start --only firestore --import=./firebase-export",
-    "emulators:clean": "firebase emulators:start --only firestore",
+    "emulators:clean": "firebase emulators:start --only firestore --project dev-project-id",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
