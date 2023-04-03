@@ -5,6 +5,7 @@ import NotFound from '@/pages/NotFound';
 import RootLayout from '@/components/layout/RootLayout';
 import PageLayout from '@/components/layout/PageLayout';
 import Scoreboard from '@/pages/Scoreboard';
+import Level from '@/pages/Level';
 
 export function App() {
   return (
@@ -13,6 +14,7 @@ export function App() {
         <Route element={<PageLayout />}>
           <Route index element={<Home />} />
           <Route path="scoreboard" element={<Scoreboard />} />
+          <Route path="level/:levelId" element={<Level />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Route>
