@@ -263,4 +263,91 @@ describe('BackendApi', () => {
       expect(result.data()?.updatedAt?.toMillis()).toEqual(JSDateNew.getTime());
     });
   });
+
+  describe('Put', () => {
+    it('resolves after creating a new document', async () => {
+      const resultPromise = backendApi.put('messages/newDocId', {
+        text: 'new text',
+      });
+      await expect(resultPromise).resolves.toBeUndefined();
+    });
+
+    it('resolves after resetting an existing document', async () => {
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+      await setDoc(ref, { text: 'new text' });
+
+      const resultPromise = backendApi.put('messages/newDocId', {
+        text: 'newer text',
+      });
+
+      await expect(resultPromise).resolves.toBeUndefined();
+    });
+
+    it('correctly creates a new document', async () => {
+      const data = {
+        text: 'new text',
+        author: 'Author Doe 2',
+        isPublished: false,
+        luckyNumber: 41,
+        noSuchObject: null,
+      };
+
+      await backendApi.put('messages/newDocId', data);
+
+      const result = await getDoc(doc(unauthedDb, 'messages', 'newDocId'));
+      expect(result.data()).toEqual(data);
+    });
+
+    it('correctly updates an existing document', async () => {
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+
+      const oldData = {
+        text: 'new text',
+        author: 'Author Doe',
+        isPublished: true,
+        luckyNumber: 42,
+        noSuchObject: null,
+      };
+
+      await setDoc(ref, oldData);
+
+      const newData = {
+        text: 'newer text',
+        author: 'Author Doe 2',
+        isPublished: false,
+        luckyNumber: 41,
+        noSuchObject: null,
+      };
+
+      await backendApi.put('messages/newDocId', newData);
+      const result = await getDoc(doc(unauthedDb, 'messages', 'newDocId'));
+      expect(result.data()).toEqual(newData);
+    });
+
+    it('correctly overwrites all fields in an existing document', async () => {
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+
+      const oldData = {
+        text: 'new text',
+        fieldToDrop: 'Author Doe',
+        isPublished: true,
+        luckyNumber: 42,
+        noSuchObject: null,
+      };
+
+      await setDoc(ref, oldData);
+
+      const newData = {
+        text: 'newer text',
+        isPublished: false,
+        luckyNumber: 41,
+        noSuchObject: null,
+      };
+
+      await backendApi.put('messages/newDocId', newData);
+
+      const result = await getDoc(doc(unauthedDb, 'messages', 'newDocId'));
+      expect(result.data()).toEqual(newData);
+    });
+  });
 });
