@@ -38,7 +38,10 @@ function get(collectionPath: string): Promise<BasicDocument | Error | null> {
  * @param [queryOptions.orderBy.direction] 'asc' or 'desc'
  * @returns Array of documents or error
  */
-function getAll(collectionId: string, queryOptions: QueryOptions = {}) {
+function getAll(
+  collectionId: string,
+  queryOptions: QueryOptions = {}
+): Promise<BasicDocument[] | Error> {
   if (!collectionId) {
     return Promise.reject(new Error('CollectionId was empty'));
   }
