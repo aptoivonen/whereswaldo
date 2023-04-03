@@ -1,21 +1,21 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import QueryClientProvider from '@/components/state/QueryClientProvider';
-import Home from '@/pages/Home';
-import NotFound from '@/pages/NotFound';
 import RootLayout from '@/components/layout/RootLayout';
 import PageLayout from '@/components/layout/PageLayout';
-import Scoreboard from '@/pages/Scoreboard';
-import Level from '@/pages/Level';
+import HomePage from '@/pages/HomePage';
+import ScoreboardPage from '@/pages/ScoreboardPage';
+import LevelPage from '@/pages/LevelPage';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 export function App() {
   return (
     <Routes>
       <Route path="/" element={<RootLayout />}>
         <Route element={<PageLayout />}>
-          <Route index element={<Home />} />
-          <Route path="scoreboard" element={<Scoreboard />} />
-          <Route path="level/:levelId" element={<Level />} />
-          <Route path="*" element={<NotFound />} />
+          <Route index element={<HomePage />} />
+          <Route path="scoreboard" element={<ScoreboardPage />} />
+          <Route path="level/:levelId" element={<LevelPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Route>
     </Routes>

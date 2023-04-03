@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 
-function Level() {
+function LevelPage() {
   const { levelId } = useParams();
 
   return (
@@ -11,4 +11,4 @@ function Level() {
   );
 }
 
-export default Level;
+export default LevelPage;

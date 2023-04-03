@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function Scoreboard() {
+function ScoreboardPage() {
   return (
     <>
       <h1>Scoreboard</h1>
@@ -9,4 +9,4 @@ function Scoreboard() {
   );
 }
 
-export default Scoreboard;
+export default ScoreboardPage;
