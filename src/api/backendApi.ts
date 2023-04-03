@@ -4,6 +4,7 @@ import {
   addDoc,
   getDoc,
   getDocs,
+  updateDoc,
   deleteDoc,
 } from 'firebase/firestore';
 import { transformDoc, constructQuery, transformData } from './helpers';
@@ -70,6 +71,25 @@ function post(collectionId: string, data: object): Promise<string | Error> {
 }
 
 /**
+ * Updates some fields of an existing document.
+ * @param collectionPath Path to doc "collectionId/docId"
+ * @param data Fields to update
+ * @returns Promise that resolves once update is successful
+ */
+function patch(collectionPath: string, data: object): Promise<void | Error> {
+  const [collectionId, docId] = collectionPath.split('/');
+  if (!collectionId) {
+    return Promise.reject(new Error('CollectionId was empty'));
+  }
+  if (!docId) {
+    return Promise.reject(new Error('DocId was empty'));
+  }
+
+  const transformedData = transformData(data);
+  return updateDoc(doc(db, collectionId, docId), transformedData);
+}
+
+/**
  * Deletes a firestore document.
  * @param collectionPath Path to doc "collectionId/docId"
  * @returns Promise that resolves once deleting is successful
@@ -93,5 +113,6 @@ export default {
   get,
   getAll,
   post,
+  patch,
   remove,
 };
