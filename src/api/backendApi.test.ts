@@ -204,4 +204,63 @@ describe('BackendApi', () => {
       expect(createdAt.toMillis()).toBe(data.createdAt.getTime());
     });
   });
+
+  describe('Patch', () => {
+    it('resolves after updating an existing document', async () => {
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+      await setDoc(ref, { text: 'new text' });
+
+      const data = { text: 'Newer text' };
+      const resultPromise = backendApi.patch('messages/newDocId', data);
+      await expect(resultPromise).resolves.toBeUndefined();
+    });
+
+    it('correctly updates an existing document with JS primitives', async () => {
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+      await setDoc(ref, {
+        text: 'new text',
+        author: 'Author Doe',
+        isPublished: true,
+        luckyNumber: 42,
+        noSuchObject: null,
+      });
+
+      const data = {
+        author: 'Author Doe 2',
+        isPublished: false,
+        luckyNumber: 41,
+        noSuchObject: null,
+      };
+
+      await backendApi.patch('messages/newDocId', data);
+      const result = await getDoc(doc(unauthedDb, 'messages', 'newDocId'));
+      expect(result.data()).toEqual({
+        text: 'new text',
+        author: 'Author Doe 2',
+        isPublished: false,
+        luckyNumber: 41,
+        noSuchObject: null,
+      });
+    });
+
+    it('correctly updates an existing document with dates', async () => {
+      const JSDateOld = new Date('2023-03-17T03:24:00');
+      const JSDateNew = new Date('2023-03-18T09:13:00');
+
+      const ref = doc(unauthedDb, 'messages', 'newDocId');
+      await setDoc(ref, {
+        text: 'new text',
+        updatedAt: Timestamp.fromDate(JSDateOld),
+      });
+
+      const data = {
+        updatedAt: JSDateNew,
+      };
+
+      await backendApi.patch('messages/newDocId', data);
+
+      const result = await getDoc(doc(unauthedDb, 'messages', 'newDocId'));
+      expect(result.data()?.updatedAt?.toMillis()).toEqual(JSDateNew.getTime());
+    });
+  });
 });
