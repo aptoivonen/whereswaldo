@@ -14,9 +14,9 @@ export function App() {
         <Route element={<PageLayout />}>
           <Route index element={<HomePage />} />
           <Route path="scoreboard" element={<ScoreboardPage />} />
-          <Route path="level/:levelId" element={<LevelPage />} />
-          <Route path="*" element={<NotFoundPage />} />
         </Route>
+        <Route path="level/:levelId" element={<LevelPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
