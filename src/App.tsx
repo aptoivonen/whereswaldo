@@ -2,10 +2,10 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import QueryClientProvider from '@/components/state/QueryClientProvider';
 import RootLayout from '@/components/layout/RootLayout';
 import PageLayout from '@/components/layout/PageLayout';
-import HomePage from '@/pages/HomePage';
-import ScoreboardPage from '@/pages/ScoreboardPage';
-import LevelPage from '@/pages/LevelPage';
-import NotFoundPage from '@/pages/NotFoundPage';
+import HomePage from '@/pages/Home/HomePage/HomePage';
+import ScoreboardPage from '@/pages/Scoreboard/ScoreboardPage/ScoreboardPage';
+import LevelPage from '@/pages/Level/LevelPage/LevelPage';
+import NotFoundPage from '@/pages/NotFound/NotFoundPage/NotFoundPage';
 
 export function App() {
   return (
