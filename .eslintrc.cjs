@@ -27,6 +27,12 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
+    tailwindcss: {
+      // white list all custom colors here!
+      whitelist: [
+        '(text|bg|border|ring|ring-offset|divide|from|via|to)\\-(red|blue|light|dark)',
+      ],
+    },
   },
   rules: {
     'react/react-in-jsx-scope': 0,
