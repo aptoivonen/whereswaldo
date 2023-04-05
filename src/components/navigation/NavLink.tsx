@@ -9,7 +9,7 @@ function NavLink({ to, children }: LinkProps) {
   return (
     <li>
       <RRNavLink
-        className={({ isActive }) => (isActive ? 'bg-black text-white' : '')}
+        className={({ isActive }) => (isActive ? 'bg-dark text-red' : '')}
         to={to}
       >
         {children}
