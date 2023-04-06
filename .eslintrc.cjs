@@ -47,5 +47,6 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'tailwindcss/classnames-order': 'off',
   },
 };
