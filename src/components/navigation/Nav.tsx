@@ -5,7 +5,7 @@ type NavProps = {
 };
 
 function Nav({ children }: NavProps) {
-  return <ul className="ml-6 flex space-x-4">{children}</ul>;
+  return <ul className="ml-20 flex space-x-8">{children}</ul>;
 }
 
 Nav.Link = NavLink;
