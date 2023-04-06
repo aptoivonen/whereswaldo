@@ -18,15 +18,15 @@ function PageLayout() {
     <>
       <NavBar>
         <Container>
-          <div className="flex items-center">
+          <div className="flex items-center py-4">
             <NavBar.Brand to={brand.route}>
               <span className="flex items-center">
                 <img
-                  className="h-24"
+                  className="h-12 sm:h-20"
                   src={brandImage}
                   alt="Where's Waldo logo"
                 />
-                <span className="text-5xl font-bold">
+                <span className="text-xl font-bold sm:text-4xl">
                   <p className="text-blue">Where&apos;s</p>
                   <p className="text-red">Waldo?</p>
                 </span>
@@ -35,7 +35,7 @@ function PageLayout() {
             <Nav>
               {navLinks.map((navLink) => (
                 <Nav.Link key={navLink.id} to={navLink.route}>
-                  {navLink.content}
+                  <span className="text-xl sm:text-2xl">{navLink.content}</span>
                 </Nav.Link>
               ))}
             </Nav>
