@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import Container from '@/components/layout/Container';
+import Container from '@/components/common/Container';
 import NavBar from '@/components/navigation/NavBar';
 import Nav from '@/components/navigation/Nav';
 import brandImage from '@/assets/images/waldohead.png';
