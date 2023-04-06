@@ -9,7 +9,11 @@ function NavLink({ to, children }: LinkProps) {
   return (
     <li>
       <RRNavLink
-        className={({ isActive }) => (isActive ? 'text-red' : 'text-red-light')}
+        className={({ isActive }) =>
+          isActive
+            ? 'relative text-red before:absolute before:bottom-[-0.5rem] before:block before:h-1 before:w-full before:bg-red'
+            : 'text-red-light'
+        }
         to={to}
       >
         {children}
