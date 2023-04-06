@@ -16,32 +16,37 @@ const navLinks = [
 function PageLayout() {
   return (
     <>
-      <NavBar>
-        <Container>
-          <div className="flex items-center py-4">
-            <NavBar.Brand to={brand.route}>
-              <span className="flex items-center">
-                <img
-                  className="h-12 sm:h-20"
-                  src={brandImage}
-                  alt="Where's Waldo logo"
-                />
-                <span className="text-xl font-bold sm:text-4xl">
-                  <p className="text-blue">Where&apos;s</p>
-                  <p className="text-red">Waldo?</p>
+      <div className="border-b-2 border-red">
+        <NavBar>
+          <Container>
+            <div className="flex items-center py-4">
+              <NavBar.Brand to={brand.route}>
+                <span className="flex items-center">
+                  <img
+                    className="h-12 sm:h-20"
+                    src={brandImage}
+                    alt="Where's Waldo logo"
+                  />
+                  <span className="text-xl font-bold sm:text-4xl">
+                    <p className="text-blue">Where&apos;s</p>
+                    <p className="text-red">Waldo?</p>
+                  </span>
                 </span>
-              </span>
-            </NavBar.Brand>
-            <Nav>
-              {navLinks.map((navLink) => (
-                <Nav.Link key={navLink.id} to={navLink.route}>
-                  <span className="text-xl sm:text-2xl">{navLink.content}</span>
-                </Nav.Link>
-              ))}
-            </Nav>
-          </div>
-        </Container>
-      </NavBar>
+              </NavBar.Brand>
+              <Nav>
+                {navLinks.map((navLink) => (
+                  <Nav.Link key={navLink.id} to={navLink.route}>
+                    <span className="text-xl sm:text-2xl">
+                      {navLink.content}
+                    </span>
+                  </Nav.Link>
+                ))}
+              </Nav>
+            </div>
+          </Container>
+        </NavBar>
+      </div>
+
       <Container>
         <Outlet />
       </Container>
