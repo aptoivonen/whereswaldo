@@ -7,8 +7,11 @@ type LevelCardProps = {
 
 function LevelCard({ level }: LevelCardProps) {
   return (
-    <Link to={`level/${level.id}`}>
-      <div className="flex flex-col border-8 border-blue">
+    <Link
+      className="transition-transform duration-100 ease-in-out hover:scale-105 focus:scale-105"
+      to={`level/${level.id}`}
+    >
+      <div className="flex flex-col border-8 border-blue shadow-xl">
         <div className="relative pb-[50%]">
           <img
             className="absolute block h-full w-full object-cover"
