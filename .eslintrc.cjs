@@ -29,8 +29,10 @@ module.exports = {
     },
     tailwindcss: {
       // white list all custom colors here!
+      // white list aspect-ratio plugin classnames
       whitelist: [
         '(text|bg|border|ring|ring-offset|divide|from|via|to)\\-(red|blue|light|dark)',
+        'aspect\\-(h|w)\\-[1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|none]',
       ],
     },
   },
