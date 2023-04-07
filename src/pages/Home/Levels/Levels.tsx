@@ -1,3 +1,5 @@
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import Grid from '@/components/common/Grid';
 import LevelCard from './LevelCard';
 import useLevels from './useLevels';
@@ -8,7 +10,20 @@ function Levels() {
   return (
     <>
       {isError && 'Error loading levels'}
-      {isLoading && 'Loading...'}
+      {isLoading && (
+        <Grid min="300px" className="gap-8">
+          {Array(3)
+            .fill(0)
+            .map((_, i) => i)
+            .map((i) => (
+              <div key={i}>
+                <div className="aspect-h-1 aspect-w-2">
+                  <Skeleton count={1} height="calc(100% + 2.75rem + 2 * 8px)" />
+                </div>
+              </div>
+            ))}
+        </Grid>
+      )}
       {isSuccess && levels.length > 0 ? (
         <Grid min="300px" className="gap-8">
           {levels.map((level) => (
