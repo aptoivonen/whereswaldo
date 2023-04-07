@@ -25,7 +25,9 @@ const levels: LevelInfo[] = [
 ];
 
 function getLevels(): Promise<LevelInfo[]> {
-  return Promise.resolve(levels);
+  return new Promise((resolve) => {
+    setTimeout(resolve, 1000);
+  }).then(() => levels);
 }
 
 function useLevels() {
