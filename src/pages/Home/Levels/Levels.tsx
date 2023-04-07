@@ -1,5 +1,4 @@
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import { Skeleton } from '@/components/common';
 import Grid from '@/components/common/Grid';
 import LevelCard from './LevelCard';
 import useLevels from './useLevels';
