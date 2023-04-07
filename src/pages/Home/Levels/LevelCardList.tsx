@@ -1,7 +1,7 @@
-import { Skeleton } from '@/components/common';
 import Grid from '@/components/common/Grid';
 import LevelCard from './LevelCard';
 import useLevels from './useLevels';
+import LevelCardSkeleton from './LevelCardSkeleton';
 
 function LevelCardList() {
   const { data: levels, isLoading, isError, isSuccess } = useLevels();
@@ -11,16 +11,9 @@ function LevelCardList() {
       {isError && 'Error loading levels'}
       {isLoading && (
         <Grid min="300px" className="gap-8">
-          {Array(3)
-            .fill(0)
-            .map((_, i) => i)
-            .map((i) => (
-              <div key={i}>
-                <div className="aspect-h-1 aspect-w-2">
-                  <Skeleton count={1} height="calc(100% + 2.75rem + 2 * 8px)" />
-                </div>
-              </div>
-            ))}
+          {[1, 2, 3].map((i) => (
+            <LevelCardSkeleton key={i} />
+          ))}
         </Grid>
       )}
       {isSuccess && levels.length > 0 ? (
