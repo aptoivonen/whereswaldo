@@ -1,4 +1,4 @@
-import Levels from '../Levels/Levels';
+import LevelCardList from '../Levels/LevelCardList';
 
 function HomePage() {
   return (
@@ -13,7 +13,7 @@ function HomePage() {
         </p>
       </section>
       <section aria-label="Levels">
-        <Levels />
+        <LevelCardList />
       </section>
     </>
   );

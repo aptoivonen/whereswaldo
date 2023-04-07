@@ -3,7 +3,7 @@ import Grid from '@/components/common/Grid';
 import LevelCard from './LevelCard';
 import useLevels from './useLevels';
 
-function Levels() {
+function LevelCardList() {
   const { data: levels, isLoading, isError, isSuccess } = useLevels();
 
   return (
@@ -36,4 +36,4 @@ function Levels() {
   );
 }
 
-export default Levels;
+export default LevelCardList;
