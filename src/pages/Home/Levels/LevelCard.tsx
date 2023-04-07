@@ -12,9 +12,9 @@ function LevelCard({ level }: LevelCardProps) {
       to={`level/${level.id}`}
     >
       <div className="flex flex-col border-8 border-blue shadow-xl">
-        <div className="relative pb-[50%]">
+        <div className="aspect-h-1 aspect-w-2">
           <img
-            className="absolute block h-full w-full object-cover"
+            className="block h-full w-full object-cover"
             src={level.thumbnailUrl}
             alt={`${level.title} Level`}
           />
