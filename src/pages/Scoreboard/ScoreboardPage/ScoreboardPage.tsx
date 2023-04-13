@@ -13,7 +13,7 @@ function ScoreboardPage() {
       <ErrorBoundary
         fallback={<span className="italic">Error loading levels.</span>}
       >
-        <Scoreboard />
+        <Scoreboard activePlayerId={playerId} />
       </ErrorBoundary>
     </>
   );
