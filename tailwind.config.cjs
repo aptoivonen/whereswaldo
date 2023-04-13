@@ -15,6 +15,8 @@ module.exports = {
       dark: '#000',
       white: '#fff',
       black: '#000',
+      success: '#10B981',
+      warning: '#EF4444',
     },
     extend: {},
   },
