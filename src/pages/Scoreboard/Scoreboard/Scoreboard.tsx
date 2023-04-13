@@ -46,7 +46,11 @@ function Scoreboard({ activePlayerId }: ScoreboardProps) {
           <tr
             key={score.id}
             className={`border-b 
-            ${isActivePlayerRow(activePlayerId, score.id) ? 'bg-gold' : ''}
+            ${
+              isActivePlayerRow(activePlayerId, score.id)
+                ? 'scroll-mt-32 bg-gold sm:scroll-mt-40'
+                : ''
+            }
             ${
               !isActivePlayerRow(activePlayerId, score.id) && isEven(index)
                 ? 'bg-transparent'
