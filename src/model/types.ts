@@ -5,6 +5,7 @@ export interface LevelInfo extends BasicDocument {
   title: string;
 }
 export interface Score extends BasicDocument {
+  userName: string;
   playerId: string;
   levelId: string;
   time: number;
