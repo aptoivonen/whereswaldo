@@ -1,4 +1,6 @@
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { ErrorBoundary } from '@/components/common';
+import Scoreboard from '../Scoreboard/Scoreboard';
 
 function ScoreboardPage() {
   const [searchParams] = useSearchParams();
@@ -6,9 +8,13 @@ function ScoreboardPage() {
 
   return (
     <>
-      <h1>Scoreboard</h1>
+      <h1 className="text-center text-3xl font-bold">Scoreboard</h1>
       {!!playerId && <p>Searched playerId: {playerId}</p>}
-      <Link to="/">Go Home</Link>
+      <ErrorBoundary
+        fallback={<span className="italic">Error loading levels.</span>}
+      >
+        <Scoreboard />
+      </ErrorBoundary>
     </>
   );
 }
