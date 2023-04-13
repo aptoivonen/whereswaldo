@@ -1,4 +1,3 @@
-import { Alert } from '@/components/common';
 import LevelCard from './LevelCard';
 import useLevels from './useLevels';
 import LevelCardSkeleton from './LevelCardSkeleton';
@@ -19,23 +18,14 @@ function LevelCardList() {
     );
   }
 
-  return (
-    <>
-      {!!levels.error && (
-        <Alert className="mb-4" variant="warning">
-          {levels.error.message}
-        </Alert>
-      )}
-      {levels.data.length > 0 ? (
-        <div className={gridClassname}>
-          {levels.data.map((level) => (
-            <LevelCard key={level.id} level={level} />
-          ))}
-        </div>
-      ) : (
-        <span className="italic">No levels found.</span>
-      )}
-    </>
+  return levels.data.length > 0 ? (
+    <div className={gridClassname}>
+      {levels.data.map((level) => (
+        <LevelCard key={level.id} level={level} />
+      ))}
+    </div>
+  ) : (
+    <span className="italic">No levels found.</span>
   );
 }
 
