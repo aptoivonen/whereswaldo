@@ -46,10 +46,11 @@ function PageLayout() {
           </Container>
         </NavBar>
       </div>
-
-      <Container>
-        <Outlet />
-      </Container>
+      <main>
+        <Container>
+          <Outlet />
+        </Container>
+      </main>
     </>
   );
 }
