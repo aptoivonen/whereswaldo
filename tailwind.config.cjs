@@ -15,6 +15,7 @@ module.exports = {
       dark: '#000',
       white: '#fff',
       black: '#000',
+      gold: '#FFD700',
       success: '#10B981',
       warning: '#EF4444',
     },
