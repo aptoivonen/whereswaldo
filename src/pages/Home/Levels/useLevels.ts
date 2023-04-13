@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import type { LevelInfo } from '@/model/types';
+import { AsyncReturnType } from '@/utils/types/types';
 
-const levels: LevelInfo[] = [
+const levelInfoList: LevelInfo[] = [
   {
     id: '1',
     thumbnailUrl: 'https://placehold.co/600x400/orange/white/png?text=Level+1',
@@ -27,11 +28,20 @@ const levels: LevelInfo[] = [
 function getLevels(): Promise<LevelInfo[]> {
   return new Promise((resolve) => {
     setTimeout(resolve, 1000);
-  }).then(() => levels);
+  }).then(() => levelInfoList);
 }
 
 function useLevels() {
-  return useQuery({ queryKey: ['levels'], queryFn: getLevels });
+  const queryFn = getLevels;
+  const queryKey = ['levels'];
+
+  type TError = Error;
+  type TData = AsyncReturnType<typeof queryFn>;
+  const { data, error } = useQuery<TData, TError, TData>({
+    queryKey,
+    queryFn,
+  });
+  return { data, error };
 }
 
 export default useLevels;
