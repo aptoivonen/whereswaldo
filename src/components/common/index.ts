@@ -6,3 +6,4 @@ export { ErrorBoundary } from 'react-error-boundary';
 export { default as Alert } from './Alert';
 export { default as Card } from './Card';
 export { default as Container } from './Container';
+export { default as toast, Toaster } from 'react-hot-toast';
