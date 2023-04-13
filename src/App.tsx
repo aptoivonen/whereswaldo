@@ -1,5 +1,6 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import QueryClientProvider from '@/components/state/QueryClientProvider';
+import { ErrorBoundary } from './components/common';
 import RootLayout from '@/components/layout/RootLayout';
 import PageLayout from '@/components/layout/PageLayout';
 import HomePage from '@/pages/Home/HomePage/HomePage';
@@ -26,7 +27,11 @@ export function WrappedApp() {
   return (
     <HashRouter>
       <QueryClientProvider>
-        <App />
+        <ErrorBoundary
+          fallback={<div className="text-2xl">Something went wrong.</div>}
+        >
+          <App />
+        </ErrorBoundary>
       </QueryClientProvider>
     </HashRouter>
   );
