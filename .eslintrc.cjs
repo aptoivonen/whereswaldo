@@ -28,6 +28,7 @@ module.exports = {
       },
     },
     tailwindcss: {
+      callees: ['classnames', 'clsx', 'twMerge'],
       // white list all custom colors here!
       // white list aspect-ratio plugin classnames
       whitelist: [
