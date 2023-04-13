@@ -1,6 +1,25 @@
 import useScores from './useScores';
+import formatTime from '@/utils/helpers/formatTime';
 
-function Scoreboard() {
+function isEven(index: number) {
+  return index % 2 === 0;
+}
+
+function isActivePlayerRow(activePlayerId: string | null, rowPlayerId: string) {
+  return activePlayerId && activePlayerId === rowPlayerId;
+}
+
+function scrollRowIntoView(activePlayerId: string | null, rowPlayerId: string) {
+  return isActivePlayerRow(activePlayerId, rowPlayerId)
+    ? (element: HTMLTableRowElement | null): void => element?.scrollIntoView()
+    : undefined;
+}
+
+export type ScoreboardProps = {
+  activePlayerId: string | null;
+};
+
+function Scoreboard({ activePlayerId }: ScoreboardProps) {
   const scores = useScores();
 
   if (!scores.data) {
@@ -8,30 +27,44 @@ function Scoreboard() {
   }
 
   return (
-    <table className="w-full table-auto text-left">
-      <thead>
+    <table className="mt-4 w-full table-auto text-left">
+      <thead className="border-b bg-light font-medium">
         <tr>
-          <th>Username</th>
-          <th>Level</th>
-          <th>Time</th>
+          <th scope="col" className="px-6 py-4">
+            Username
+          </th>
+          <th scope="col" className="px-6 py-4">
+            Level
+          </th>
+          <th scope="col" className="px-6 py-4">
+            Time
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-          <td>Malcolm Lockyer</td>
-          <td>1961</td>
-        </tr>
-        <tr>
-          <td>Witchy Woman</td>
-          <td>The Eagles</td>
-          <td>1972</td>
-        </tr>
-        <tr>
-          <td>Shining Star</td>
-          <td>Earth, Wind, and Fire</td>
-          <td>1975</td>
-        </tr>
+        {scores.data.map((score, index) => (
+          <tr
+            key={score.id}
+            className={`border-b 
+            ${isActivePlayerRow(activePlayerId, score.id) ? 'bg-gold' : ''}
+            ${
+              !isActivePlayerRow(activePlayerId, score.id) && isEven(index)
+                ? 'bg-transparent'
+                : 'bg-light'
+            }`}
+            ref={scrollRowIntoView(activePlayerId, score.id)}
+          >
+            <td className="whitespace-nowrap px-6 py-4 text-xl font-bold">
+              {score.id}
+            </td>
+            <td className="whitespace-nowrap px-6 py-4 font-medium">
+              {score.levelId}
+            </td>
+            <td className="whitespace-nowrap px-6 py-4 font-medium">
+              {formatTime(score.time)}
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
