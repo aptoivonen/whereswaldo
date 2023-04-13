@@ -5,21 +5,87 @@ import { AsyncReturnType } from '@/utils/types/types';
 const scoresList: Score[] = [
   {
     id: '1111',
-    playerId: 'Aleksi',
+    userName: 'Aleksi',
     levelId: '1',
     time: 62,
   },
   {
     id: '2222',
-    playerId: 'Ilkka',
+    userName: 'Ilkka',
     levelId: '2',
     time: 23,
   },
   {
     id: '3333',
-    playerId: 'Lauri',
+    userName: 'Lauri',
     levelId: '1',
     time: 12,
+  },
+  {
+    id: '4444',
+    userName: 'Lauri',
+    levelId: '1',
+    time: 12,
+  },
+  {
+    id: '5555',
+    userName: 'Lauri',
+    levelId: '1',
+    time: 12,
+  },
+  {
+    id: '6666',
+    userName: 'Lauri',
+    levelId: '1',
+    time: 12,
+  },
+  {
+    id: '7777',
+    userName: 'Lauri',
+    levelId: '1',
+    time: 12,
+  },
+  {
+    id: '8',
+    userName: 'Lauri',
+    levelId: '1',
+    time: 12,
+  },
+  {
+    id: '9',
+    userName: 'Lauri',
+    levelId: '1',
+    time: 12,
+  },
+  {
+    id: '10',
+    userName: 'Lauri',
+    levelId: '1',
+    time: 12,
+  },
+  {
+    id: '11',
+    userName: 'Lauri',
+    levelId: '1',
+    time: 12,
+  },
+  {
+    id: '12',
+    userName: 'Lauri',
+    levelId: '1',
+    time: 12,
+  },
+  {
+    id: '13',
+    userName: 'Lauri',
+    levelId: '1',
+    time: 12,
+  },
+  {
+    id: '14',
+    userName: 'Eero',
+    levelId: '1',
+    time: 33,
   },
 ];
 
