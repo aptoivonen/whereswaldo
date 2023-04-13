@@ -16,10 +16,10 @@ const navLinks = [
 function PageLayout() {
   return (
     <>
-      <header>
+      <header className="fixed inset-x-0 top-0 bg-light">
         <NavBar>
           <Container>
-            <div className="flex items-center py-4">
+            <div className="flex h-20 items-center sm:h-28">
               <NavBar.Brand to={brand.route}>
                 <span className="flex items-center">
                   <img
@@ -46,7 +46,7 @@ function PageLayout() {
           </Container>
         </NavBar>
       </header>
-      <main className="flex-1 bg-gradient-to-br from-light to-blue p-4">
+      <main className="flex-1 bg-gradient-to-br from-light to-blue p-4 pt-24 sm:pt-32">
         <Container>
           <Outlet />
         </Container>
