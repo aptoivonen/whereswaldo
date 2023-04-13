@@ -5,7 +5,7 @@ function HomePage() {
   return (
     <>
       <section
-        className="mt-4 border-4 border-dashed border-red p-8"
+        className="mx-auto  rounded-xl bg-blue p-8 text-white"
         aria-labelledby="waldo-heading"
       >
         <h1 className="text-center text-3xl font-bold" id="waldo-heading">
@@ -18,7 +18,7 @@ function HomePage() {
           hide-and-seek champion.
         </p>
       </section>
-      <section className="mt-8" aria-label="Levels">
+      <section className="mt-4" aria-label="Levels">
         <ErrorBoundary
           fallback={<span className="italic">Error loading levels.</span>}
         >
