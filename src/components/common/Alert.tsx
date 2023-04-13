@@ -8,13 +8,15 @@ export type AlertProps = {
   variant: Variant;
 };
 
-type BgVariant = `bg-${Variant}`;
+const variants = {
+  warning: 'bg-warning',
+  success: 'bg-success',
+};
 
 function Alert({ children, variant, className = '' }: AlertProps) {
-  const bgVariant: BgVariant = `bg-${variant}`;
   return (
     <div
-      className={twMerge(`${bgVariant} p-4 text-dark`, className)}
+      className={twMerge(`${variants[variant]} p-4 text-white`, className)}
       role="alert"
     >
       {children}
