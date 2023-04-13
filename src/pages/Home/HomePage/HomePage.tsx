@@ -19,7 +19,9 @@ function HomePage() {
         </p>
       </section>
       <section className="mt-8" aria-label="Levels">
-        <ErrorBoundary fallback={<span>Error loading levels.</span>}>
+        <ErrorBoundary
+          fallback={<span className="italic">Error loading levels.</span>}
+        >
           <LevelCardList />
         </ErrorBoundary>
       </section>
