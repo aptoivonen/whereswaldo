@@ -1,19 +1,27 @@
+import { ErrorBoundary } from '@/components/common';
 import LevelCardList from '../Levels/LevelCardList';
 
 function HomePage() {
   return (
     <>
-      <section aria-labelledby="waldo-heading">
-        <h1 className="text-3xl font-bold" id="waldo-heading">
-          Find Waldo!
+      <section
+        className="mt-4 border-4 border-dashed border-red p-8"
+        aria-labelledby="waldo-heading"
+      >
+        <h1 className="text-center text-3xl font-bold" id="waldo-heading">
+          Can you spot the elusive Waldo and top the leaderboard?
         </h1>
-        <p>
-          Waldo has been lost in the crowd. Can you find him? Also, the Wizard
-          and Odlaw are hiding.
+        <p className="mx-auto mt-4 max-w-prose text-center text-xl">
+          Waldo is a master of disguise and hiding in plain sight is his
+          specialty. He&apos;s always on the run from his fans who are
+          constantly trying to find him, making him a skilled and elusive
+          hide-and-seek champion.
         </p>
       </section>
-      <section aria-label="Levels">
-        <LevelCardList />
+      <section className="mt-8" aria-label="Levels">
+        <ErrorBoundary fallback={<span>Error loading levels.</span>}>
+          <LevelCardList />
+        </ErrorBoundary>
       </section>
     </>
   );
