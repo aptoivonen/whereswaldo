@@ -1,4 +1,4 @@
-import { Alert, Grid } from '@/components/common';
+import { Alert } from '@/components/common';
 import LevelCard from './LevelCard';
 import useLevels from './useLevels';
 import LevelCardSkeleton from './LevelCardSkeleton';
@@ -6,31 +6,34 @@ import LevelCardSkeleton from './LevelCardSkeleton';
 function LevelCardList() {
   const levels = useLevels();
 
+  const gridClassname =
+    'grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-8';
+
   if (!levels.data) {
     return (
-      <Grid min="300px" className="gap-8">
+      <div className={gridClassname}>
         {[1, 2, 3].map((i) => (
           <LevelCardSkeleton key={i} />
         ))}
-      </Grid>
+      </div>
     );
   }
 
   return (
-    <div>
+    <>
       {!!levels.error && (
         <Alert variant="warning">{levels.error.message}</Alert>
       )}
       {levels.data.length > 0 ? (
-        <Grid min="300px" className="gap-8">
+        <div className={gridClassname}>
           {levels.data.map((level) => (
             <LevelCard key={level.id} level={level} />
           ))}
-        </Grid>
+        </div>
       ) : (
         <span className="italic">No levels found.</span>
       )}
-    </div>
+    </>
   );
 }
 
