@@ -22,7 +22,9 @@ function LevelCardList() {
   return (
     <>
       {!!levels.error && (
-        <Alert variant="warning">{levels.error.message}</Alert>
+        <Alert className="mb-4" variant="warning">
+          {levels.error.message}
+        </Alert>
       )}
       {levels.data.length > 0 ? (
         <div className={gridClassname}>
