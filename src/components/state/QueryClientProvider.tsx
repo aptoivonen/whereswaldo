@@ -4,11 +4,17 @@ import {
   QueryClient,
   QueryClientProvider as TanstackQueryClientProvider,
 } from '@tanstack/react-query';
+import { toast } from '@/components/common';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error) =>
-      console.log(error instanceof Error ? error.message : error),
+    onError: (error) => {
+      toast.custom(() => (
+        <div className="rounded-md bg-red px-6 py-4 text-white shadow-md">
+          Error: {error instanceof Error ? error.message : String(error)}
+        </div>
+      ));
+    },
   }),
   defaultOptions: {
     queries: {
