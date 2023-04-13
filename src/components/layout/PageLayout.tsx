@@ -16,7 +16,7 @@ const navLinks = [
 function PageLayout() {
   return (
     <>
-      <div className="border-b-2 border-red">
+      <header>
         <NavBar>
           <Container>
             <div className="flex items-center py-4">
@@ -45,8 +45,8 @@ function PageLayout() {
             </div>
           </Container>
         </NavBar>
-      </div>
-      <main>
+      </header>
+      <main className="flex-1 bg-gradient-to-br from-light to-blue p-4">
         <Container>
           <Outlet />
         </Container>
