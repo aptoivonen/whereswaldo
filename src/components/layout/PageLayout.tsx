@@ -33,10 +33,10 @@ function PageLayout() {
                   </span>
                 </span>
               </NavBar.Brand>
-              <Nav>
+              <Nav className="ml-10 sm:ml-20">
                 {navLinks.map((navLink) => (
                   <Nav.Link key={navLink.id} to={navLink.route}>
-                    <span className="text-xl sm:text-2xl">
+                    <span className="text-lg sm:text-2xl">
                       {navLink.content}
                     </span>
                   </Nav.Link>
@@ -46,7 +46,7 @@ function PageLayout() {
           </Container>
         </NavBar>
       </header>
-      <main className="flex-1 bg-gradient-to-br from-light to-blue p-4 pt-24 sm:pt-32">
+      <main className="flex-1 bg-gradient-to-br from-light to-blue pt-24 sm:pt-32">
         <Container>
           <Outlet />
         </Container>
