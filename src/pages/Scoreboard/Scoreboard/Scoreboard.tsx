@@ -41,19 +41,19 @@ function Scoreboard({ activePlayerId }: ScoreboardProps) {
 
   function createScoreTable(scoresList: Score[]) {
     return (
-      <table className="mt-4 w-full table-auto text-left">
+      <table className="mt-4 w-full table-auto border-separate border-spacing-0 rounded-xl border-8 border-red text-left">
         <thead className="border-b bg-light font-medium">
           <tr>
-            <th scope="col" className="px-6 py-4">
+            <th scope="col" className="px-6 py-2">
               #
             </th>
-            <th scope="col" className="px-6 py-4">
+            <th scope="col" className="px-6 py-2">
               Username
             </th>
-            <th scope="col" className="px-6 py-4">
+            <th scope="col" className="px-6 py-2">
               Level
             </th>
-            <th scope="col" className="px-6 py-4">
+            <th scope="col" className="px-6 py-2">
               Time
             </th>
           </tr>
