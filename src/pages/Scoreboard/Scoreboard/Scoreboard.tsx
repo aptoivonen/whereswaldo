@@ -62,17 +62,17 @@ function Scoreboard({ activePlayerId }: ScoreboardProps) {
           {scoresList.map((score, index) => (
             <tr
               key={score.id}
-              className={`border-b ${getRowColor(
+              className={`border-b text-base ${getRowColor(
                 activePlayerId,
                 score.id,
                 index
               )}`}
               ref={scrollRowIntoView(activePlayerId, score.id)}
             >
-              <td className="whitespace-nowrap px-6 py-4 text-xl font-bold">
+              <td className="whitespace-nowrap px-6 py-4 font-bold">
                 {index + 1}
               </td>
-              <td className="whitespace-nowrap px-6 py-4 text-xl font-bold">
+              <td className="whitespace-nowrap px-6 py-4 font-bold">
                 {score.id}
               </td>
               <td className="whitespace-nowrap px-6 py-4 font-medium">
