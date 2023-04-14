@@ -9,7 +9,6 @@ function ScoreboardPage() {
   return (
     <>
       <h1 className="text-center text-3xl font-bold">Scoreboard</h1>
-      {!!playerId && <p>Searched playerId: {playerId}</p>}
       <ErrorBoundary
         fallback={<span className="italic">Error loading levels.</span>}
       >
