@@ -45,6 +45,9 @@ function Scoreboard({ activePlayerId }: ScoreboardProps) {
         <thead className="border-b bg-light font-medium">
           <tr>
             <th scope="col" className="px-6 py-4">
+              #
+            </th>
+            <th scope="col" className="px-6 py-4">
               Username
             </th>
             <th scope="col" className="px-6 py-4">
@@ -66,6 +69,9 @@ function Scoreboard({ activePlayerId }: ScoreboardProps) {
               )}`}
               ref={scrollRowIntoView(activePlayerId, score.id)}
             >
+              <td className="whitespace-nowrap px-6 py-4 text-xl font-bold">
+                {index + 1}
+              </td>
               <td className="whitespace-nowrap px-6 py-4 text-xl font-bold">
                 {score.id}
               </td>
