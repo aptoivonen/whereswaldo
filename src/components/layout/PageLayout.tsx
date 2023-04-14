@@ -16,7 +16,7 @@ const navLinks = [
 function PageLayout() {
   return (
     <>
-      <header className="fixed inset-x-0 top-0 bg-light">
+      <header className="fixed inset-x-0 top-0 z-10 bg-light">
         <NavBar>
           <Container>
             <div className="flex h-20 items-center sm:h-28">
