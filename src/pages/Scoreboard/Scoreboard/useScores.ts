@@ -89,14 +89,14 @@ const scoresList: Score[] = [
   },
 ];
 
-function getScores(): Promise<Score[]> {
+function getScoresSortedByTimeAscending(): Promise<Score[]> {
   return new Promise((resolve) => {
     setTimeout(resolve, 1000);
-  }).then(() => scoresList);
+  }).then(() => scoresList.sort((a, b) => a.time - b.time));
 }
 
 function useScores() {
-  const queryFn = getScores;
+  const queryFn = getScoresSortedByTimeAscending;
   const queryKey = ['scores'];
 
   type TError = Error;
