@@ -5,6 +5,7 @@ import getImageClickPosition from './getImageClickPosition';
 import useLevel from './useLevel';
 import { CHARACTER_IMG } from '@/constants/constants';
 import { Character } from '@/model/types';
+import isNearby from './isNearby';
 
 type LevelViewerProps = {
   levelId: string;
@@ -25,6 +26,18 @@ function LevelViewer({ levelId }: LevelViewerProps) {
 
   const handleImageClick: MouseEventHandler<HTMLImageElement> = (e) => {
     const [imagePercentageX, imagePercentageY] = getImageClickPosition(e);
+    const [characterX, characterY] = level.data?.characterCoordinates.Waldo ?? [
+      0, 0,
+    ];
+    const isWaldoNearby = isNearby({
+      clickedImagePercentageX: imagePercentageX,
+      clickedImagePercentageY: imagePercentageY,
+      characterX,
+      characterY,
+      foundAcceptanceRadius: level.data?.foundAcceptanceRadius ?? 0,
+    });
+    console.log('is Waldo near', isWaldoNearby);
+
     console.log({ imagePercentageX, imagePercentageY });
   };
 
