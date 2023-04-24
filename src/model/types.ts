@@ -13,9 +13,11 @@ export interface Score extends BasicDocument {
   time: number;
 }
 
+export type CharacterCoordinates = { [K in Character]?: [number, number] };
+
 export interface LevelGameInfo extends BasicDocument {
   imgUrl: string;
   title: string;
-  characterCoordinates: { [K in Character]?: [number, number] };
+  characterCoordinates: CharacterCoordinates;
   foundAcceptanceRadius: number;
 }
