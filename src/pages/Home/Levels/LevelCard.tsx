@@ -1,6 +1,15 @@
 import { Link } from 'react-router-dom';
 import { LevelInfo } from '@/model/types';
 import Card from '@/components/common/Card';
+import waldoHead from '@/assets/images/waldohead.png';
+import wizardHead from '@/assets/images/wizardhead.png';
+import odlawHead from '@/assets/images/odlawhead.png';
+
+const CHARACTER_IMG = {
+  Waldo: waldoHead,
+  Wizard: wizardHead,
+  Odlaw: odlawHead,
+};
 
 type LevelCardProps = {
   level: LevelInfo;
@@ -18,7 +27,22 @@ function LevelCard({ level }: LevelCardProps) {
           src={level.thumbnailUrl}
           alt={`${level.title} Level`}
         />
-        <Card.Title className="bg-blue text-white">{level.title}</Card.Title>
+        <Card.Title className="bg-blue text-white">
+          <div className="flex items-center">
+            <span>{level.title}</span>
+            <div className="ml-auto flex h-6 space-x-1">
+              {level.characters.map((character) => (
+                <img
+                  className="block h-6 w-6 object-cover"
+                  key={character}
+                  src={CHARACTER_IMG[character]}
+                  alt={character}
+                  title={`${character} is hiding in this level.`}
+                />
+              ))}
+            </div>
+          </div>
+        </Card.Title>
       </Card>
     </Link>
   );
