@@ -15,18 +15,13 @@ function LevelPage() {
   }
 
   return (
-    <>
-      <h1 className="absolute top-4 left-4 z-20 bg-red px-2 py-1 text-white">
-        Level: {levelId}
-      </h1>
-      <ErrorBoundary
-        fallback={
-          <span className="italic">{`Error loading level ${levelId}`}</span>
-        }
-      >
-        <LevelViewer levelId={levelId} />
-      </ErrorBoundary>
-    </>
+    <ErrorBoundary
+      fallback={
+        <span className="italic">{`Error loading level ${levelId}`}</span>
+      }
+    >
+      <LevelViewer levelId={levelId} />
+    </ErrorBoundary>
   );
 }
 
