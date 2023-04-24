@@ -13,9 +13,11 @@ type LevelViewerProps = {
 
 function LevelViewer({ levelId }: LevelViewerProps) {
   const level = useLevel(levelId);
+
   const characters = level.data
     ? (Object.keys(level.data.characterCoordinates) as Character[])
     : [];
+
   const [charactersFound, setCharactersFound] = useState(() =>
     level.data
       ? (Object.fromEntries(characters.map((key) => [key, false])) as {
@@ -24,6 +26,13 @@ function LevelViewer({ levelId }: LevelViewerProps) {
       : {}
   );
 
+  const allCharactersFound = Object.values(charactersFound).every(Boolean);
+  if (allCharactersFound) {
+    // TODO: game won, call sender returned by useSendScore and then
+    // TODO: täytyy vissiin laittaa clickerhandleriin
+  }
+
+  // TODO: tee targeting box, jossa valitaan hahmo ja sitten löytyi tai toast 'ei löytynyt'
   const handleImageClick: MouseEventHandler<HTMLImageElement> = (e) => {
     const [imagePercentageX, imagePercentageY] = getImageClickPosition(e);
     const [characterX, characterY] = level.data?.characterCoordinates.Waldo ?? [
