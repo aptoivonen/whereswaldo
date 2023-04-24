@@ -16,5 +16,6 @@ export interface Score extends BasicDocument {
 export interface LevelGameInfo extends BasicDocument {
   imgUrl: string;
   title: string;
-  characters: Character[];
+  characterCoordinates: { [K in Character]?: [number, number] };
+  foundAcceptanceRadius: number;
 }
