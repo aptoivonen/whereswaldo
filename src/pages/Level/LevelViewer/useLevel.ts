@@ -6,7 +6,12 @@ const levelGameInfo: LevelGameInfo = {
   id: '1',
   imgUrl: 'https://placehold.co/2000x1000',
   title: 'Fair',
-  characters: ['Waldo', 'Wizard', 'Odlaw'],
+  foundAcceptanceRadius: 5,
+  characterCoordinates: {
+    Waldo: [10, 10],
+    Wizard: [99, 0],
+    Odlaw: [99, 0],
+  },
 };
 
 function getLevel(): Promise<LevelGameInfo> {
