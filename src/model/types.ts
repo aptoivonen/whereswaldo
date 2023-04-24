@@ -1,6 +1,6 @@
 import { BasicDocument } from '@/api/types';
 
-type Character = 'Waldo' | 'Wizard' | 'Odlaw';
+export type Character = 'Waldo' | 'Wizard' | 'Odlaw';
 
 export interface LevelInfo extends BasicDocument {
   thumbnailUrl: string;
