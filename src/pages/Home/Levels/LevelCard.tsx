@@ -1,15 +1,7 @@
 import { Link } from 'react-router-dom';
 import { LevelInfo } from '@/model/types';
 import Card from '@/components/common/Card';
-import waldoHead from '@/assets/images/waldohead.png';
-import wizardHead from '@/assets/images/wizardhead.png';
-import odlawHead from '@/assets/images/odlawhead.png';
-
-const CHARACTER_IMG = {
-  Waldo: waldoHead,
-  Wizard: wizardHead,
-  Odlaw: odlawHead,
-};
+import { CHARACTER_IMG } from '@/constants/constants';
 
 type LevelCardProps = {
   level: LevelInfo;
