@@ -14,7 +14,7 @@ function Header({ children }: HeaderProps) {
   return (
     <header className="bg-light">
       <Container>
-        <div className="flex h-20 items-center justify-between sm:h-28">
+        <div className="flex h-14 items-center justify-between sm:h-16">
           {children}
         </div>
       </Container>
