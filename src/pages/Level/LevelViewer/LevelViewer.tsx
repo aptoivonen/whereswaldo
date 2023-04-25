@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { MouseEventHandler, useState } from 'react';
 import { ZoomPanViewer } from '@/components/common';
 import Header from '../Header/Header';
@@ -7,6 +10,7 @@ import useTimer from './useTimer';
 import getImageClickPosition from './getImageClickPosition';
 import isNearby from './isNearby';
 import formatTime from '@/utils/helpers/formatTime';
+import TargetingBox from '../TargetingBox/TargetingBox';
 
 type LevelViewerProps = {
   levelId: string;
@@ -15,6 +19,11 @@ type LevelViewerProps = {
 function LevelViewer({ levelId }: LevelViewerProps) {
   const level = useLevel(levelId);
   const time = formatTime(useTimer());
+  const [isShowTargetingBox, setIsShowTargetingBox] = useState(false);
+  const [clickedLocation, setClickedLocation] = useState<
+    [number, number] | null
+  >(null);
+  const [zoom, setZoom] = useState(1);
 
   const characters = level.data
     ? (Object.keys(level.data.characterCoordinates) as Character[])
@@ -28,28 +37,20 @@ function LevelViewer({ levelId }: LevelViewerProps) {
       : {}
   );
 
-  const allCharactersFound = Object.values(charactersFound).every(Boolean);
-  if (allCharactersFound) {
-    // TODO: game won, call sender returned by useSendScore and then
-    // TODO: täytyy vissiin laittaa clickerhandleriin
-  }
-
-  // TODO: tee targeting box, jossa valitaan hahmo ja sitten löytyi tai toast 'ei löytynyt'
   const handleImageClick: MouseEventHandler<HTMLImageElement> = (e) => {
-    const [imagePercentageX, imagePercentageY] = getImageClickPosition(e);
-    const [characterX, characterY] = level.data?.characterCoordinates.Waldo ?? [
-      0, 0,
-    ];
-    const isWaldoNearby = isNearby({
-      clickedImagePercentageX: imagePercentageX,
-      clickedImagePercentageY: imagePercentageY,
-      characterX,
-      characterY,
-      foundAcceptanceRadius: level.data?.foundAcceptanceRadius ?? 0,
-    });
-    console.log('is Waldo near', isWaldoNearby);
+    const { imageX, imageY } = getImageClickPosition(e, zoom);
+    setClickedLocation([imageX, imageY]);
 
-    console.log({ imagePercentageX, imagePercentageY });
+    setIsShowTargetingBox((isShow) => !isShow);
+
+    console.log('clicked location', { imageX, imageY, zoom });
+  };
+
+  const handleSelect = (character: Character) => {
+    // TODO: logic here
+    console.log('selected and location', { character, clickedLocation });
+
+    setIsShowTargetingBox(false);
   };
 
   if (!level.data) {
@@ -80,10 +81,25 @@ function LevelViewer({ levelId }: LevelViewerProps) {
       </Header>
       <div className="flex-1 overflow-hidden bg-blue">
         <ZoomPanViewer
-          onImageClick={handleImageClick}
-          imgSrc={level.data.imgUrl}
-          imgAlt={level.data.title}
-        />
+          onZoom={(newZoom) => {
+            setIsShowTargetingBox(false);
+            setZoom(newZoom);
+          }}
+        >
+          <div className="relative">
+            <TargetingBox
+              location={clickedLocation}
+              characters={characters}
+              isShow={isShowTargetingBox}
+              onSelect={handleSelect}
+            />
+            <img
+              src={level.data.imgUrl}
+              alt={level.data.title}
+              onClick={handleImageClick}
+            />
+          </div>
+        </ZoomPanViewer>
       </div>
     </div>
   );
