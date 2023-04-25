@@ -3,8 +3,10 @@ import { ZoomPanViewer } from '@/components/common';
 import Header from '../Header/Header';
 import { Character } from '@/model/types';
 import useLevel from './useLevel';
+import useTimer from './useTimer';
 import getImageClickPosition from './getImageClickPosition';
 import isNearby from './isNearby';
+import formatTime from '@/utils/helpers/formatTime';
 
 type LevelViewerProps = {
   levelId: string;
@@ -12,6 +14,7 @@ type LevelViewerProps = {
 
 function LevelViewer({ levelId }: LevelViewerProps) {
   const level = useLevel(levelId);
+  const time = formatTime(useTimer());
 
   const characters = level.data
     ? (Object.keys(level.data.characterCoordinates) as Character[])
@@ -60,7 +63,7 @@ function LevelViewer({ levelId }: LevelViewerProps) {
   return (
     <div className="flex h-full flex-col">
       <Header>
-        <Header.Time>1:20</Header.Time>
+        <Header.Time>{time}</Header.Time>
         <Header.ItemContainer>
           <Header.Title>{level.data.title}</Header.Title>
           <Header.IconContainer>
