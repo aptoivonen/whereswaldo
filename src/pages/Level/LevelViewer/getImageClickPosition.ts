@@ -1,18 +1,15 @@
 function getImageClickPosition(
-  e: React.MouseEvent<HTMLImageElement, MouseEvent>
-): [number, number] {
+  e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+  zoom: number
+) {
   const rect = e.currentTarget.getBoundingClientRect();
   const [imageX, imageY, imageWidth, imageHeight] = [
-    Math.floor(e.clientX - rect.left),
-    Math.floor(e.clientY - rect.top),
-    rect.width,
-    rect.height,
+    Math.floor((e.clientX - rect.left) / zoom),
+    Math.floor((e.clientY - rect.top) / zoom),
+    Math.floor(rect.width / zoom),
+    Math.floor(rect.height / zoom),
   ];
-  const [imagePercentageX, imagePercentageY] = [
-    Math.floor((100 * imageX) / imageWidth),
-    Math.floor((100 * imageY) / imageHeight),
-  ];
-  return [imagePercentageX, imagePercentageY];
+  return { imageX, imageY, imageWidth, imageHeight };
 }
 
 export default getImageClickPosition;
