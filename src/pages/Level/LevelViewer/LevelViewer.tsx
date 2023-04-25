@@ -1,10 +1,9 @@
 import { MouseEventHandler, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Container, ZoomPanViewer } from '@/components/common';
-import getImageClickPosition from './getImageClickPosition';
-import useLevel from './useLevel';
-import { CHARACTER_IMG } from '@/constants/constants';
+import { ZoomPanViewer } from '@/components/common';
+import Header from '../Header/Header';
 import { Character } from '@/model/types';
+import useLevel from './useLevel';
+import getImageClickPosition from './getImageClickPosition';
 import isNearby from './isNearby';
 
 type LevelViewerProps = {
@@ -60,39 +59,22 @@ function LevelViewer({ levelId }: LevelViewerProps) {
 
   return (
     <div className="flex h-full flex-col">
-      <header className="bg-light">
-        <Container>
-          <div className="flex h-20 items-center justify-between sm:h-28">
-            <time
-              className="text-2xl sm:text-4xl"
-              title="Running time on the level."
-            >
-              1:20
-            </time>
-            <div className="flex items-center">
-              <h1 className="text-xl" title="Level name">
-                {level.data.title}
-              </h1>
-              <div className="ml-4 flex space-x-2">
-                {characters.map((character) => (
-                  <img
-                    className={`h-8 w-8 object-cover  sm:h-10 sm:w-10 ${
-                      charactersFound[character] ? 'brightness-50' : ''
-                    }`}
-                    key={character}
-                    src={CHARACTER_IMG[character]}
-                    alt={character}
-                    title={character}
-                  />
-                ))}
-              </div>
-            </div>
-            <Link className="text-xl text-red" to="/">
-              Quit
-            </Link>
-          </div>
-        </Container>
-      </header>
+      <Header>
+        <Header.Time>1:20</Header.Time>
+        <Header.ItemContainer>
+          <Header.Title>{level.data.title}</Header.Title>
+          <Header.IconContainer>
+            {characters.map((character) => (
+              <Header.Icon
+                key={character}
+                character={character}
+                isFound={!!charactersFound[character]}
+              />
+            ))}
+          </Header.IconContainer>
+        </Header.ItemContainer>
+        <Header.Quit>Quit</Header.Quit>
+      </Header>
       <div className="flex-1 overflow-hidden bg-blue">
         <ZoomPanViewer
           onImageClick={handleImageClick}
