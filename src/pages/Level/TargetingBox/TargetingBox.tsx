@@ -3,7 +3,7 @@ import { Character } from '@/model/types';
 import { CHARACTER_IMG } from '@/constants/constants';
 
 type TargetingBoxProps = {
-  location: [number, number];
+  location: [number, number] | null;
   characters: Character[];
   isShow: boolean;
   onSelect: (character: Character) => void;
@@ -15,12 +15,15 @@ function TargetingBox({
   isShow,
   onSelect,
 }: TargetingBoxProps) {
-  const [x, y] = location;
+  const [x, y] = location ?? [0, 0];
+
+  if (!location || !isShow) {
+    return null;
+  }
+
   return (
     <div
-      className={`absolute z-20 flex flex-col divide-y-2 divide-red border-2 border-red shadow-lg ${
-        isShow ? '' : 'hidden'
-      }`}
+      className="absolute z-20 flex flex-col divide-y-2 divide-red border-2 border-red shadow-lg"
       style={{ top: y, left: x }}
       role="menu"
     >
