@@ -1,72 +1,113 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useRef, useState } from 'react';
 import { ZoomPanViewer } from '@/components/common';
 import Header from '../Header/Header';
-import { Character } from '@/model/types';
-import useLevel from './useLevel';
+import { Character, LevelGameInfo } from '@/model/types';
 import useTimer from './useTimer';
 import getImageClickPosition from './getImageClickPosition';
 import isNearby from './isNearby';
 import formatTime from '@/utils/helpers/formatTime';
 import TargetingBox from '../TargetingBox/TargetingBox';
+import getLocationPercentages from './getLocationPercentages';
+import useThrowAsyncError from '@/hooks/useThrowAsyncError';
 
 type LevelViewerProps = {
-  levelId: string;
+  level: LevelGameInfo;
 };
 
-function LevelViewer({ levelId }: LevelViewerProps) {
-  const level = useLevel(levelId);
+type CharactersFound = {
+  [K in Character]?: boolean;
+};
+
+function LevelViewer({ level }: LevelViewerProps) {
   const time = formatTime(useTimer());
   const [isShowTargetingBox, setIsShowTargetingBox] = useState(false);
-  const [clickedLocation, setClickedLocation] = useState<
-    [number, number] | null
-  >(null);
+  const [imageDimensions, setImageDimensions] = useState<{
+    imageX: number;
+    imageY: number;
+    imageWidth: number;
+    imageHeight: number;
+  } | null>(null);
   const [zoom, setZoom] = useState(1);
+  // To thow error to error boundary from event handlers
+  const throwAsyncError = useThrowAsyncError();
 
-  const characters = level.data
-    ? (Object.keys(level.data.characterCoordinates) as Character[])
-    : [];
-
-  const [charactersFound, setCharactersFound] = useState(() =>
-    level.data
-      ? (Object.fromEntries(characters.map((key) => [key, false])) as {
-          [K in Character]?: false;
-        })
-      : {}
+  const characters = Object.keys(level.characterCoordinates) as Character[];
+  const [charactersFound, setCharactersFoundState] = useState(
+    Object.fromEntries(characters.map((key) => [key, false])) as CharactersFound
   );
 
+  const charactersFoundRef = useRef(
+    Object.fromEntries(characters.map((key) => [key, false])) as CharactersFound
+  );
+  const setCharactersFound = (
+    charactersFoundSetter: (charactersFound: CharactersFound) => CharactersFound
+  ) => {
+    setCharactersFoundState(charactersFoundSetter);
+    charactersFoundRef.current = charactersFoundSetter(charactersFound);
+  };
+
   const handleImageClick: MouseEventHandler<HTMLImageElement> = (e) => {
-    const { imageX, imageY } = getImageClickPosition(e, zoom);
-    setClickedLocation([imageX, imageY]);
+    e.preventDefault();
+    const newImageDimensions = getImageClickPosition(e, zoom);
+    setImageDimensions(newImageDimensions);
 
     setIsShowTargetingBox((isShow) => !isShow);
-
-    console.log('clicked location', { imageX, imageY, zoom });
   };
 
   const handleSelect = (character: Character) => {
-    // TODO: logic here
-    console.log('selected and location', { character, clickedLocation });
+    if (!imageDimensions) {
+      throwAsyncError(
+        new Error('No image dimensions when selecting character')
+      );
+      return;
+    }
+    const characterCoordinates = level.characterCoordinates[character];
+    if (!characterCoordinates) {
+      throwAsyncError(
+        new Error(
+          `No character coordinates when selecting character ${character}`
+        )
+      );
+      return;
+    }
+    const [characterX, characterY] = characterCoordinates;
+    const [clickedImagePercentageX, clickedImagePercentageY] =
+      getLocationPercentages(imageDimensions);
+    const { foundAcceptanceRadius } = level;
+    const isCharacterNearby = isNearby({
+      clickedImagePercentageX,
+      clickedImagePercentageY,
+      characterX,
+      characterY,
+      foundAcceptanceRadius,
+    });
+    if (isCharacterNearby && !charactersFound[character]) {
+      setCharactersFound((charsFound) => ({
+        ...charsFound,
+        [character]: true,
+      }));
+    }
+    console.log({
+      character,
+      x: clickedImagePercentageX,
+      y: clickedImagePercentageY,
+      isCharacterNearby,
+    });
+    console.log('stale chars found', charactersFound);
+    console.log('fresh chars found', charactersFoundRef.current);
 
     setIsShowTargetingBox(false);
   };
-
-  if (!level.data) {
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <p className="text-xl">Loading Level...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="flex h-full flex-col">
       <Header>
         <Header.Time>{time}</Header.Time>
         <Header.ItemContainer>
-          <Header.Title>{level.data.title}</Header.Title>
+          <Header.Title>{level.title}</Header.Title>
           <Header.IconContainer>
             {characters.map((character) => (
               <Header.Icon
@@ -88,15 +129,15 @@ function LevelViewer({ levelId }: LevelViewerProps) {
         >
           <div className="relative">
             <TargetingBox
-              location={clickedLocation}
+              imageDimensions={imageDimensions}
               characters={characters}
               isShow={isShowTargetingBox}
               onSelect={handleSelect}
             />
             <img
-              src={level.data.imgUrl}
-              alt={level.data.title}
-              onClick={handleImageClick}
+              src={level.imgUrl}
+              alt={level.title}
+              onContextMenu={handleImageClick}
             />
           </div>
         </ZoomPanViewer>
