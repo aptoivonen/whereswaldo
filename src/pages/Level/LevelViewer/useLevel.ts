@@ -8,9 +8,9 @@ const levelGameInfo: LevelGameInfo = {
   title: 'Fair',
   foundAcceptanceRadius: 5,
   characterCoordinates: {
-    Waldo: [10, 10],
+    Waldo: [0, 0],
     Wizard: [99, 0],
-    Odlaw: [99, 0],
+    Odlaw: [0, 99],
   },
 };
 
