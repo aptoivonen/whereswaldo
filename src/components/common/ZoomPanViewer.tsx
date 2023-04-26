@@ -38,7 +38,6 @@ function ZoomPanViewer({
       pandy={dy}
       onPan={onViewerPan}
       rotation={0}
-      key={`${dx}-${zoom}`}
     >
       {children}
     </PanViewer>
