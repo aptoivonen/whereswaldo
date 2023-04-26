@@ -3,28 +3,36 @@ import { Character } from '@/model/types';
 import { CHARACTER_IMG } from '@/constants/constants';
 
 type TargetingBoxProps = {
-  location: [number, number] | null;
+  imageDimensions: {
+    imageX: number;
+    imageY: number;
+    imageWidth: number;
+    imageHeight: number;
+  } | null;
   characters: Character[];
   isShow: boolean;
   onSelect: (character: Character) => void;
 };
 
 function TargetingBox({
-  location,
+  imageDimensions,
   characters,
   isShow,
   onSelect,
 }: TargetingBoxProps) {
-  const [x, y] = location ?? [0, 0];
-
-  if (!location || !isShow) {
+  if (!imageDimensions || !isShow) {
     return null;
   }
 
+  const { imageX, imageY, imageWidth, imageHeight } = imageDimensions;
+
+  const translateX = imageWidth - imageX < 50 ? '-translate-x-full' : '';
+  const translateY = imageHeight - imageY < 152 ? '-translate-y-full' : '';
+
   return (
     <div
-      className="absolute z-20 flex flex-col divide-y-2 divide-red border-2 border-red shadow-lg"
-      style={{ top: y, left: x }}
+      className={`absolute z-20 flex flex-col divide-y-2 divide-red border-2 border-red shadow-lg ${translateX} ${translateY}`}
+      style={{ top: imageY, left: imageX }}
       role="menu"
     >
       {characters.map((character) => (
