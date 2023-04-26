@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
-import LevelViewer from '../LevelViewer/LevelViewer';
 import { ErrorBoundary } from '@/components/common';
+import LevelLoader from '../LevelLoader.tsx/LevelLoader';
 
 function FallbackRender({ error }: { error: Error }) {
   return <span className="italic">{`Error in level; ${error.message}`}</span>;
@@ -20,7 +20,7 @@ function LevelPage() {
 
   return (
     <ErrorBoundary fallbackRender={FallbackRender}>
-      <LevelViewer levelId={levelId} />
+      <LevelLoader levelId={levelId} />
     </ErrorBoundary>
   );
 }
