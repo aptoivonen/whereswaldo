@@ -7,6 +7,7 @@ export {
   withErrorBoundary,
   useErrorBoundary,
 } from 'react-error-boundary';
+export { default as FallbackRender } from './FallbackRender';
 export { default as Alert } from './Alert';
 export { default as Card } from './Card';
 export { default as Container } from './Container';
