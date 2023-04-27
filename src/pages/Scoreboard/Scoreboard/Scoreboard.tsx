@@ -3,31 +3,7 @@ import { withErrorBoundary, FallbackRender } from '@/components/common';
 import useScores from './useScores';
 import formatTime from '@/utils/helpers/formatTime';
 import type { Score } from '@/model/types';
-
-function isActivePlayerRow(activePlayerId: string | null, rowPlayerId: string) {
-  return activePlayerId && activePlayerId === rowPlayerId;
-}
-
-function scrollRowIntoView(activePlayerId: string | null, rowPlayerId: string) {
-  return isActivePlayerRow(activePlayerId, rowPlayerId)
-    ? (element: HTMLTableRowElement | null): void => element?.scrollIntoView()
-    : undefined;
-}
-
-function isEven(index: number) {
-  return index % 2 === 0;
-}
-
-function getRowColor(
-  activePlayerId: string | null,
-  rowPlayerId: string,
-  rowIndex: number
-) {
-  if (isActivePlayerRow(activePlayerId, rowPlayerId)) {
-    return 'bg-gold';
-  }
-  return isEven(rowIndex) ? 'bg-transparent' : 'bg-light';
-}
+import { scrollRowIntoView, getRowColor } from './helpers';
 
 export type ScoreboardProps = {
   activePlayerId: string | null;
