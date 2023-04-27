@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { MouseEventHandler, useRef, useState } from 'react';
-import { ZoomPanViewer } from '@/components/common';
+import { ZoomPanViewer, useErrorBoundary } from '@/components/common';
 import Header from '../Header/Header';
 import { Character, LevelGameInfo } from '@/model/types';
 import useTimer from './useTimer';
@@ -11,7 +11,6 @@ import isNearby from './isNearby';
 import formatTime from '@/utils/helpers/formatTime';
 import TargetingBox from '../TargetingBox/TargetingBox';
 import getLocationPercentages from './getLocationPercentages';
-import useThrowAsyncError from '@/hooks/useThrowAsyncError';
 
 type LevelViewerProps = {
   level: LevelGameInfo;
@@ -32,7 +31,7 @@ function LevelViewer({ level }: LevelViewerProps) {
   } | null>(null);
   const [zoom, setZoom] = useState(1);
   // To thow error to error boundary from event handlers
-  const throwAsyncError = useThrowAsyncError();
+  const { showBoundary } = useErrorBoundary();
 
   const characters = Object.keys(level.characterCoordinates) as Character[];
   const [charactersFound, setCharactersFoundState] = useState(
@@ -59,14 +58,12 @@ function LevelViewer({ level }: LevelViewerProps) {
 
   const handleSelect = (character: Character) => {
     if (!imageDimensions) {
-      throwAsyncError(
-        new Error('No image dimensions when selecting character')
-      );
+      showBoundary(new Error('No image dimensions when selecting character'));
       return;
     }
     const characterCoordinates = level.characterCoordinates[character];
     if (!characterCoordinates) {
-      throwAsyncError(
+      showBoundary(
         new Error(
           `No character coordinates when selecting character ${character}`
         )
