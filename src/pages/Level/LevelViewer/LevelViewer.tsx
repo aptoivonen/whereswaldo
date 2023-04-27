@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { MouseEventHandler, useRef, useState } from 'react';
-import { ZoomPanViewer, useErrorBoundary } from '@/components/common';
+import { ZoomPanViewer, toast, useErrorBoundary } from '@/components/common';
 import Header from '../Header/Header';
 import { Character, LevelGameInfo } from '@/model/types';
 import useTimer from './useTimer';
@@ -11,6 +11,7 @@ import isNearby from './isNearby';
 import formatTime from '@/utils/helpers/formatTime';
 import TargetingBox from '../TargetingBox/TargetingBox';
 import getLocationPercentages from './getLocationPercentages';
+import FoundToast from '../Toast/FoundToast';
 
 type LevelViewerProps = {
   level: LevelGameInfo;
@@ -21,7 +22,8 @@ type CharactersFound = {
 };
 
 function LevelViewer({ level }: LevelViewerProps) {
-  const time = formatTime(useTimer());
+  const { counter, stop } = useTimer();
+  const time = formatTime(counter);
   const [isShowTargetingBox, setIsShowTargetingBox] = useState(false);
   const [imageDimensions, setImageDimensions] = useState<{
     imageX: number;
@@ -86,15 +88,15 @@ function LevelViewer({ level }: LevelViewerProps) {
         ...charsFound,
         [character]: true,
       }));
+      toast.custom(() => <FoundToast character={character} />);
     }
-    console.log({
-      character,
-      x: clickedImagePercentageX,
-      y: clickedImagePercentageY,
-      isCharacterNearby,
-    });
-    console.log('stale chars found', charactersFound);
-    console.log('fresh chars found', charactersFoundRef.current);
+
+    const isAllCharactersFound = Object.values(
+      charactersFoundRef.current
+    ).every(Boolean);
+    if (isAllCharactersFound) {
+      stop();
+    }
 
     setIsShowTargetingBox(false);
   };
