@@ -1,4 +1,3 @@
-import { ErrorBoundary } from '@/components/common';
 import LevelCardList from '../Levels/LevelCardList';
 
 function HomePage() {
@@ -19,11 +18,7 @@ function HomePage() {
         </p>
       </section>
       <section className="mt-4" aria-label="Levels">
-        <ErrorBoundary
-          fallback={<span className="italic">Error loading levels.</span>}
-        >
-          <LevelCardList />
-        </ErrorBoundary>
+        <LevelCardList />
       </section>
     </>
   );

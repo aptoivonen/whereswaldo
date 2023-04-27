@@ -1,3 +1,4 @@
+import { FallbackRender, withErrorBoundary } from '@/components/common';
 import LevelCard from './LevelCard';
 import useLevels from './useLevels';
 import LevelCardSkeleton from './LevelCardSkeleton';
@@ -29,4 +30,6 @@ function LevelCardList() {
   );
 }
 
-export default LevelCardList;
+export default withErrorBoundary(LevelCardList, {
+  fallbackRender: FallbackRender,
+});
