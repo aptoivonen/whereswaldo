@@ -1,10 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
-import { ErrorBoundary } from '@/components/common';
+import { ErrorBoundary, FallbackRender } from '@/components/common';
 import LevelLoader from '../LevelLoader.tsx/LevelLoader';
-
-function FallbackRender({ error }: { error: Error }) {
-  return <span className="italic">{`Error in level; ${error.message}`}</span>;
-}
 
 function LevelPage() {
   const { levelId } = useParams();
