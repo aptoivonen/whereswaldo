@@ -1,3 +1,4 @@
+import { FallbackRender, withErrorBoundary } from '@/components/common';
 import LevelViewer from '../LevelViewer/LevelViewer';
 import useLevel from '../LevelViewer/useLevel';
 
@@ -19,4 +20,6 @@ function LevelLoader({ levelId }: LevelLoaderProps) {
   return <LevelViewer level={level.data} />;
 }
 
-export default LevelLoader;
+export default withErrorBoundary(LevelLoader, {
+  fallbackRender: FallbackRender,
+});

@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom';
-import { ErrorBoundary, FallbackRender } from '@/components/common';
 import LevelLoader from '../LevelLoader.tsx/LevelLoader';
 
 function LevelPage() {
@@ -14,11 +13,7 @@ function LevelPage() {
     );
   }
 
-  return (
-    <ErrorBoundary fallbackRender={FallbackRender}>
-      <LevelLoader levelId={levelId} />
-    </ErrorBoundary>
-  );
+  return <LevelLoader levelId={levelId} />;
 }
 
 export default LevelPage;
