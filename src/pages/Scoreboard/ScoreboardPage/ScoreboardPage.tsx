@@ -1,5 +1,4 @@
 import { useSearchParams } from 'react-router-dom';
-import { ErrorBoundary } from '@/components/common';
 import Scoreboard from '../Scoreboard/Scoreboard';
 
 function ScoreboardPage() {
@@ -9,11 +8,7 @@ function ScoreboardPage() {
   return (
     <>
       <h1 className="text-center text-3xl font-bold">Scoreboard</h1>
-      <ErrorBoundary
-        fallback={<span className="italic">Error loading levels.</span>}
-      >
-        <Scoreboard activePlayerId={playerId} />
-      </ErrorBoundary>
+      <Scoreboard activePlayerId={playerId} />
     </>
   );
 }

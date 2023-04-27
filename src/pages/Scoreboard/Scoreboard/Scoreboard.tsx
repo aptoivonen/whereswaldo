@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { withErrorBoundary, FallbackRender } from '@/components/common';
 import useScores from './useScores';
 import formatTime from '@/utils/helpers/formatTime';
 import type { Score } from '@/model/types';
@@ -101,4 +102,6 @@ function Scoreboard({ activePlayerId }: ScoreboardProps) {
   );
 }
 
-export default Scoreboard;
+export default withErrorBoundary(Scoreboard, {
+  fallbackRender: FallbackRender,
+});
