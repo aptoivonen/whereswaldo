@@ -39,11 +39,7 @@ function NameInputView({ levelId, counter }: NameInputViewProps) {
   };
 
   if (score.isLoading) {
-    return (
-      <div className="flex h-full items-center justify-center bg-gradient-to-br from-light to-blue">
-        <p className="text-xl">Loading...</p>
-      </div>
-    );
+    return <p className="text-xl">Loading...</p>;
   }
 
   if (score.data) {
@@ -51,46 +47,44 @@ function NameInputView({ levelId, counter }: NameInputViewProps) {
   }
 
   return (
-    <div className="flex h-full items-center bg-gradient-to-br from-light to-blue">
-      <Container>
-        <section
-          className="mx-auto flex w-full max-w-lg flex-col rounded-xl bg-blue p-8 text-white shadow"
-          aria-labelledby="mainHeading"
-        >
-          <h1 className="text-center text-xl" id="mainHeading">
-            You Found &apos;Em!
-          </h1>
-          <p className="mt-4">
-            Give your name, visitor, to enter the scoreboard of fastest finders.
-          </p>
-          <span className="mt-4">
-            Time: <time>{formatTime(counter)}</time>
-          </span>
-          <form className="mt-4" onSubmit={handleSubmit} noValidate>
-            <label
-              htmlFor="nameInput"
-              className="flex w-full items-center text-base"
-            >
-              Name:
-              <input
-                className="ml-4 flex-1 p-1 pl-2 text-black"
-                id="nameInput"
-                name="nameInput"
-                type="text"
-                placeholder="Input your name for highscores"
-                required
-                disabled={score.isLoading}
-              />
-            </label>
-            {isNameError && (
-              <Alert className="mt-4" variant="warning">
-                You didn&apos;t input a name!
-              </Alert>
-            )}
-          </form>
-        </section>
-      </Container>
-    </div>
+    <Container>
+      <section
+        className="mx-auto flex w-full max-w-lg flex-col rounded-xl bg-blue p-8 text-white shadow"
+        aria-labelledby="mainHeading"
+      >
+        <h1 className="text-center text-xl" id="mainHeading">
+          You Found &apos;Em!
+        </h1>
+        <p className="mt-4">
+          Give your name, visitor, to enter the scoreboard of fastest finders.
+        </p>
+        <span className="mt-4">
+          Time: <time>{formatTime(counter)}</time>
+        </span>
+        <form className="mt-4" onSubmit={handleSubmit} noValidate>
+          <label
+            htmlFor="nameInput"
+            className="flex w-full items-center text-base"
+          >
+            Name:
+            <input
+              className="ml-4 flex-1 p-1 pl-2 text-black"
+              id="nameInput"
+              name="nameInput"
+              type="text"
+              placeholder="Input your name for highscores"
+              required
+              disabled={score.isLoading}
+            />
+          </label>
+          {isNameError && (
+            <Alert className="mt-4" variant="warning">
+              You didn&apos;t input a name!
+            </Alert>
+          )}
+        </form>
+      </section>
+    </Container>
   );
 }
 

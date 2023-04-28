@@ -113,7 +113,11 @@ function LevelViewer({ level }: LevelViewerProps) {
   };
 
   if (isShowNameInputView) {
-    return <NameInputView levelId={level.id} counter={counter} />;
+    return (
+      <div className="flex h-full items-center justify-center bg-gradient-to-br from-light to-blue">
+        <NameInputView levelId={level.id} counter={counter} />
+      </div>
+    );
   }
 
   return (
