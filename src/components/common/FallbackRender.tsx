@@ -13,7 +13,9 @@ function FallbackRender({ error }: FallbackRenderProps) {
       <p>Something went wrong:</p>
       <pre className="text-warning">{error.message}</pre>
       <p>
-        <Link to="/">Go home page</Link>
+        <Link className="text-red underline" to="/">
+          Go to home page
+        </Link>
       </p>
     </div>
   );
