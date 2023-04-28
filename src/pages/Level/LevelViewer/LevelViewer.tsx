@@ -47,7 +47,9 @@ function LevelViewer({ level }: LevelViewerProps) {
     charactersFoundSetter: (charactersFound: CharactersFound) => CharactersFound
   ) => {
     setCharactersFoundState(charactersFoundSetter);
-    charactersFoundRef.current = charactersFoundSetter(charactersFound);
+    charactersFoundRef.current = charactersFoundSetter(
+      charactersFoundRef.current
+    );
   };
 
   const handleImageClick: MouseEventHandler<HTMLImageElement> = (e) => {
