@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import {
+  MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider as TanstackQueryClientProvider,
@@ -16,9 +17,21 @@ const queryClient = new QueryClient({
       ));
     },
   }),
+  mutationCache: new MutationCache({
+    onError: (error) => {
+      toast.custom(() => (
+        <Toast variant="danger">
+          Error: {error instanceof Error ? error.message : String(error)}
+        </Toast>
+      ));
+    },
+  }),
   defaultOptions: {
     queries: {
       useErrorBoundary: (error, query) => query.state.data === undefined,
+    },
+    mutations: {
+      useErrorBoundary: true,
     },
   },
 });
