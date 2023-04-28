@@ -5,6 +5,7 @@ import { MouseEventHandler, useRef, useState } from 'react';
 import { ZoomPanViewer, toast, useErrorBoundary } from '@/components/common';
 import Header from '../Header/Header';
 import { Character, LevelGameInfo } from '@/model/types';
+import type { CharactersFound } from '../types/types';
 import useTimer from './useTimer';
 import getImageClickPosition from './getImageClickPosition';
 import isNearby from './isNearby';
@@ -15,10 +16,6 @@ import FoundToast from '../Toast/FoundToast';
 
 type LevelViewerProps = {
   level: LevelGameInfo;
-};
-
-type CharactersFound = {
-  [K in Character]?: boolean;
 };
 
 function LevelViewer({ level }: LevelViewerProps) {
@@ -134,7 +131,7 @@ function LevelViewer({ level }: LevelViewerProps) {
           <div className="relative">
             <TargetingBox
               imageDimensions={imageDimensions}
-              characters={characters}
+              charactersFound={charactersFound}
               isShow={isShowTargetingBox}
               onSelect={handleSelect}
             />

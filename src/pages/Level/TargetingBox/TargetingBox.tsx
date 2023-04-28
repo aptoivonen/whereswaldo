@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { Character } from '@/model/types';
+import type { Character } from '@/model/types';
+import type { CharactersFound } from '../types/types';
 import { CHARACTER_IMG } from '@/constants/constants';
 
 type TargetingBoxProps = {
@@ -9,14 +10,14 @@ type TargetingBoxProps = {
     imageWidth: number;
     imageHeight: number;
   } | null;
-  characters: Character[];
+  charactersFound: CharactersFound;
   isShow: boolean;
   onSelect: (character: Character) => void;
 };
 
 function TargetingBox({
   imageDimensions,
-  characters,
+  charactersFound,
   isShow,
   onSelect,
 }: TargetingBoxProps) {
@@ -24,8 +25,8 @@ function TargetingBox({
     return null;
   }
 
+  const characters = Object.keys(charactersFound) as Character[];
   const { imageX, imageY, imageWidth, imageHeight } = imageDimensions;
-
   const translateX = imageWidth - imageX < 50 ? '-translate-x-full' : '';
   const translateY = imageHeight - imageY < 152 ? '-translate-y-full' : '';
 
@@ -36,12 +37,16 @@ function TargetingBox({
       role="menu"
     >
       {characters.map((character) => (
-        <div
-          className="bg-white p-1 hover:bg-blue"
+        <button
+          className={`bg-white p-1 hover:bg-blue ${
+            charactersFound[character] ? 'brightness-50' : ''
+          }`}
           key={character}
+          type="button"
           onClick={() => onSelect(character)}
           role="menuitem"
           tabIndex={0}
+          disabled={charactersFound[character]}
         >
           <img
             className="h-10 w-10 cursor-pointer object-cover"
@@ -49,7 +54,7 @@ function TargetingBox({
             alt={character}
             title={`I found ${character}!`}
           />
-        </div>
+        </button>
       ))}
     </div>
   );
