@@ -4,18 +4,23 @@ import { Character } from '@/model/types';
 
 type FoundToastProps = {
   character: Character;
+  isFound: boolean;
 };
 
-function FoundToast({ character }: FoundToastProps) {
+function FoundToast({ character, isFound }: FoundToastProps) {
+  const variant = isFound ? 'success' : 'danger';
+  const text = isFound
+    ? `You found ${character}!`
+    : `${character} is not there!`;
+
   return (
-    <Toast variant="success">
+    <Toast variant={variant}>
       <span className="flex items-center">
-        {`You found ${character}!`}
+        {text}
         <img
           className="ml-4 h-10 w-10 object-cover"
           src={CHARACTER_IMG[character]}
           alt={character}
-          title={`${character} found!`}
         />
       </span>
     </Toast>

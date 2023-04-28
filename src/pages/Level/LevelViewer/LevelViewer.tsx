@@ -95,7 +95,10 @@ function LevelViewer({ level }: LevelViewerProps) {
         ...charsFound,
         [character]: true,
       }));
-      toast.custom(() => <FoundToast character={character} />);
+      toast.custom(() => <FoundToast character={character} isFound />);
+    }
+    if (!isCharacterNearby && !charactersFound[character]) {
+      toast.custom(() => <FoundToast character={character} isFound={false} />);
     }
 
     const isAllCharactersFound = Object.values(
