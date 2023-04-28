@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import LevelLoader from '../LevelLoader.tsx/LevelLoader';
+import LevelLoader from '../LevelLoader/LevelLoader';
 
 function LevelPage() {
   const { levelId } = useParams();
