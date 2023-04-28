@@ -60,6 +60,11 @@ function LevelViewer({ level }: LevelViewerProps) {
     setIsShowTargetingBox((isShow) => !isShow);
   };
 
+  const handleZoom = (newZoom: number) => {
+    setIsShowTargetingBox(false);
+    setZoom(newZoom);
+  };
+
   const handleSelect = (character: Character) => {
     if (!imageDimensions) {
       showBoundary(new Error('No image dimensions when selecting character'));
@@ -122,12 +127,7 @@ function LevelViewer({ level }: LevelViewerProps) {
         <Header.Quit>Quit</Header.Quit>
       </Header>
       <div className="flex-1 overflow-hidden bg-blue">
-        <ZoomPanViewer
-          onZoom={(newZoom) => {
-            setIsShowTargetingBox(false);
-            setZoom(newZoom);
-          }}
-        >
+        <ZoomPanViewer onZoom={handleZoom}>
           <div className="relative">
             <TargetingBox
               imageDimensions={imageDimensions}
