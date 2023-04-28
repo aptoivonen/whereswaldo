@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 type FallbackRenderProps = {
   error: Error;
 };
@@ -10,6 +12,9 @@ function FallbackRender({ error }: FallbackRenderProps) {
     >
       <p>Something went wrong:</p>
       <pre className="text-warning">{error.message}</pre>
+      <p>
+        <Link to="/">Go home page</Link>
+      </p>
     </div>
   );
 }
