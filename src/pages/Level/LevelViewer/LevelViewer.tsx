@@ -36,13 +36,13 @@ function LevelViewer({ level }: LevelViewerProps) {
   const { showBoundary } = useErrorBoundary();
 
   const characters = Object.keys(level.characterCoordinates) as Character[];
+  const initialCharactersFound = Object.fromEntries(
+    characters.map((key) => [key, false])
+  ) as CharactersFound;
   const [charactersFound, setCharactersFoundState] = useState(
-    Object.fromEntries(characters.map((key) => [key, false])) as CharactersFound
+    initialCharactersFound
   );
-
-  const charactersFoundRef = useRef(
-    Object.fromEntries(characters.map((key) => [key, false])) as CharactersFound
-  );
+  const charactersFoundRef = useRef(initialCharactersFound);
   const setCharactersFound = (
     charactersFoundSetter: (charactersFound: CharactersFound) => CharactersFound
   ) => {
