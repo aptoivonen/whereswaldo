@@ -13,6 +13,7 @@ import formatTime from '@/utils/helpers/formatTime';
 import TargetingBox from '../TargetingBox/TargetingBox';
 import getLocationPercentages from './getLocationPercentages';
 import FoundToast from '../Toast/FoundToast';
+import NameInputView from '../NameInputView/NameInputView';
 
 type LevelViewerProps = {
   level: LevelGameInfo;
@@ -22,6 +23,8 @@ function LevelViewer({ level }: LevelViewerProps) {
   const { counter, stop } = useTimer();
   const time = formatTime(counter);
   const [isShowTargetingBox, setIsShowTargetingBox] = useState(false);
+  const [isShowNameInputView, setIsShowNameInputView] = useState(true);
+
   const [imageDimensions, setImageDimensions] = useState<{
     imageX: number;
     imageY: number;
@@ -103,10 +106,15 @@ function LevelViewer({ level }: LevelViewerProps) {
     ).every(Boolean);
     if (isAllCharactersFound) {
       stop();
+      setIsShowNameInputView(true);
     }
 
     setIsShowTargetingBox(false);
   };
+
+  if (isShowNameInputView) {
+    return <NameInputView levelId={level.id} counter={counter} />;
+  }
 
   return (
     <div className="flex h-full flex-col">
