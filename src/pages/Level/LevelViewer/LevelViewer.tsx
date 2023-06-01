@@ -23,7 +23,7 @@ function LevelViewer({ level }: LevelViewerProps) {
   const { counter, stop } = useTimer();
   const time = formatTime(counter);
   const [isShowTargetingBox, setIsShowTargetingBox] = useState(false);
-  const [isShowNameInputView, setIsShowNameInputView] = useState(true);
+  const [isShowNameInputView, setIsShowNameInputView] = useState(false);
 
   const [imageDimensions, setImageDimensions] = useState<{
     imageX: number;
