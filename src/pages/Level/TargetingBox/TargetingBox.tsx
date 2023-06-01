@@ -27,7 +27,7 @@ function TargetingBox({
 
   const characters = Object.keys(charactersFound) as Character[];
   const { imageX, imageY, imageWidth, imageHeight } = imageDimensions;
-  const translateX = imageWidth - imageX < 50 ? '-translate-x-full' : '';
+  const translateX = imageWidth - imageX < 52 ? '-translate-x-full' : '';
   const translateY = imageHeight - imageY < 152 ? '-translate-y-full' : '';
 
   return (
@@ -38,7 +38,7 @@ function TargetingBox({
     >
       {characters.map((character) => (
         <button
-          className={`bg-white p-1 hover:bg-blue ${
+          className={`h-11 w-11 bg-white px-1 hover:bg-blue ${
             charactersFound[character] ? 'brightness-50' : ''
           }`}
           key={character}
@@ -49,7 +49,7 @@ function TargetingBox({
           disabled={charactersFound[character]}
         >
           <img
-            className="h-10 w-10 cursor-pointer object-cover"
+            className="cursor-pointer object-cover"
             src={CHARACTER_IMG[character]}
             alt={character}
             title={`I found ${character}!`}
