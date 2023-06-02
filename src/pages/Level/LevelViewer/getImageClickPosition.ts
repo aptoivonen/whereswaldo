@@ -1,7 +1,4 @@
-function getImageClickPosition(
-  e: React.MouseEvent<HTMLImageElement, MouseEvent>,
-  zoom: number
-) {
+function getImageClickPosition(e: React.MouseEvent, zoom: number) {
   const rect = e.currentTarget.getBoundingClientRect();
   const [imageX, imageY, imageWidth, imageHeight] = [
     Math.floor((e.clientX - rect.left) / zoom),
