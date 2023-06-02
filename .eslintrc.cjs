@@ -27,6 +27,15 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
+    tailwindcss: {
+      callees: ['classnames', 'clsx', 'twMerge'],
+      // white list all custom colors here!
+      // white list aspect-ratio plugin classnames
+      whitelist: [
+        '(text|bg|border|ring|ring-offset|divide|from|via|to)\\-(red|red-light|blue|blue-light|light|dark|success|warning|gold)',
+        'aspect\\-(h|w)\\-[1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|none]',
+      ],
+    },
   },
   rules: {
     'react/react-in-jsx-scope': 0,
@@ -41,5 +50,6 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'tailwindcss/classnames-order': 'off',
   },
 };
