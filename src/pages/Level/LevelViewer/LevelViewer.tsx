@@ -14,6 +14,7 @@ import TargetingBox from '../TargetingBox/TargetingBox';
 import getLocationPercentages from './getLocationPercentages';
 import FoundToast from '../Toast/FoundToast';
 import NameInputView from '../NameInputView/NameInputView';
+import TargetingCircle from '../TargetingCircle/TargetingCircle';
 
 type LevelViewerProps = {
   level: LevelGameInfo;
@@ -35,6 +36,7 @@ function LevelViewer({ level }: LevelViewerProps) {
   // To thow error to error boundary from event handlers
   const { showBoundary } = useErrorBoundary();
 
+  const { foundAcceptanceRadius } = level;
   const characters = Object.keys(level.characterCoordinates) as Character[];
   const initialCharactersFound = Object.fromEntries(
     characters.map((key) => [key, false])
@@ -82,7 +84,6 @@ function LevelViewer({ level }: LevelViewerProps) {
     const [characterX, characterY] = characterCoordinates;
     const [clickedImagePercentageX, clickedImagePercentageY] =
       getLocationPercentages(imageDimensions);
-    const { foundAcceptanceRadius } = level;
     const isCharacterNearby = isNearby({
       clickedImagePercentageX,
       clickedImagePercentageY,
@@ -147,11 +148,17 @@ function LevelViewer({ level }: LevelViewerProps) {
               isShow={isShowTargetingBox}
               onSelect={handleSelect}
             />
-            <img
-              src={level.imgUrl}
-              alt={level.title}
-              onContextMenu={handleImageClick}
-            />
+            <TargetingCircle
+              key={zoom}
+              zoom={zoom}
+              radiusPercentage={foundAcceptanceRadius}
+            >
+              <img
+                src={level.imgUrl}
+                alt={level.title}
+                onContextMenu={handleImageClick}
+              />
+            </TargetingCircle>
           </div>
         </ZoomPanViewer>
       </div>
