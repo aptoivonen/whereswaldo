@@ -12,7 +12,7 @@ function LevelCardList() {
   if (!levels.data) {
     return (
       <div className={gridClassname}>
-        {[1, 2, 3].map((i) => (
+        {[1, 2].map((i) => (
           <LevelCardSkeleton key={i} />
         ))}
       </div>
