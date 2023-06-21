@@ -1,10 +1,16 @@
 import { Route, Routes as RRDRoutes } from 'react-router-dom';
+import loadable from '@loadable/component';
 import RootLayout from '@/components/layout/RootLayout';
 import PageLayout from '@/components/layout/PageLayout';
-import HomePage from '@/pages/Home/HomePage/HomePage';
-import ScoreboardPage from '@/pages/Scoreboard/ScoreboardPage/ScoreboardPage';
-import LevelPage from '@/pages/Level/LevelPage/LevelPage';
-import NotFoundPage from '@/pages/NotFound/NotFoundPage/NotFoundPage';
+
+const HomePage = loadable(() => import('@/pages/Home/HomePage/HomePage'));
+const ScoreboardPage = loadable(
+  () => import('@/pages/Scoreboard/ScoreboardPage/ScoreboardPage')
+);
+const LevelPage = loadable(() => import('@/pages/Level/LevelPage/LevelPage'));
+const NotFoundPage = loadable(
+  () => import('@/pages/NotFound/NotFoundPage/NotFoundPage')
+);
 
 function Routes() {
   return (
