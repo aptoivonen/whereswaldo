@@ -1,6 +1,6 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import QueryClientProvider from '@/components/state/QueryClientProvider';
-import { ErrorBoundary, FallbackRender } from './components/common';
+import { ErrorBoundary, FallbackRender } from '@/components/common';
 import RootLayout from '@/components/layout/RootLayout';
 import PageLayout from '@/components/layout/PageLayout';
 import HomePage from '@/pages/Home/HomePage/HomePage';
