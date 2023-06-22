@@ -50,7 +50,7 @@ function Scoreboard({ activePlayerId }: ScoreboardProps) {
                 {index + 1}
               </td>
               <td className="whitespace-nowrap px-6 py-4 font-bold">
-                {score.id}
+                {score.userName}
               </td>
               <td className="whitespace-nowrap px-6 py-4 font-medium">
                 {score.levelId}
