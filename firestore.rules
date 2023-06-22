@@ -6,7 +6,7 @@ service cloud.firestore {
       allow read: if true;
     }
     match /scores/{document} {
-      allow write: if false;
+      allow write: if true;
       allow read: if true;
     }
   }
