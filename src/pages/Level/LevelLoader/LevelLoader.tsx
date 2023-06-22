@@ -1,6 +1,6 @@
 import { FallbackRender, withErrorBoundary } from '@/components/common';
 import LevelViewer from '../LevelViewer/LevelViewer';
-import useLevel from '../LevelViewer/useLevel';
+import useLevel from './useLevel';
 
 type LevelLoaderProps = {
   levelId: string;
