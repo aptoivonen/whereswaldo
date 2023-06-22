@@ -1,27 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import type { LevelGameInfo } from '@/model/types';
 import { AsyncReturnType } from '@/utils/types/types';
+import backendApi from '@/api/backendApi';
 
-const levelGameInfo: LevelGameInfo = {
-  id: '1',
-  imgUrl: 'https://placehold.co/2000x1000',
-  title: 'Fair',
-  foundAcceptanceRadius: 5,
-  characterCoordinates: {
-    Waldo: [0, 0],
-    Wizard: [99, 0],
-    Odlaw: [0, 99],
-  },
-};
-
-function getLevel(): Promise<LevelGameInfo> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  }).then(() => levelGameInfo);
+function getLevel(levelId: string) {
+  return backendApi.get(`levels/${levelId}`) as Promise<LevelGameInfo | null>;
 }
 
 function useLevel(levelId: string) {
-  const queryFn = getLevel;
+  const queryFn = () => getLevel(levelId);
   const queryKey = ['level', levelId];
 
   type TError = Error;
