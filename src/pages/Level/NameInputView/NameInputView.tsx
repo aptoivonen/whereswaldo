@@ -43,7 +43,7 @@ function NameInputView({ levelId, counter }: NameInputViewProps) {
   }
 
   if (score.data) {
-    return <Navigate to={`/scoreboard/?playerId=${score.data}`} />;
+    return <Navigate to={`/scoreboard/?scoreId=${score.data}`} />;
   }
 
   return (

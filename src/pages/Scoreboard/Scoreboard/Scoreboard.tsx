@@ -6,10 +6,10 @@ import type { Score } from '@/model/types';
 import { scrollRowIntoView, getRowColor } from './helpers';
 
 export type ScoreboardProps = {
-  activePlayerId: string | null;
+  activeScoreId: string | null;
 };
 
-function Scoreboard({ activePlayerId }: ScoreboardProps) {
+function Scoreboard({ activeScoreId }: ScoreboardProps) {
   const scores = useScores();
 
   if (!scores.data) {
@@ -40,11 +40,11 @@ function Scoreboard({ activePlayerId }: ScoreboardProps) {
             <tr
               key={score.id}
               className={`border-b text-base ${getRowColor(
-                activePlayerId,
+                activeScoreId,
                 score.id,
                 index
               )}`}
-              ref={scrollRowIntoView(activePlayerId, score.id)}
+              ref={scrollRowIntoView(activeScoreId, score.id)}
             >
               <td className="whitespace-nowrap px-6 py-4 font-bold">
                 {index + 1}
