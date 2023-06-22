@@ -1,13 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
-import { AsyncReturnType } from '@/utils/types/types';
-import { Score } from '@/model/types';
+import type { AsyncReturnType } from '@/utils/types/types';
+import type { Score } from '@/model/types';
+import backendApi from '@/api/backendApi';
 
 type AddScoreProps = Omit<Score, 'id'>;
 
 function addScore(score: AddScoreProps): Promise<string> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  }).then(() => '2222');
+  return backendApi.post('scores', score) as Promise<string>;
 }
 
 function useAddScore() {
