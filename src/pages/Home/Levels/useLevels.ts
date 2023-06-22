@@ -2,9 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import type { LevelInfo } from '@/model/types';
 import type { AsyncReturnType } from '@/utils/types/types';
 import backendApi from '@/api/backendApi';
+import mapImgUrl from '@/utils/helpers/mapImgUrl';
 
-function getLevels() {
-  return backendApi.getAll('levels') as Promise<LevelInfo[]>;
+function transformImgUrls(documents: LevelInfo[]): LevelInfo[] {
+  return documents.map((doc) => ({
+    ...doc,
+    thumbnailUrl: mapImgUrl(doc.thumbnailUrl),
+  }));
+}
+
+async function getLevels() {
+  const rawLevels = (await backendApi.getAll('levels')) as LevelInfo[];
+  return transformImgUrls(rawLevels);
 }
 
 function useLevels() {
