@@ -1,19 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import type { LevelInfo } from '@/model/types';
-import type { AsyncReturnType } from '@/utils/types/types';
 import backendApi from '@/api/backendApi';
-import mapImgUrl from '@/utils/helpers/mapImgUrl';
-
-function transformImgUrls(documents: LevelInfo[]): LevelInfo[] {
-  return documents.map((doc) => ({
-    ...doc,
-    thumbnailUrl: mapImgUrl(doc.thumbnailUrl),
-  }));
-}
+import type { AsyncReturnType } from '@/utils/types/types';
+import { LevelInfoArraySchema } from '@/model/types';
+import schemaParse from '@/utils/helpers/schemaParse';
 
 async function getLevels() {
-  const rawLevels = (await backendApi.getAll('levels')) as LevelInfo[];
-  return transformImgUrls(rawLevels);
+  const levelsData = await backendApi.getAll('levels');
+  return schemaParse(LevelInfoArraySchema, levelsData);
 }
 
 function useLevels() {

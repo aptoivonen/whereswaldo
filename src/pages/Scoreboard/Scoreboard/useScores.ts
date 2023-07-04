@@ -1,15 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import type { Score } from '@/model/types';
 import type { AsyncReturnType } from '@/utils/types/types';
 import backendApi from '@/api/backendApi';
+import { ScoresSchema } from '@/model/types';
+import schemaParse from '@/utils/helpers/schemaParse';
 
-function timeAscending(a: Score, b: Score) {
-  return a.time - b.time;
-}
-
-async function getScores(): Promise<Score[]> {
-  const rawScores = (await backendApi.getAll('scores')) as Score[];
-  return rawScores.sort(timeAscending);
+async function getScores() {
+  const scoresData = await backendApi.getAll('scores');
+  return schemaParse(ScoresSchema, scoresData);
 }
 
 function useScores() {

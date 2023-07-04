@@ -1,16 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import type { LevelGameInfo } from '@/model/types';
+import { LevelGameInfoSchema } from '@/model/types';
 import { AsyncReturnType } from '@/utils/types/types';
 import backendApi from '@/api/backendApi';
-import mapImgUrl from '@/utils/helpers/mapImgUrl';
+import schemaParse from '@/utils/helpers/schemaParse';
 
 async function getLevel(levelId: string) {
-  const rawLevel = (await backendApi.get(
-    `levels/${levelId}`
-  )) as LevelGameInfo | null;
-  return rawLevel
-    ? { ...rawLevel, imgUrl: mapImgUrl(rawLevel.imgUrl) }
-    : rawLevel;
+  const levelData = await backendApi.get(`levels/${levelId}`);
+  return schemaParse(LevelGameInfoSchema, levelData);
 }
 
 function useLevel(levelId: string) {
