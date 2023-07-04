@@ -23,7 +23,7 @@ function LevelCard({ level }: LevelCardProps) {
           <div className="flex items-center">
             <span>{level.title}</span>
             <div className="ml-auto flex h-6 space-x-1">
-              {level.characters.map((character) => (
+              {[...level.characters].map((character) => (
                 <img
                   className="block h-6 w-6 object-cover"
                   key={character}
