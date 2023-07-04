@@ -9,7 +9,8 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 import { transformDoc, constructQuery, transformData } from './helpers';
-import type { BasicDocument, QueryOptions } from './types';
+import type { QueryOptions } from './types';
+import type { BasicDocument } from '@/model/types';
 import db from '@/config/firebaseConfig';
 
 /**

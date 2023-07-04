@@ -12,7 +12,8 @@ import type {
   DocumentSnapshot,
   QueryDocumentSnapshot,
 } from 'firebase/firestore';
-import type { BasicDocument, DB, QueryOptions } from './types';
+import type { DB, QueryOptions } from './types';
+import type { BasicDocument } from '@/model/types';
 
 export function constructQuery(
   collectionId: string,
