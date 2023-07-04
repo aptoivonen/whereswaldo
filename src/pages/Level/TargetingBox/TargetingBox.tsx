@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import type { Character } from '@/model/types';
+import type { Character } from '@/model/schemas';
 import type { CharactersFound } from '../types/types';
 import { CHARACTER_IMG } from '@/constants/constants';
 

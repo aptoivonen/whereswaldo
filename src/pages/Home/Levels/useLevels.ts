@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import backendApi from '@/api/backendApi';
 import type { AsyncReturnType } from '@/utils/types/types';
-import { LevelInfoArraySchema } from '@/model/types';
+import { LevelInfoArraySchema } from '@/model/schemas';
 import schemaParse from '@/utils/helpers/schemaParse';
 
 async function getLevels() {

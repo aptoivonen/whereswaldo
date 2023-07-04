@@ -1,4 +1,4 @@
-import { Character } from '@/model/types';
+import { Character } from '@/model/schemas';
 import { CHARACTER_IMG } from '@/constants/constants';
 
 type HeaderIconProps = {

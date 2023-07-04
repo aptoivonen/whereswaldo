@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { LevelInfo } from '@/model/types';
+import type { LevelInfo } from '@/model/schemas';
 import Card from '@/components/common/Card';
 import { CHARACTER_IMG } from '@/constants/constants';
 

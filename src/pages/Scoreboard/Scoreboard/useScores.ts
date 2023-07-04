@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { AsyncReturnType } from '@/utils/types/types';
 import backendApi from '@/api/backendApi';
-import { ScoresSchema } from '@/model/types';
+import { ScoresSchema } from '@/model/schemas';
 import schemaParse from '@/utils/helpers/schemaParse';
 
 async function getScores() {

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { LevelGameInfoSchema } from '@/model/types';
+import { LevelGameInfoSchema } from '@/model/schemas';
 import { AsyncReturnType } from '@/utils/types/types';
 import backendApi from '@/api/backendApi';
 import schemaParse from '@/utils/helpers/schemaParse';

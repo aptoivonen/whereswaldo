@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import type { AsyncReturnType } from '@/utils/types/types';
-import type { Score } from '@/model/types';
+import type { Score } from '@/model/schemas';
 import backendApi from '@/api/backendApi';
 
 type AddScoreProps = Omit<Score, 'id'>;

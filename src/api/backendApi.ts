@@ -10,7 +10,7 @@ import {
 } from 'firebase/firestore';
 import { transformDoc, constructQuery, transformData } from './helpers';
 import type { QueryOptions } from './types';
-import type { BasicDocument } from '@/model/types';
+import type { BasicDocument } from '@/model/schemas';
 import db from '@/config/firebaseConfig';
 
 /**

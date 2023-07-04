@@ -1,4 +1,4 @@
-import { Character } from '@/model/types';
+import { Character } from '@/model/schemas';
 
 export type CharactersFound = {
   [K in Character]?: boolean;

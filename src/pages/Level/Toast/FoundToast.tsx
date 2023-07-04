@@ -1,6 +1,6 @@
 import { Toast } from '@/components/common';
 import { CHARACTER_IMG } from '@/constants/constants';
-import { Character } from '@/model/types';
+import { Character } from '@/model/schemas';
 
 type FoundToastProps = {
   character: Character;

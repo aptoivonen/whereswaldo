@@ -4,7 +4,7 @@
 import { MouseEventHandler, useRef, useState } from 'react';
 import { ZoomPanViewer, toast, useErrorBoundary } from '@/components/common';
 import Header from '../Header/Header';
-import { Character, LevelGameInfo } from '@/model/types';
+import type { Character, LevelGameInfo } from '@/model/schemas';
 import type { CharactersFound } from '../types/types';
 import useTimer from './useTimer';
 import getImageClickPosition from './getImageClickPosition';
