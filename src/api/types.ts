@@ -3,11 +3,6 @@ import db from '@/config/firebaseConfig';
 
 export type DB = typeof db;
 
-export interface BasicDocument {
-  id: string;
-  [key: string]: unknown;
-}
-
 export type QueryOptions = {
   orderBy?: { property: string; direction?: OrderByDirection };
   limit?: number;
