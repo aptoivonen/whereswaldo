@@ -57,3 +57,11 @@ function timeAscending(a: Score, b: Score) {
 export const ScoresSchema = z
   .array(ScoreSchema)
   .transform((arr) => arr.sort(timeAscending));
+
+export const UserNameSchema = z
+  .string()
+  .trim()
+  .min(1, {
+    message: 'Name must be at least one character long excluding whitespace',
+  })
+  .max(10, { message: 'Name can be at most ten characters long' });
