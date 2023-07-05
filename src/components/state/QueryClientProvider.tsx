@@ -29,6 +29,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       useErrorBoundary: (error, query) => query.state.data === undefined,
+      retry: false,
     },
     mutations: {
       useErrorBoundary: true,
