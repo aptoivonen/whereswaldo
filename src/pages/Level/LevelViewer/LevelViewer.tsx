@@ -149,12 +149,9 @@ function LevelViewer({ level }: LevelViewerProps) {
               zoom={zoom}
               radiusPercentage={foundAcceptanceRadius}
             >
-              <img
-                role="presentation"
-                src={level.imgUrl}
-                alt={level.title}
-                onContextMenu={handleImageClick}
-              />
+              <div className="inline-block" onContextMenu={handleImageClick}>
+                <img src={level.imgUrl} alt={level.title} />
+              </div>
             </TargetingCircle>
           </TargetingBox>
         </ZoomPanViewer>
