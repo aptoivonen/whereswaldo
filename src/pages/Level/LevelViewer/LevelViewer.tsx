@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { MouseEventHandler, useRef, useState } from 'react';
 import { ZoomPanViewer, toast, useErrorBoundary } from '@/components/common';
 import Header from '../Header/Header';
@@ -141,25 +138,25 @@ function LevelViewer({ level }: LevelViewerProps) {
       </Header>
       <div className="flex-1 overflow-hidden bg-blue">
         <ZoomPanViewer onZoom={handleZoom}>
-          <div className="relative">
-            <TargetingBox
-              imageDimensions={imageDimensions}
-              charactersFound={charactersFound}
-              isShow={isShowTargetingBox}
-              onSelect={handleSelect}
-            />
+          <TargetingBox
+            imageDimensions={imageDimensions}
+            charactersFound={charactersFound}
+            isShow={isShowTargetingBox}
+            onSelect={handleSelect}
+          >
             <TargetingCircle
               key={zoom}
               zoom={zoom}
               radiusPercentage={foundAcceptanceRadius}
             >
               <img
+                role="presentation"
                 src={level.imgUrl}
                 alt={level.title}
                 onContextMenu={handleImageClick}
               />
             </TargetingCircle>
-          </div>
+          </TargetingBox>
         </ZoomPanViewer>
       </div>
     </div>

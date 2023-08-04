@@ -12,6 +12,7 @@ type TargetingBoxProps = {
   charactersFound: CharactersFound;
   isShow: boolean;
   onSelect: (character: Character) => void;
+  children: React.ReactNode;
 };
 
 function TargetingBox({
@@ -19,9 +20,10 @@ function TargetingBox({
   charactersFound,
   isShow,
   onSelect,
+  children,
 }: TargetingBoxProps) {
   if (!imageDimensions || !isShow) {
-    return null;
+    return <div className="relative">{children}</div>;
   }
 
   const characters = Object.keys(charactersFound) as Character[];
@@ -30,32 +32,35 @@ function TargetingBox({
   const translateY = imageHeight - imageY < 152 ? '-translate-y-full' : '';
 
   return (
-    <ul
-      className={`absolute z-20 flex flex-col divide-y-2 divide-red border-2 border-red shadow-lg ${translateX} ${translateY}`}
-      style={{ top: imageY, left: imageX }}
-      role="menu"
-    >
-      {characters.map((character) => (
-        <li key={character} role="menuitem">
-          <button
-            className={`h-11 w-11 bg-white px-1 hover:bg-blue ${
-              charactersFound[character] ? 'brightness-50' : ''
-            }`}
-            type="button"
-            onClick={() => onSelect(character)}
-            tabIndex={0}
-            disabled={charactersFound[character]}
-          >
-            <img
-              className="cursor-pointer object-cover"
-              src={CHARACTER_IMG[character]}
-              alt={character}
-              title={`I found ${character}!`}
-            />
-          </button>
-        </li>
-      ))}
-    </ul>
+    <div className="relative">
+      <ul
+        className={`absolute z-20 flex flex-col divide-y-2 divide-red border-2 border-red shadow-lg ${translateX} ${translateY}`}
+        style={{ top: imageY, left: imageX }}
+        role="menu"
+      >
+        {characters.map((character) => (
+          <li key={character} role="menuitem">
+            <button
+              className={`h-11 w-11 bg-white px-1 hover:bg-blue ${
+                charactersFound[character] ? 'brightness-50' : ''
+              }`}
+              type="button"
+              onClick={() => onSelect(character)}
+              tabIndex={0}
+              disabled={charactersFound[character]}
+            >
+              <img
+                className="cursor-pointer object-cover"
+                src={CHARACTER_IMG[character]}
+                alt={character}
+                title={`I found ${character}!`}
+              />
+            </button>
+          </li>
+        ))}
+      </ul>
+      {children}
+    </div>
   );
 }
 
