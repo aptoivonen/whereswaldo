@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "emulators:test": "firebase emulators:start --only firestore --project dev-project-id --import=./test-firebase-export",
+    "emulators:test": "firebase emulators:start --only firestore --project dev-project-id --import=./firebase-export-1687436403270NtUTNU",
     "emulators:export": "firebase emulators:export --only firestore --project dev-project-id ./firebase-export",
     "emulators:dev": "firebase emulators:start --only firestore --project dev-project-id --import=./firebase-export-1687436403270NtUTNU",
     "dev": "vite",
