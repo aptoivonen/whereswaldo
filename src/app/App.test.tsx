@@ -1,20 +1,22 @@
 import { describe, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { App } from './App';
 
 describe('App', () => {
-  it('Renders not found if invalid path', () => {
+  it('Renders not found if invalid path', async () => {
     render(
-      <MemoryRouter initialEntries={['/non-existing-route']}>
+      <MemoryRouter initialEntries={['/no-such-page']}>
         <App />
       </MemoryRouter>
     );
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-      })
-    ).toHaveTextContent(/not found/i);
+    await waitFor(() =>
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+        })
+      ).toHaveTextContent(/not found/i)
+    );
   });
 });
