@@ -4,6 +4,7 @@ import {
   SetStateAction,
   useRef,
   useState,
+  useCallback,
 } from 'react';
 
 function useRefState<S>(
@@ -16,13 +17,16 @@ function useRefState<S>(
   const refState = useRef(initialState);
   const [state, setUseState] = useState(initialState);
 
-  const setState: Dispatch<SetStateAction<S>> = (value: SetStateAction<S>) => {
-    setUseState(value);
-    refState.current =
-      typeof value === 'function'
-        ? (value as (prevState: S) => S)(refState.current)
-        : value;
-  };
+  const setState: Dispatch<SetStateAction<S>> = useCallback(
+    (value: SetStateAction<S>) => {
+      setUseState(value);
+      refState.current =
+        typeof value === 'function'
+          ? (value as (prevState: S) => S)(refState.current)
+          : value;
+    },
+    []
+  );
 
   return [state, refState, setState] as const;
 }
