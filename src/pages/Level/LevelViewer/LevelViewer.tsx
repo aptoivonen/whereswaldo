@@ -1,4 +1,4 @@
-import { MouseEventHandler, useRef, useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import { ZoomPanViewer, toast, useErrorBoundary } from '@/components/common';
 import Header from '../Header/Header';
 import type { Character, LevelGameInfo } from '@/model/schemas';
@@ -12,6 +12,7 @@ import getLocationPercentages from './getLocationPercentages';
 import FoundToast from '../Toast/FoundToast';
 import NameInputView from '../NameInputView/NameInputView';
 import TargetingCircle from '../TargetingCircle/TargetingCircle';
+import { useRefState } from '@/hooks';
 
 type LevelViewerProps = {
   level: LevelGameInfo;
@@ -38,18 +39,10 @@ function LevelViewer({ level }: LevelViewerProps) {
   const initialCharactersFound = Object.fromEntries(
     characters.map((key) => [key, false])
   ) as CharactersFound;
-  const [charactersFound, setCharactersFoundState] = useState(
+
+  const [charactersFound, charactersFoundRef, setCharactersFound] = useRefState(
     initialCharactersFound
   );
-  const charactersFoundRef = useRef(initialCharactersFound);
-  const setCharactersFound = (
-    charactersFoundSetter: (charactersFound: CharactersFound) => CharactersFound
-  ) => {
-    setCharactersFoundState(charactersFoundSetter);
-    charactersFoundRef.current = charactersFoundSetter(
-      charactersFoundRef.current
-    );
-  };
 
   const handleImageClick: MouseEventHandler<HTMLImageElement> = (e) => {
     e.preventDefault();
