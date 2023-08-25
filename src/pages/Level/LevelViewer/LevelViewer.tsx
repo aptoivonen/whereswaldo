@@ -4,14 +4,13 @@ import Header from '../Header/Header';
 import type { Character } from '@/model/schemas';
 import type Level from '@/domain/Level';
 import type { CharactersFound } from '../types/types';
-import useTimer from './useTimer';
 import formatTime from '@/utils/helpers/formatTime';
 import TargetingBox from '../TargetingBox/TargetingBox';
 import getLocationPercentages from './getLocationPercentages';
 import FoundToast from '../Toast/FoundToast';
 import NameInputView from '../NameInputView/NameInputView';
 import TargetingCircle from '../TargetingCircle/TargetingCircle';
-import { useRefState } from '@/hooks';
+import { useRefState, useTimer } from '@/hooks';
 import getZoomTransform from './getZoomTransform';
 
 type LevelViewerProps = {
