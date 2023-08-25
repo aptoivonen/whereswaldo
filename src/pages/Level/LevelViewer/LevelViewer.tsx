@@ -44,8 +44,7 @@ function LevelViewer({ level }: LevelViewerProps) {
     initialCharactersFound
   );
 
-  // TODO: handler on div element
-  const handleImageClick: MouseEventHandler<HTMLImageElement> = (e) => {
+  const handleImageClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault();
     const newImageDimensions = getImageClickPosition(e, zoom);
     setImageDimensions(newImageDimensions);
