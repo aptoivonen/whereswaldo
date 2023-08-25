@@ -1,16 +1,16 @@
 import { MouseEventHandler, useState } from 'react';
+import useCharactersFound from './useCharactersFound';
 import { ZoomPanViewer, toast, useErrorBoundary } from '@/components/common';
 import Header from '../Header/Header';
 import type { Character } from '@/model/schemas';
 import type Level from '@/domain/Level';
-import type { CharactersFound } from '../types/types';
 import formatTime from '@/utils/helpers/formatTime';
 import TargetingBox from '../TargetingBox/TargetingBox';
 import getLocationPercentages from './getLocationPercentages';
 import FoundToast from '../Toast/FoundToast';
 import NameInputView from '../NameInputView/NameInputView';
 import TargetingCircle from '../TargetingCircle/TargetingCircle';
-import { useRefState, useTimer } from '@/hooks';
+import { useTimer } from '@/hooks';
 import getZoomTransform from './getZoomTransform';
 
 type LevelViewerProps = {
@@ -32,12 +32,8 @@ function LevelViewer({ level }: LevelViewerProps) {
   const [zoom, setZoom] = useState(1);
   // To thow error to error boundary from event handlers
   const { showBoundary } = useErrorBoundary();
-
-  const [charactersFound, charactersFoundRef, setCharactersFound] = useRefState(
-    Object.fromEntries(
-      level.characters.map((key) => [key, false])
-    ) as CharactersFound
-  );
+  const [charactersFound, charactersFoundRef, setFoundCharacter] =
+    useCharactersFound(level.characters);
 
   const handleImageDimensions: MouseEventHandler<HTMLElement> = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -87,10 +83,7 @@ function LevelViewer({ level }: LevelViewerProps) {
       clickedImagePercentageY
     );
     if (isCharacterNearby && !charactersFound[character]) {
-      setCharactersFound((charsFound) => ({
-        ...charsFound,
-        [character]: true,
-      }));
+      setFoundCharacter(character);
       toast.custom(() => <FoundToast character={character} isFound />);
     }
     if (!isCharacterNearby && !charactersFound[character]) {
