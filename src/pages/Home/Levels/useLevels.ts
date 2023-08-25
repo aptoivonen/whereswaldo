@@ -1,8 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
 import backendApi from '@/api/backendApi';
-import type { AsyncReturnType } from '@/utils/types/types';
 import { LevelInfoArraySchema } from '@/model/schemas';
 import schemaParse from '@/utils/helpers/schemaParse';
+import useTypedQuery from '@/hooks/useTypedQuery';
 
 async function getLevels() {
   const levelsData = await backendApi.getAll('levels');
@@ -13,13 +12,7 @@ function useLevels() {
   const queryFn = getLevels;
   const queryKey = ['levels'];
 
-  type TError = Error;
-  type TData = AsyncReturnType<typeof queryFn>;
-  const { data, error } = useQuery<TData, TError, TData>({
-    queryKey,
-    queryFn,
-  });
-  return { data, error };
+  return useTypedQuery(queryKey, queryFn);
 }
 
 export default useLevels;

@@ -1,8 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import type { AsyncReturnType } from '@/utils/types/types';
 import backendApi from '@/api/backendApi';
 import { ScoresSchema } from '@/model/schemas';
 import schemaParse from '@/utils/helpers/schemaParse';
+import useTypedQuery from '@/hooks/useTypedQuery';
 
 async function getScores() {
   const scoresData = await backendApi.getAll('scores');
@@ -13,13 +12,7 @@ function useScores() {
   const queryFn = getScores;
   const queryKey = ['scores'];
 
-  type TError = Error;
-  type TData = AsyncReturnType<typeof queryFn>;
-  const { data, error } = useQuery<TData, TError, TData>({
-    queryKey,
-    queryFn,
-  });
-  return { data, error };
+  return useTypedQuery(queryKey, queryFn);
 }
 
 export default useScores;
