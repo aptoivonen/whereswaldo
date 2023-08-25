@@ -95,6 +95,7 @@ function LevelViewer({ level }: LevelViewerProps) {
     ).every(Boolean);
     if (isAllCharactersFound) {
       stop();
+      toast.remove();
       setIsShowNameInputView(true);
     }
 
