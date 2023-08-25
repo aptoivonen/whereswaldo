@@ -44,12 +44,18 @@ function LevelViewer({ level }: LevelViewerProps) {
     initialCharactersFound
   );
 
+  // TODO: handler on div element
   const handleImageClick: MouseEventHandler<HTMLImageElement> = (e) => {
     e.preventDefault();
     const newImageDimensions = getImageClickPosition(e, zoom);
     setImageDimensions(newImageDimensions);
 
     setIsShowTargetingBox((isShow) => !isShow);
+  };
+
+  const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
+    const newImageDimensions = getImageClickPosition(e, zoom);
+    setImageDimensions(newImageDimensions);
   };
 
   const handleZoom = (newZoom: number) => {
@@ -140,7 +146,9 @@ function LevelViewer({ level }: LevelViewerProps) {
             <TargetingCircle
               key={zoom}
               zoom={zoom}
+              imageDimensions={imageDimensions}
               radiusPercentage={foundAcceptanceRadius}
+              onMouseMove={handleMouseMove}
             >
               <div className="inline-block" onContextMenu={handleImageClick}>
                 <img src={level.imgUrl} alt={level.title} />
