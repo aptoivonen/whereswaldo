@@ -3,10 +3,11 @@ import { LevelGameInfoSchema } from '@/model/schemas';
 import { AsyncReturnType } from '@/utils/types/types';
 import backendApi from '@/api/backendApi';
 import schemaParse from '@/utils/helpers/schemaParse';
+import Level from '@/domain/Level';
 
 async function getLevel(levelId: string) {
   const levelData = await backendApi.get(`levels/${levelId}`);
-  return schemaParse(LevelGameInfoSchema, levelData);
+  return new Level(schemaParse(LevelGameInfoSchema, levelData));
 }
 
 function useLevel(levelId: string) {

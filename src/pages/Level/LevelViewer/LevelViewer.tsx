@@ -1,10 +1,10 @@
 import { MouseEventHandler, useState } from 'react';
 import { ZoomPanViewer, toast, useErrorBoundary } from '@/components/common';
 import Header from '../Header/Header';
-import type { Character, LevelGameInfo } from '@/model/schemas';
+import type { Character } from '@/model/schemas';
+import type Level from '@/domain/Level';
 import type { CharactersFound } from '../types/types';
 import useTimer from './useTimer';
-import isNearby from './isNearby';
 import formatTime from '@/utils/helpers/formatTime';
 import TargetingBox from '../TargetingBox/TargetingBox';
 import getLocationPercentages from './getLocationPercentages';
@@ -15,7 +15,7 @@ import { useRefState } from '@/hooks';
 import getZoomTransform from './getZoomTransform';
 
 type LevelViewerProps = {
-  level: LevelGameInfo;
+  level: Level;
 };
 
 function LevelViewer({ level }: LevelViewerProps) {
@@ -34,14 +34,10 @@ function LevelViewer({ level }: LevelViewerProps) {
   // To thow error to error boundary from event handlers
   const { showBoundary } = useErrorBoundary();
 
-  const { foundAcceptanceRadius } = level;
-  const characters = Object.keys(level.characterCoordinates) as Character[];
-  const initialCharactersFound = Object.fromEntries(
-    characters.map((key) => [key, false])
-  ) as CharactersFound;
-
   const [charactersFound, charactersFoundRef, setCharactersFound] = useRefState(
-    initialCharactersFound
+    Object.fromEntries(
+      level.characters.map((key) => [key, false])
+    ) as CharactersFound
   );
 
   const handleImageDimensions: MouseEventHandler<HTMLElement> = (e) => {
@@ -74,8 +70,8 @@ function LevelViewer({ level }: LevelViewerProps) {
       showBoundary(new Error('No image dimensions when selecting character'));
       return;
     }
-    const characterCoordinates = level.characterCoordinates[character];
-    if (!characterCoordinates) {
+
+    if (!level.has(character)) {
       showBoundary(
         new Error(
           `No character coordinates when selecting character ${character}`
@@ -83,16 +79,14 @@ function LevelViewer({ level }: LevelViewerProps) {
       );
       return;
     }
-    const [characterX, characterY] = characterCoordinates;
     const [clickedImagePercentageX, clickedImagePercentageY] =
       getLocationPercentages(imageDimensions);
-    const isCharacterNearby = isNearby({
+
+    const isCharacterNearby = level.isCharacterNear(
+      character,
       clickedImagePercentageX,
-      clickedImagePercentageY,
-      characterX,
-      characterY,
-      foundAcceptanceRadius,
-    });
+      clickedImagePercentageY
+    );
     if (isCharacterNearby && !charactersFound[character]) {
       setCharactersFound((charsFound) => ({
         ...charsFound,
@@ -130,7 +124,7 @@ function LevelViewer({ level }: LevelViewerProps) {
         <Header.ItemContainer>
           <Header.Title>{level.title}</Header.Title>
           <Header.IconContainer>
-            {characters.map((character) => (
+            {level.characters.map((character) => (
               <Header.Icon
                 key={character}
                 character={character}
@@ -153,7 +147,7 @@ function LevelViewer({ level }: LevelViewerProps) {
               key={zoom}
               zoom={zoom}
               imageDimensions={imageDimensions}
-              radiusPercentage={foundAcceptanceRadius}
+              radiusPercentage={level.foundAcceptanceRadius}
               onMouseMove={handleMouseMove}
             >
               <div className="inline-block" onContextMenu={handleImageClick}>
