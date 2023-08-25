@@ -4,7 +4,6 @@ import Header from '../Header/Header';
 import type { Character, LevelGameInfo } from '@/model/schemas';
 import type { CharactersFound } from '../types/types';
 import useTimer from './useTimer';
-import getImageClickPosition from './getImageClickPosition';
 import isNearby from './isNearby';
 import formatTime from '@/utils/helpers/formatTime';
 import TargetingBox from '../TargetingBox/TargetingBox';
@@ -13,6 +12,7 @@ import FoundToast from '../Toast/FoundToast';
 import NameInputView from '../NameInputView/NameInputView';
 import TargetingCircle from '../TargetingCircle/TargetingCircle';
 import { useRefState } from '@/hooks';
+import getZoomTransform from './getZoomTransform';
 
 type LevelViewerProps = {
   level: LevelGameInfo;
@@ -44,18 +44,25 @@ function LevelViewer({ level }: LevelViewerProps) {
     initialCharactersFound
   );
 
+  const handleImageDimensions: MouseEventHandler<HTMLElement> = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const newImageDimensions = {
+      imageX: getZoomTransform(e.clientX - rect.left, zoom),
+      imageY: getZoomTransform(e.clientY - rect.top, zoom),
+      imageWidth: getZoomTransform(rect.width, zoom),
+      imageHeight: getZoomTransform(rect.height, zoom),
+    };
+
+    setImageDimensions(newImageDimensions);
+  };
+
   const handleImageClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault();
-    const newImageDimensions = getImageClickPosition(e, zoom);
-    setImageDimensions(newImageDimensions);
-
+    handleImageDimensions(e);
     setIsShowTargetingBox((isShow) => !isShow);
   };
 
-  const handleMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
-    const newImageDimensions = getImageClickPosition(e, zoom);
-    setImageDimensions(newImageDimensions);
-  };
+  const handleMouseMove = handleImageDimensions;
 
   const handleZoom = (newZoom: number) => {
     setIsShowTargetingBox(false);
