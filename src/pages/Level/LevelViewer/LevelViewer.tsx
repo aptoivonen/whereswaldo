@@ -3,7 +3,7 @@ import useCharactersFound from './useCharactersFound';
 import { ZoomPanViewer, toast, useErrorBoundary } from '@/components/common';
 import Header from '../Header/Header';
 import type { Character } from '@/model/schemas';
-import type Level from '@/domain/Level';
+import type Level from '@/model/Level';
 import formatTime from '@/utils/helpers/formatTime';
 import TargetingBox from '../TargetingBox/TargetingBox';
 import getLocationPercentages from './getLocationPercentages';
