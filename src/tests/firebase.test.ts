@@ -1,7 +1,10 @@
+import fs from 'fs';
 import { describe, it, beforeEach, afterEach } from 'vitest';
 import {
   initializeTestEnvironment,
   RulesTestEnvironment,
+  RulesTestContext,
+  assertSucceeds,
 } from '@firebase/rules-unit-testing';
 import {
   setDoc,
@@ -12,13 +15,15 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import * as firebaseJson from '../../firebase.json';
-import backendApi from './backendApi';
+import backendApi from '../api/backendApi';
 
+// project id has to be different in each test file - therefore concentrate all firebase tests here
 const MY_PROJECT_ID = import.meta.env.VITE_FIREBASE_PROJECT_ID;
 const { port: FIRESTORE_EMULATOR_PORT } = firebaseJson.emulators.firestore;
 
 let testEnv: RulesTestEnvironment;
 let unauthedDb: Firestore;
+let unauthenticatedUser: RulesTestContext;
 
 const readWriteMessagesRule = `rules_version = '2';
 service cloud.firestore {
@@ -30,7 +35,7 @@ service cloud.firestore {
 }`;
 
 describe('BackendApi', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     testEnv = await initializeTestEnvironment({
       projectId: MY_PROJECT_ID,
       firestore: {
@@ -48,6 +53,9 @@ describe('BackendApi', () => {
 
   afterEach(async () => {
     await testEnv.clearFirestore();
+  });
+
+  afterAll(async () => {
     await testEnv.cleanup();
   });
 
@@ -348,6 +356,59 @@ describe('BackendApi', () => {
 
       const result = await getDoc(doc(unauthedDb, 'messages', 'newDocId'));
       expect(result.data()).toEqual(newData);
+    });
+  });
+});
+
+describe('Firestore rules', () => {
+  describe('Scores', () => {
+    const testScoreId = 'testScoreId';
+
+    beforeAll(async () => {
+      testEnv = await initializeTestEnvironment({
+        projectId: MY_PROJECT_ID,
+        firestore: {
+          rules: fs.readFileSync('firestore.rules', 'utf8'),
+          host: '127.0.0.1',
+          port: FIRESTORE_EMULATOR_PORT,
+        },
+      });
+    });
+
+    beforeEach(async () => {
+      // Setup initial score data
+      await testEnv.withSecurityRulesDisabled((context) => {
+        const firestoreWithoutRule = context.firestore();
+        return firestoreWithoutRule
+          .collection('scores')
+          .doc(testScoreId)
+          .set({ levelId: '1', time: 5, userName: 'Abc' });
+      });
+
+      // Create unauthenticated user for testing
+      unauthenticatedUser = testEnv.unauthenticatedContext();
+    });
+
+    afterEach(async () => {
+      await testEnv.clearFirestore();
+      // await testEnv.cleanup();
+    });
+
+    afterAll(async () => {
+      await testEnv.cleanup();
+    });
+
+    // - READ: Allowed for all users
+    it('Unauthenticated user can READ.', async () => {
+      // READ operation
+      const readScore = unauthenticatedUser
+        .firestore()
+        .collection('scores')
+        .doc(testScoreId)
+        .get();
+
+      // Expect to Succeed
+      await assertSucceeds(readScore);
     });
   });
 });
