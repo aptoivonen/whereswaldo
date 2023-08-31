@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import { withErrorBoundary, FallbackRender } from '@/components/common';
 import useScores from './useScores';
 import formatTime from '@/utils/helpers/formatTime';
-import type { Score } from '@/model/types';
+import type { Score } from '@/model/schemas';
 import { scrollRowIntoView, getRowColor } from './helpers';
 
 export type ScoreboardProps = {
-  activePlayerId: string | null;
+  activeScoreId: string | null;
 };
 
-function Scoreboard({ activePlayerId }: ScoreboardProps) {
+function Scoreboard({ activeScoreId }: ScoreboardProps) {
   const scores = useScores();
 
   if (!scores.data) {
@@ -40,17 +40,17 @@ function Scoreboard({ activePlayerId }: ScoreboardProps) {
             <tr
               key={score.id}
               className={`border-b text-base ${getRowColor(
-                activePlayerId,
+                activeScoreId,
                 score.id,
                 index
               )}`}
-              ref={scrollRowIntoView(activePlayerId, score.id)}
+              ref={scrollRowIntoView(activeScoreId, score.id)}
             >
               <td className="whitespace-nowrap px-6 py-4 font-bold">
                 {index + 1}
               </td>
               <td className="whitespace-nowrap px-6 py-4 font-bold">
-                {score.id}
+                {score.userName}
               </td>
               <td className="whitespace-nowrap px-6 py-4 font-medium">
                 {score.levelId}

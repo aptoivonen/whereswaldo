@@ -1,23 +1,20 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import { MouseEventHandler, useRef, useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
+import useCharactersFound from './useCharactersFound';
 import { ZoomPanViewer, toast, useErrorBoundary } from '@/components/common';
 import Header from '../Header/Header';
-import { Character, LevelGameInfo } from '@/model/types';
-import type { CharactersFound } from '../types/types';
-import useTimer from './useTimer';
-import getImageClickPosition from './getImageClickPosition';
-import isNearby from './isNearby';
+import type { Character } from '@/model/schemas';
+import type Level from '@/model/Level';
 import formatTime from '@/utils/helpers/formatTime';
 import TargetingBox from '../TargetingBox/TargetingBox';
 import getLocationPercentages from './getLocationPercentages';
 import FoundToast from '../Toast/FoundToast';
 import NameInputView from '../NameInputView/NameInputView';
 import TargetingCircle from '../TargetingCircle/TargetingCircle';
+import { useTimer } from '@/hooks';
+import getZoomTransform from './getZoomTransform';
 
 type LevelViewerProps = {
-  level: LevelGameInfo;
+  level: Level;
 };
 
 function LevelViewer({ level }: LevelViewerProps) {
@@ -35,32 +32,28 @@ function LevelViewer({ level }: LevelViewerProps) {
   const [zoom, setZoom] = useState(1);
   // To thow error to error boundary from event handlers
   const { showBoundary } = useErrorBoundary();
+  const [charactersFound, charactersFoundRef, setFoundCharacter] =
+    useCharactersFound(level.characters);
 
-  const { foundAcceptanceRadius } = level;
-  const characters = Object.keys(level.characterCoordinates) as Character[];
-  const initialCharactersFound = Object.fromEntries(
-    characters.map((key) => [key, false])
-  ) as CharactersFound;
-  const [charactersFound, setCharactersFoundState] = useState(
-    initialCharactersFound
-  );
-  const charactersFoundRef = useRef(initialCharactersFound);
-  const setCharactersFound = (
-    charactersFoundSetter: (charactersFound: CharactersFound) => CharactersFound
-  ) => {
-    setCharactersFoundState(charactersFoundSetter);
-    charactersFoundRef.current = charactersFoundSetter(
-      charactersFoundRef.current
-    );
+  const handleImageDimensions: MouseEventHandler<HTMLElement> = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const newImageDimensions = {
+      imageX: getZoomTransform(e.clientX - rect.left, zoom),
+      imageY: getZoomTransform(e.clientY - rect.top, zoom),
+      imageWidth: getZoomTransform(rect.width, zoom),
+      imageHeight: getZoomTransform(rect.height, zoom),
+    };
+
+    setImageDimensions(newImageDimensions);
   };
 
-  const handleImageClick: MouseEventHandler<HTMLImageElement> = (e) => {
+  const handleImageClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault();
-    const newImageDimensions = getImageClickPosition(e, zoom);
-    setImageDimensions(newImageDimensions);
-
+    handleImageDimensions(e);
     setIsShowTargetingBox((isShow) => !isShow);
   };
+
+  const handleMouseMove = handleImageDimensions;
 
   const handleZoom = (newZoom: number) => {
     setIsShowTargetingBox(false);
@@ -72,8 +65,8 @@ function LevelViewer({ level }: LevelViewerProps) {
       showBoundary(new Error('No image dimensions when selecting character'));
       return;
     }
-    const characterCoordinates = level.characterCoordinates[character];
-    if (!characterCoordinates) {
+
+    if (!level.has(character)) {
       showBoundary(
         new Error(
           `No character coordinates when selecting character ${character}`
@@ -81,21 +74,16 @@ function LevelViewer({ level }: LevelViewerProps) {
       );
       return;
     }
-    const [characterX, characterY] = characterCoordinates;
     const [clickedImagePercentageX, clickedImagePercentageY] =
       getLocationPercentages(imageDimensions);
-    const isCharacterNearby = isNearby({
+
+    const isCharacterNearby = level.isCharacterNear(
+      character,
       clickedImagePercentageX,
-      clickedImagePercentageY,
-      characterX,
-      characterY,
-      foundAcceptanceRadius,
-    });
+      clickedImagePercentageY
+    );
     if (isCharacterNearby && !charactersFound[character]) {
-      setCharactersFound((charsFound) => ({
-        ...charsFound,
-        [character]: true,
-      }));
+      setFoundCharacter(character);
       toast.custom(() => <FoundToast character={character} isFound />);
     }
     if (!isCharacterNearby && !charactersFound[character]) {
@@ -107,6 +95,7 @@ function LevelViewer({ level }: LevelViewerProps) {
     ).every(Boolean);
     if (isAllCharactersFound) {
       stop();
+      toast.remove();
       setIsShowNameInputView(true);
     }
 
@@ -128,7 +117,7 @@ function LevelViewer({ level }: LevelViewerProps) {
         <Header.ItemContainer>
           <Header.Title>{level.title}</Header.Title>
           <Header.IconContainer>
-            {characters.map((character) => (
+            {level.characters.map((character) => (
               <Header.Icon
                 key={character}
                 character={character}
@@ -141,25 +130,24 @@ function LevelViewer({ level }: LevelViewerProps) {
       </Header>
       <div className="flex-1 overflow-hidden bg-blue">
         <ZoomPanViewer onZoom={handleZoom}>
-          <div className="relative">
-            <TargetingBox
-              imageDimensions={imageDimensions}
-              charactersFound={charactersFound}
-              isShow={isShowTargetingBox}
-              onSelect={handleSelect}
-            />
+          <TargetingBox
+            imageDimensions={imageDimensions}
+            charactersFound={charactersFound}
+            isShow={isShowTargetingBox}
+            onSelect={handleSelect}
+          >
             <TargetingCircle
               key={zoom}
               zoom={zoom}
-              radiusPercentage={foundAcceptanceRadius}
+              imageDimensions={imageDimensions}
+              radiusPercentage={level.foundAcceptanceRadius}
+              onMouseMove={handleMouseMove}
             >
-              <img
-                src={level.imgUrl}
-                alt={level.title}
-                onContextMenu={handleImageClick}
-              />
+              <div className="inline-block" onContextMenu={handleImageClick}>
+                <img src={level.imgUrl} alt={level.title} />
+              </div>
             </TargetingCircle>
-          </div>
+          </TargetingBox>
         </ZoomPanViewer>
       </div>
     </div>

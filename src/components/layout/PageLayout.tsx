@@ -21,15 +21,15 @@ function PageLayout() {
           <Container>
             <div className="flex h-20 items-center sm:h-28">
               <NavBar.Brand to={brand.route}>
-                <span className="flex items-center">
+                <span className="flex h-12 items-center sm:h-20">
                   <img
-                    className="h-12 sm:h-20"
+                    className="h-full"
                     src={brandImage}
                     alt="Where's Waldo logo"
                   />
-                  <span className="text-xl font-bold sm:text-4xl">
-                    <p className="text-blue">Where&apos;s</p>
-                    <p className="text-red">Waldo?</p>
+                  <span className="text-xl font-bold leading-none sm:text-4xl sm:leading-none">
+                    <span className="block text-blue">Where&apos;s</span>
+                    <span className="block text-red">Waldo?</span>
                   </span>
                 </span>
               </NavBar.Brand>

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { fromZodError } from 'zod-validation-error';
 import { Alert, Container, useErrorBoundary } from '@/components/common';
 import useAddScore from './useAddScore';
 import formatTime from '@/utils/helpers/formatTime';
+import { UserNameSchema } from '@/model/schemas';
 
 type NameInputViewProps = {
   levelId: string;
@@ -12,24 +14,29 @@ type NameInputViewProps = {
 function NameInputView({ levelId, counter }: NameInputViewProps) {
   const score = useAddScore();
   const { showBoundary } = useErrorBoundary();
-  const [isNameError, setIsNameError] = useState(false);
+  const [nameError, setNameError] = useState<Error | null>(null);
+  const isNameError = !!nameError;
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    setNameError(null);
     const el = new FormData(e.currentTarget);
     const name = el.get('nameInput');
     if (typeof name !== 'string') {
       showBoundary(new Error('name input name property is wrong'));
       return;
     }
-    const trimmedName = name.trim();
-    if (!trimmedName) {
-      setIsNameError(true);
+    const result = UserNameSchema.safeParse(name);
+    if (!result.success) {
+      setNameError(
+        fromZodError(result.error, { prefix: '', prefixSeparator: '' })
+      );
       return;
     }
+
     try {
       score.add({
-        userName: trimmedName,
+        userName: result.data,
         levelId,
         time: counter,
       });
@@ -43,7 +50,7 @@ function NameInputView({ levelId, counter }: NameInputViewProps) {
   }
 
   if (score.data) {
-    return <Navigate to={`/scoreboard/?playerId=${score.data}`} />;
+    return <Navigate to={`/scoreboard/?scoreId=${score.data}`} />;
   }
 
   return (
@@ -66,9 +73,9 @@ function NameInputView({ levelId, counter }: NameInputViewProps) {
             htmlFor="nameInput"
             className="flex w-full items-center text-base"
           >
-            Name:
+            <span className="inline-block w-14">Name:</span>
             <input
-              className="ml-4 flex-1 p-1 pl-2 text-black"
+              className="block flex-1 p-1 pl-2 text-black"
               id="nameInput"
               name="nameInput"
               type="text"
@@ -77,9 +84,12 @@ function NameInputView({ levelId, counter }: NameInputViewProps) {
               disabled={score.isLoading}
             />
           </label>
+          <small className="ml-14 mt-2 block italic">
+            Name should be between 1 and 10 characters long.
+          </small>
           {isNameError && (
             <Alert className="mt-4" variant="warning">
-              You didn&apos;t input a name!
+              {nameError.message}
             </Alert>
           )}
         </form>

@@ -9,15 +9,17 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 import { transformDoc, constructQuery, transformData } from './helpers';
-import type { BasicDocument, QueryOptions } from './types';
+import type { QueryOptions } from './types';
+import type { BasicDocument } from '@/model/schemas';
 import db from '@/config/firebaseConfig';
 
 /**
  * Gets one document from firestore and returns it (or null if not found) inside a promise.
  * @param collectionPath Path to doc "collectionId/docId"
+ * @throws If collectionId or docId is missing
  * @returns Promise with document, null if not found, or error
  */
-function get(collectionPath: string): Promise<BasicDocument | Error | null> {
+function get(collectionPath: string): Promise<BasicDocument | null> {
   const [collectionId, docId] = collectionPath.split('/');
   if (!collectionId) {
     return Promise.reject(new Error('CollectionId was empty'));
@@ -38,12 +40,13 @@ function get(collectionPath: string): Promise<BasicDocument | Error | null> {
  * @param [queryOptions.orderBy] order of entries
  * @param queryOptions.orderBy.property name of property to sort by
  * @param [queryOptions.orderBy.direction] 'asc' or 'desc'
+ * @throws If collectionId is missing
  * @returns Array of documents or error
  */
 function getAll(
   collectionId: string,
   queryOptions: QueryOptions = {}
-): Promise<BasicDocument[] | Error> {
+): Promise<BasicDocument[]> {
   if (!collectionId) {
     return Promise.reject(new Error('CollectionId was empty'));
   }
@@ -59,9 +62,10 @@ function getAll(
  * Creates a new firestore document under a collection and returns its id.
  * @param collectionId id of the collection
  * @param data Data to create a new document from
+ * @throws If collectionId is missing
  * @returns Id of the newly created document or error
  */
-function post(collectionId: string, data: object): Promise<string | Error> {
+function post(collectionId: string, data: object): Promise<string> {
   if (!collectionId) {
     return Promise.reject(new Error('CollectionId was empty'));
   }
@@ -75,9 +79,10 @@ function post(collectionId: string, data: object): Promise<string | Error> {
  * Updates some fields of an existing document.
  * @param collectionPath Path to doc "collectionId/docId"
  * @param data Fields to update
+ * @throws If collectionId or docId is missing
  * @returns Promise that resolves once update is successful
  */
-function patch(collectionPath: string, data: object): Promise<void | Error> {
+function patch(collectionPath: string, data: object): Promise<void> {
   const [collectionId, docId] = collectionPath.split('/');
   if (!collectionId) {
     return Promise.reject(new Error('CollectionId was empty'));
@@ -94,9 +99,10 @@ function patch(collectionPath: string, data: object): Promise<void | Error> {
  * Creates a new firestore document if it doesn't exist or updates an existing one.
  * @param collectionPath Path to doc "collectionId/docId"
  * @param data Fields to put in the document
+ * @throws If collectionId or docId is missing
  * @returns Promise that resolves once updata is successful
  */
-function put(collectionPath: string, data: object): Promise<void | Error> {
+function put(collectionPath: string, data: object): Promise<void> {
   const [collectionId, docId] = collectionPath.split('/');
   if (!collectionId) {
     return Promise.reject(new Error('CollectionId was empty'));
@@ -112,9 +118,10 @@ function put(collectionPath: string, data: object): Promise<void | Error> {
 /**
  * Deletes a firestore document.
  * @param collectionPath Path to doc "collectionId/docId"
+ * @throws If collectionId or docId is missing
  * @returns Promise that resolves once deleting is successful
  */
-function remove(collectionPath: string): Promise<void | Error> {
+function remove(collectionPath: string): Promise<void> {
   const [collectionId, docId] = collectionPath.split('/');
   if (!collectionId) {
     return Promise.reject(new Error('CollectionId was empty'));

@@ -29,6 +29,8 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       useErrorBoundary: (error, query) => query.state.data === undefined,
+      retry: false,
+      staleTime: 60 * 60 * 1000,
     },
     mutations: {
       useErrorBoundary: true,

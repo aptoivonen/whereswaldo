@@ -1,17 +1,17 @@
-import { useMutation } from '@tanstack/react-query';
-import { AsyncReturnType } from '@/utils/types/types';
-import { Score } from '@/model/types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { AsyncReturnType } from '@/utils/types/types';
+import type { Score } from '@/model/schemas';
+import backendApi from '@/api/backendApi';
 
 type AddScoreProps = Omit<Score, 'id'>;
 
 function addScore(score: AddScoreProps): Promise<string> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  }).then(() => '2222');
+  return backendApi.post('scores', score) as Promise<string>;
 }
 
 function useAddScore() {
   const mutationFn = addScore;
+  const queryClient = useQueryClient();
 
   type TError = Error;
   type TData = AsyncReturnType<typeof mutationFn>;
@@ -22,6 +22,9 @@ function useAddScore() {
     TError
   >({
     mutationFn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scores'] });
+    },
   });
   return { data, error, add: mutate, isLoading };
 }

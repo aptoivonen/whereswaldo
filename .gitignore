@@ -27,4 +27,5 @@ dist-ssr
 .firebase
 
 # Firestore emulator data
-firebase-export
+firebase-export*
+test-firebase-export

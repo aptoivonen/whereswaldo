@@ -3,12 +3,12 @@ import Scoreboard from '../Scoreboard/Scoreboard';
 
 function ScoreboardPage() {
   const [searchParams] = useSearchParams();
-  const playerId = searchParams.get('playerId');
+  const scoreId = searchParams.get('scoreId');
 
   return (
     <>
       <h1 className="text-center text-3xl font-bold">Scoreboard</h1>
-      <Scoreboard activePlayerId={playerId} />
+      <Scoreboard activeScoreId={scoreId} />
     </>
   );
 }
