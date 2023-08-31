@@ -5,6 +5,7 @@ import {
   RulesTestEnvironment,
   RulesTestContext,
   assertSucceeds,
+  assertFails,
 } from '@firebase/rules-unit-testing';
 import {
   setDoc,
@@ -398,17 +399,50 @@ describe('Firestore rules', () => {
       await testEnv.cleanup();
     });
 
+    // TODO: add LIST method test
+
     // - READ: Allowed for all users
     it('Unauthenticated user can READ.', async () => {
-      // READ operation
       const readScore = unauthenticatedUser
         .firestore()
         .collection('scores')
         .doc(testScoreId)
         .get();
 
-      // Expect to Succeed
       await assertSucceeds(readScore);
+    });
+
+    // - CREATE: allowed for aLL users
+    it('Unauthenticated user can CREATE.', async () => {
+      const readScore = unauthenticatedUser
+        .firestore()
+        .collection('scores')
+        .add({ levelId: '1', time: 5, userName: 'unAuthUser' });
+
+      await assertSucceeds(readScore);
+    });
+
+    // - UPDATE: Not allowed for any users
+    it('Unauthenticated user cannot UPDATE.', async () => {
+      const updateByUnauthenticatedUser = unauthenticatedUser
+        .firestore()
+        .collection('scores')
+        .doc(testScoreId)
+        .update({ userName: 'Abc' });
+
+      await assertFails(updateByUnauthenticatedUser);
+    });
+
+    // - DELETE: Not allowed
+    it('Nobody can DELETE.', async () => {
+      const deleteByUnauthenticatedUser = unauthenticatedUser
+        .firestore()
+        .collection('scores')
+        .doc(testScoreId)
+        .delete();
+
+      // Expect to Fail
+      await assertFails(deleteByUnauthenticatedUser);
     });
   });
 });
