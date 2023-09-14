@@ -362,19 +362,28 @@ describe('BackendApi', () => {
 });
 
 describe('Firestore rules', () => {
+  beforeAll(async () => {
+    testEnv = await initializeTestEnvironment({
+      projectId: MY_PROJECT_ID,
+      firestore: {
+        rules: fs.readFileSync('firestore.rules', 'utf8'),
+        host: '127.0.0.1',
+        port: FIRESTORE_EMULATOR_PORT,
+      },
+    });
+  });
+
+  afterEach(async () => {
+    await testEnv.clearFirestore();
+    // await testEnv.cleanup();
+  });
+
+  afterAll(async () => {
+    await testEnv.cleanup();
+  });
+
   describe('Scores', () => {
     const testScoreId = 'testScoreId';
-
-    beforeAll(async () => {
-      testEnv = await initializeTestEnvironment({
-        projectId: MY_PROJECT_ID,
-        firestore: {
-          rules: fs.readFileSync('firestore.rules', 'utf8'),
-          host: '127.0.0.1',
-          port: FIRESTORE_EMULATOR_PORT,
-        },
-      });
-    });
 
     beforeEach(async () => {
       // Setup initial score data
@@ -388,15 +397,6 @@ describe('Firestore rules', () => {
 
       // Create unauthenticated user for testing
       unauthenticatedUser = testEnv.unauthenticatedContext();
-    });
-
-    afterEach(async () => {
-      await testEnv.clearFirestore();
-      // await testEnv.cleanup();
-    });
-
-    afterAll(async () => {
-      await testEnv.cleanup();
     });
 
     // - GET: Allowed for all users
@@ -450,6 +450,75 @@ describe('Firestore rules', () => {
         .delete();
 
       await assertFails(deleteByUnauthenticatedUser);
+    });
+  });
+
+  describe('Levels', () => {
+    const testLevelId = 'testLevelId';
+
+    beforeEach(async () => {
+      // Setup initial levels data
+      await testEnv.withSecurityRulesDisabled((context) => {
+        const firestoreWithoutRule = context.firestore();
+        return firestoreWithoutRule
+          .collection('levels')
+          .doc(testLevelId)
+          .set({
+            characterCoordinates: { Waldo: [22, 33], Odlaw: [1, 99] },
+            characters: ['Waldo', 'Odlaw'],
+            foundAcceptanceRadius: 3,
+            imgUrl: 'level-1.jpg',
+            thumbnailUrl: 'thumbnail-level-1.jpg',
+          });
+      });
+
+      // Create unauthenticated user for testing
+      unauthenticatedUser = testEnv.unauthenticatedContext();
+    });
+
+    it('Anyone can READ.', async () => {
+      const readLevel = unauthenticatedUser
+        .firestore()
+        .collection('levels')
+        .doc(testLevelId)
+        .get();
+
+      await assertSucceeds(readLevel);
+    });
+
+    it('No one can CREATE.', async () => {
+      const readLevel = unauthenticatedUser
+        .firestore()
+        .collection('levels')
+        .add({
+          characterCoordinates: { Waldo: [22, 33], Odlaw: [1, 99] },
+          characters: ['Waldo', 'Odlaw'],
+          foundAcceptanceRadius: 3,
+          imgUrl: 'level-1.jpg',
+          thumbnailUrl: 'thumbnail-level-1.jpg',
+        });
+
+      await assertFails(readLevel);
+    });
+
+    it('No one can UPDATE.', async () => {
+      const updateByUnauthenticatedUser = unauthenticatedUser
+        .firestore()
+        .collection('levels')
+        .doc(testLevelId)
+        .update({ foundAcceptanceRadius: 100 });
+
+      await assertFails(updateByUnauthenticatedUser);
+    });
+
+    it('No one can DELETE.', async () => {
+      const updateByUnauthenticatedUser = unauthenticatedUser
+        .firestore()
+        .collection('levels')
+        .doc(testLevelId)
+        .delete();
+
+      await assertFails(updateByUnauthenticatedUser);
     });
   });
 });
