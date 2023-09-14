@@ -399,10 +399,8 @@ describe('Firestore rules', () => {
       await testEnv.cleanup();
     });
 
-    // TODO: add LIST method test
-
-    // - READ: Allowed for all users
-    it('Unauthenticated user can READ.', async () => {
+    // - GET: Allowed for all users
+    it('Anyone can GET.', async () => {
       const readScore = unauthenticatedUser
         .firestore()
         .collection('scores')
@@ -412,8 +410,18 @@ describe('Firestore rules', () => {
       await assertSucceeds(readScore);
     });
 
-    // - CREATE: allowed for aLL users
-    it('Unauthenticated user can CREATE.', async () => {
+    // - LIST: Allowed for all users
+    it('Anyone can LIST.', async () => {
+      const readScore = unauthenticatedUser
+        .firestore()
+        .collection('scores')
+        .get();
+
+      await assertSucceeds(readScore);
+    });
+
+    // - CREATE: allowed for all users
+    it('Anyone can CREATE.', async () => {
       const readScore = unauthenticatedUser
         .firestore()
         .collection('scores')
@@ -423,7 +431,7 @@ describe('Firestore rules', () => {
     });
 
     // - UPDATE: Not allowed for any users
-    it('Unauthenticated user cannot UPDATE.', async () => {
+    it('No one can UPDATE.', async () => {
       const updateByUnauthenticatedUser = unauthenticatedUser
         .firestore()
         .collection('scores')
@@ -434,14 +442,13 @@ describe('Firestore rules', () => {
     });
 
     // - DELETE: Not allowed
-    it('Nobody can DELETE.', async () => {
+    it('No one can DELETE.', async () => {
       const deleteByUnauthenticatedUser = unauthenticatedUser
         .firestore()
         .collection('scores')
         .doc(testScoreId)
         .delete();
 
-      // Expect to Fail
       await assertFails(deleteByUnauthenticatedUser);
     });
   });
