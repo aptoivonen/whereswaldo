@@ -4,15 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "emulators:export": "firebase emulators:export --project demo-project-id ./firebase-export",
-    "emulators": "firebase emulators:start --project demo-project-id --import=./firebase-export",
+    "emulators:export": "firebase emulators:export ./firebase-export",
+    "emulators": "firebase emulators:start --import=./firebase-export",
     "dev": "npm-run-all --parallel emulators vite",
     "vite": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "deploy:hosting": "firebase deploy --only hosting",
-    "deploy:rules": "firebase deploy --only firestore:rules"
+    "deploy": "firebase deploy"
   },
   "dependencies": {
     "@loadable/component": "^5.15.3",
