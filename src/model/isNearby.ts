@@ -17,7 +17,7 @@ function isNearby({
     Math.sqrt(
       (clickedImagePercentageX - characterX) ** 2 +
         (clickedImagePercentageY - characterY) ** 2
-    ) < foundAcceptanceRadius
+    ) <= foundAcceptanceRadius
   );
 }
 
