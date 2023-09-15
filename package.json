@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "emulators:export": "firebase emulators:export --project dev-project-id ./firebase-export",
-    "emulators": "firebase emulators:start --project dev-project-id --import=./firebase-export",
+    "emulators:export": "firebase emulators:export --project demo-project-id ./firebase-export",
+    "emulators": "firebase emulators:start --project demo-project-id --import=./firebase-export",
     "dev": "npm-run-all --parallel emulators vite",
     "vite": "vite",
     "build": "tsc && vite build",
