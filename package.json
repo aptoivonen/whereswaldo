@@ -6,6 +6,7 @@
   "scripts": {
     "emulators:export": "firebase emulators:export ./firebase-export",
     "emulators": "firebase emulators:start --import=./firebase-export",
+    "emulators:test": "firebase emulators:start",
     "dev": "npm-run-all --parallel emulators vite",
     "vite": "vite",
     "build": "tsc && vite build",
