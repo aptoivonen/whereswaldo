@@ -75,4 +75,24 @@ describe('UseLevels', () => {
       ])
     );
   });
+
+  it('returns error for malformed data', async () => {
+    await setDbWithoutRule(async (context) => {
+      const firestoreWithoutRule = context.firestore();
+      const collection = firestoreWithoutRule.collection('scores');
+      // wrong data - userName is not at least 1 character
+      await Promise.all([
+        collection.doc('score-1').set({
+          userName: '',
+          time: 10,
+          levelId: '1',
+        }),
+      ]);
+      return Promise.resolve();
+    });
+
+    const { result } = renderHook(() => useScores(), { wrapper });
+
+    await waitFor(() => expect(result.current.error).not.toBeNull());
+  });
 });
