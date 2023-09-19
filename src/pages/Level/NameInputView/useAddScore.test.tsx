@@ -6,7 +6,7 @@ import {
   setupHookTest,
   setDbWithoutRule,
   getUnauthedDb,
-} from '@/tests/setupHookTests';
+} from '@/tests/setupTests';
 import useAddScore from './useAddScore';
 
 setupHookTest('demo-test-id-useaddscore');

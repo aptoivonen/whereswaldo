@@ -5,7 +5,7 @@ import {
   setupDescribe,
   setupHookTest,
   setDbWithoutRule,
-} from '@/tests/setupHookTests';
+} from '@/tests/setupTests';
 import useLevels from './useLevels';
 import mapImgUrl from '@/utils/helpers/mapImgUrl';
 

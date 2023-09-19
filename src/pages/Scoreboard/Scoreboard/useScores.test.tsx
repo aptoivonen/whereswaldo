@@ -5,7 +5,7 @@ import {
   setupDescribe,
   setupHookTest,
   setDbWithoutRule,
-} from '@/tests/setupHookTests';
+} from '@/tests/setupTests';
 import useScores from './useScores';
 
 setupHookTest('demo-test-id-usescores');
