@@ -18,6 +18,8 @@ let testEnv: RulesTestEnvironment;
 let unauthedDb: Firestore;
 const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
+    // Turn off retries - the library defaults to three retries with exponential backoff,
+    // which means that your tests are likely to timeout if you want to test an erroneous query
     queries: {
       retry: false,
     },
