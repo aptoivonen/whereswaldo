@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type Firestore } from 'firebase/firestore';
@@ -11,6 +12,7 @@ import fs from 'fs';
 import * as firebaseJson from '../../firebase.json';
 import { setDb } from '@/config/firebaseConfig';
 
+const isTest = import.meta.env.MODE === 'test';
 let testProjectId: string;
 const { port: FIRESTORE_EMULATOR_PORT } = firebaseJson.emulators.firestore;
 
@@ -23,6 +25,13 @@ const queryClient: QueryClient = new QueryClient({
     queries: {
       retry: false,
     },
+  },
+  // When testing we want to suppress network errors being logged to the console
+  logger: {
+    log: console.log,
+    warn: console.warn,
+    // ✅ no more errors on the console for tests
+    error: isTest ? () => {} : console.error,
   },
 });
 export const wrapper: React.FC<{ children: React.ReactNode }> =
