@@ -81,3 +81,7 @@ export function setDbWithoutRule(
 ): Promise<void> {
   return testEnv.withSecurityRulesDisabled(callback);
 }
+
+export function getUnauthedDb() {
+  return testEnv.unauthenticatedContext().firestore();
+}
