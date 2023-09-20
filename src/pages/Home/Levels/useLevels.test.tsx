@@ -4,7 +4,7 @@ import {
   wrapper,
   setupDescribe,
   setupHookTest,
-  setDbWithoutRule,
+  setWholeDbWithoutRule,
 } from '@/tests/setupTests';
 import useLevels from './useLevels';
 import mapImgUrl from '@/utils/helpers/mapImgUrl';
@@ -14,21 +14,19 @@ setupHookTest('demo-test-id-uselevels');
 describe('UseLevels', () => {
   setupDescribe();
 
-  it('gets correct data', async () => {
+  it('gets correct data 2 ', async () => {
     // Setup initial level data
-    await setDbWithoutRule((context) => {
-      const firestoreWithoutRule = context.firestore();
-      return firestoreWithoutRule
-        .collection('levels')
-        .doc('1')
-        .set({
+    await setWholeDbWithoutRule({
+      levels: {
+        '1': {
           imgUrl: 'level-1.jpg',
           thumbnailUrl: 'thumbnail-level-1.jpg',
           title: 'Level 1',
           characterCoordinates: { Waldo: [1, 1] },
           characters: ['Waldo'],
           foundAcceptanceRadius: 3,
-        });
+        },
+      },
     });
 
     const { result } = renderHook(() => useLevels(), { wrapper });
