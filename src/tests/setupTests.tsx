@@ -12,6 +12,8 @@ import fs from 'fs';
 import * as firebaseJson from '../../firebase.json';
 import { setDb } from '@/config/firebaseConfig';
 
+type Db = ReturnType<RulesTestContext['firestore']>;
+
 const isTest = import.meta.env.MODE === 'test';
 let testProjectId: string;
 const { port: FIRESTORE_EMULATOR_PORT } = firebaseJson.emulators.firestore;
@@ -75,11 +77,48 @@ export function setupDescribe(): void {
   });
 }
 
-// Call this to set up test db for each test
+// Call this to set up test db for each test using a context callback
 export function setDbWithoutRule(
   callback: (context: RulesTestContext) => Promise<void>
 ): Promise<void> {
   return testEnv.withSecurityRulesDisabled(callback);
+}
+
+function makeDbTuples(
+  collectionsObj: Record<string, Record<string, object>>
+): Array<[collectionId: string, docId: string, docObj: object]> {
+  return Object.entries(collectionsObj)
+    .map(([collId, collObj]) =>
+      Object.entries(collObj).map(([docId, docObj]) => [collId, docId, docObj])
+    )
+    .flat() as Array<[collectionId: string, docId: string, docObj: object]>;
+}
+
+function setDbDoc(
+  db: Db,
+  {
+    collectionId,
+    docId,
+    docObj,
+  }: { collectionId: string; docId: string; docObj: object }
+) {
+  return db.collection(collectionId).doc(docId).set(docObj);
+}
+
+// Call this to set entire test db in one go
+export function setWholeDbWithoutRule(
+  collectionsObj: Record<string, Record<string, object>>
+): Promise<void> {
+  return testEnv.withSecurityRulesDisabled(async (context) => {
+    const firestoreWithoutRule = context.firestore();
+    const dbTuples = makeDbTuples(collectionsObj);
+    await Promise.all(
+      dbTuples.map(([collectionId, docId, docObj]) =>
+        setDbDoc(firestoreWithoutRule, { collectionId, docId, docObj })
+      )
+    );
+    return Promise.resolve();
+  });
 }
 
 export function getUnauthedDb() {
