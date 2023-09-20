@@ -43,12 +43,12 @@ export const wrapper: React.FC<{ children: React.ReactNode }> =
     );
   };
 
-// Call this at the beginnig of the test file
-export function setupHookTest(projectId: string): void {
+// Call this at the beginning of the test file
+export function setupTest(projectId: string): void {
   testProjectId = projectId;
 }
 
-// Call this at the beginnig of describe block
+// Call this at the beginning of describe block
 export function setupDescribe(): void {
   beforeAll(async () => {
     testEnv = await initializeTestEnvironment({

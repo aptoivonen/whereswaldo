@@ -3,12 +3,12 @@ import { renderHook, waitFor } from '@testing-library/react';
 import {
   wrapper,
   setupDescribe,
-  setupHookTest,
+  setupTest,
   setDbWithoutRule,
 } from '@/tests/setupTests';
 import useScores from './useScores';
 
-setupHookTest('demo-test-id-usescores');
+setupTest('demo-test-id-usescores');
 
 describe('UseLevels', () => {
   setupDescribe();

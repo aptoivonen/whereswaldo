@@ -3,14 +3,14 @@ import { renderHook, waitFor } from '@testing-library/react';
 import {
   wrapper,
   setupDescribe,
-  setupHookTest,
+  setupTest,
   setDbWithoutRule,
 } from '@/tests/setupTests';
 import useLevel from './useLevel';
 import Level from '@/model/Level';
 import mapImgUrl from '@/utils/helpers/mapImgUrl';
 
-setupHookTest('demo-test-id-uselevel');
+setupTest('demo-test-id-uselevel');
 
 describe('UseLevel', () => {
   setupDescribe();

@@ -3,13 +3,13 @@ import { renderHook, waitFor, act } from '@testing-library/react';
 import {
   wrapper,
   setupDescribe,
-  setupHookTest,
+  setupTest,
   setDbWithoutRule,
   getUnauthedDb,
 } from '@/tests/setupTests';
 import useAddScore from './useAddScore';
 
-setupHookTest('demo-test-id-useaddscore');
+setupTest('demo-test-id-useaddscore');
 
 describe('UseAddScore', () => {
   setupDescribe();
