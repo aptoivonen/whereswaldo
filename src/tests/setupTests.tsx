@@ -38,14 +38,19 @@ const queryClient: QueryClient = new QueryClient({
 });
 
 // Wrapper export for component tests
-export function Wrapper({ children }: { children: React.ReactNode }) {
+export function QueryClientWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }
 
 // wrapper export for hook tests
-export const wrapper: React.FC<{ children: React.ReactNode }> = Wrapper;
+export const wrapper: React.FC<{ children: React.ReactNode }> =
+  QueryClientWrapper;
 
 // Call this at the beginning of the test file
 export function setupTest(projectId: string): void {
