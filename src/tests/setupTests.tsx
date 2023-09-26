@@ -36,12 +36,16 @@ const queryClient: QueryClient = new QueryClient({
     error: isTest ? () => {} : console.error,
   },
 });
-export const wrapper: React.FC<{ children: React.ReactNode }> =
-  function Wrapper({ children }: { children: React.ReactNode }) {
-    return (
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    );
-  };
+
+// Wrapper export for component tests
+export function Wrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+}
+
+// wrapper export for hook tests
+export const wrapper: React.FC<{ children: React.ReactNode }> = Wrapper;
 
 // Call this at the beginning of the test file
 export function setupTest(projectId: string): void {
