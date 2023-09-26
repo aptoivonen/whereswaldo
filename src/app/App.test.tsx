@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { App } from './App';
 import {
-  Wrapper,
+  QueryClientWrapper,
   setupDescribe,
   setupTest,
   setWholeDbWithoutRule,
@@ -62,9 +62,9 @@ describe('App', () => {
 
       render(
         <MemoryRouter initialEntries={['/level/1']}>
-          <Wrapper>
+          <QueryClientWrapper>
             <App />
-          </Wrapper>
+          </QueryClientWrapper>
         </MemoryRouter>
       );
 
