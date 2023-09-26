@@ -60,6 +60,7 @@ export function setupTest(projectId: string): void {
 // Call this at the beginning of describe block
 export function setupDescribe(): void {
   beforeAll(async () => {
+    queryClient.clear();
     testEnv = await initializeTestEnvironment({
       projectId: testProjectId,
       firestore: {
@@ -71,6 +72,7 @@ export function setupDescribe(): void {
   });
 
   afterEach(async () => {
+    queryClient.clear();
     await testEnv.clearFirestore();
   });
 
