@@ -17,12 +17,19 @@ describe('App', () => {
         <App />
       </MemoryRouter>
     );
+
     await waitFor(() =>
       expect(
         screen.getByRole('heading', {
           level: 1,
           name: /can you spot the elusive waldo and top the leaderboard\?/i,
         })
+      ).toBeInTheDocument()
+    );
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole('navigation', { name: /main/i })
       ).toBeInTheDocument()
     );
   });
@@ -33,12 +40,19 @@ describe('App', () => {
         <App />
       </MemoryRouter>
     );
+
     await waitFor(() =>
       expect(
         screen.getByRole('heading', {
           level: 1,
           name: /scoreboard/i,
         })
+      ).toBeInTheDocument()
+    );
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole('navigation', { name: /main/i })
       ).toBeInTheDocument()
     );
   });
@@ -72,6 +86,12 @@ describe('App', () => {
         expect(
           screen.getByRole('heading', { name: /level 1/i })
         ).toBeInTheDocument()
+      );
+
+      await waitFor(() =>
+        expect(
+          screen.queryByRole('navigation', { name: /main/i })
+        ).not.toBeInTheDocument()
       );
     });
   });
