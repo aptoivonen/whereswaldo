@@ -1,15 +1,15 @@
 import { describe, it } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-
-import { App } from './App';
 import {
   QueryClientWrapper,
   setupDescribe,
   setupTest,
   setWholeDbWithoutRule,
 } from '@/tests/setupTests';
+import { App } from './App';
 
+// tests require 'waitFor' because pages are lazy loaded
 describe('App', () => {
   it('renders HOME page for / path', async () => {
     render(
