@@ -9,10 +9,7 @@ type LevelCardProps = {
 
 function LevelCard({ level }: LevelCardProps) {
   return (
-    <Link
-      className="transition-transform duration-100 ease-in-out hover:scale-105 focus:scale-105"
-      to={`level/${level.id}`}
-    >
+    <Link className="" to={`level/${level.id}`}>
       <Card className="border-8 border-blue">
         <Card.Img
           className="aspect-h-1 aspect-w-2"
