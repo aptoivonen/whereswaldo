@@ -14,7 +14,7 @@ setupTest('demo-test-id-uselevels');
 describe('UseLevels', () => {
   setupDescribe();
 
-  it('gets correct data 2 ', async () => {
+  it('gets correct data', async () => {
     // Setup initial level data
     await setWholeDbWithoutRule({
       levels: {
