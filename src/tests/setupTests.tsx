@@ -11,6 +11,7 @@ import { beforeAll, beforeEach, afterEach, afterAll } from 'vitest';
 import fs from 'fs';
 import * as firebaseJson from '../../firebase.json';
 import { setDb } from '@/config/firebaseConfig';
+import { LEVELS_DB, LEVELS_AND_SCORES_DB } from './testDbConstants';
 
 type Db = ReturnType<RulesTestContext['firestore']>;
 
@@ -130,6 +131,14 @@ export function setWholeDbWithoutRule(
     );
     return Promise.resolve();
   });
+}
+
+export type TestDbType = 'levelsDb' | 'levelsAndScoresDb';
+
+export function setTestDb(type: TestDbType) {
+  if (type === 'levelsDb') return LEVELS_DB;
+  if (type === 'levelsAndScoresDb') return LEVELS_AND_SCORES_DB;
+  throw new Error('setTestDb called with wrong type');
 }
 
 export function getUnauthedDb() {
