@@ -12,7 +12,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest --silent",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy --project whereswaldo-dev"
   },
   "dependencies": {
     "@loadable/component": "^5.15.3",
