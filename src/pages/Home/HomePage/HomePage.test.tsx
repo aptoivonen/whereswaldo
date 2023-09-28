@@ -9,7 +9,7 @@ import {
 } from '@/tests/setupTests';
 import HomePage from './HomePage';
 
-setupTest('demo-test-id-homepage');
+setupTest();
 
 describe('HomePage', () => {
   setupDescribe();
