@@ -54,8 +54,13 @@ export const wrapper: React.FC<{ children: React.ReactNode }> =
   QueryClientWrapper;
 
 // Call this at the beginning of the test file
-export function setupTest(projectId: string): void {
-  testProjectId = projectId;
+export function setupTest(projectId: string): void;
+export function setupTest(): void;
+export function setupTest(projectId?: string): void {
+  testProjectId =
+    typeof projectId === 'string'
+      ? projectId
+      : `demo-test-id-${Math.random().toString(16).slice(2)}`;
 }
 
 // Call this at the beginning of describe block
