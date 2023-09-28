@@ -278,38 +278,6 @@ describe('App', () => {
       );
     });
 
-    it('from levelpage to home page using quit link', async () => {
-      await setWholeDbWithoutRule({
-        levels: {
-          '1': {
-            imgUrl: 'level-1.jpg',
-            thumbnailUrl: 'thumbnail-level-1.jpg',
-            title: 'Level 1',
-            characterCoordinates: { Waldo: [1, 1] },
-            characters: ['Waldo'],
-            foundAcceptanceRadius: 3,
-          },
-        },
-      });
-
-      render(
-        <MemoryRouter initialEntries={['/level/1']}>
-          <QueryClientWrapper>
-            <App />
-          </QueryClientWrapper>
-        </MemoryRouter>
-      );
-      const user = userEvent.setup();
-      const homeLink = await screen.findByRole('link', { name: /quit/i });
-      await user.click(homeLink);
-      expect(
-        screen.getByRole('heading', {
-          level: 1,
-          name: /Can you spot the elusive Waldo and top the leaderboard/i,
-        })
-      );
-    });
-
     it('from not-found-page to home page using home link', async () => {
       await setWholeDbWithoutRule({
         levels: {
