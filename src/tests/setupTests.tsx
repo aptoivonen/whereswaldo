@@ -140,9 +140,10 @@ export function setWholeDbWithoutRule(
 
 export type TestDbType = 'levelsDb' | 'levelsAndScoresDb';
 
-export function setTestDb(type: TestDbType) {
-  if (type === 'levelsDb') return LEVELS_DB;
-  if (type === 'levelsAndScoresDb') return LEVELS_AND_SCORES_DB;
+export function setupTestDb(type: TestDbType): Promise<void> {
+  if (type === 'levelsDb') return setWholeDbWithoutRule(LEVELS_DB);
+  if (type === 'levelsAndScoresDb')
+    return setWholeDbWithoutRule(LEVELS_AND_SCORES_DB);
   throw new Error('setTestDb called with wrong type');
 }
 
