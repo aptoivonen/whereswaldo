@@ -8,8 +8,9 @@ type LevelCardProps = {
 };
 
 function LevelCard({ level }: LevelCardProps) {
+  const titleId = `card-title-${level.id}`;
   return (
-    <Link className="" to={`level/${level.id}`}>
+    <Link to={`level/${level.id}`} aria-labelledby={titleId}>
       <Card className="border-8 border-blue">
         <Card.Img
           className="aspect-h-1 aspect-w-2"
@@ -18,7 +19,7 @@ function LevelCard({ level }: LevelCardProps) {
         />
         <Card.Title className="bg-blue text-white">
           <div className="flex items-center">
-            <span>{level.title}</span>
+            <h2 id={titleId}>{level.title}</h2>
             <div className="ml-auto flex h-6 space-x-1">
               {[...level.characters].map((character) => (
                 <img
