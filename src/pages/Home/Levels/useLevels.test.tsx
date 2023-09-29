@@ -14,6 +14,12 @@ setupTest('demo-test-id-uselevels');
 describe('UseLevels', () => {
   setupDescribe();
 
+  it('gets empty list when no data', async () => {
+    const { result } = renderHook(() => useLevels(), { wrapper });
+
+    await waitFor(() => expect(result.current.data).toHaveLength(0));
+  });
+
   it('gets correct data', async () => {
     // Setup initial level data
     await setWholeDbWithoutRule({
