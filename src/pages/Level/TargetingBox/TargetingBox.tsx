@@ -37,6 +37,7 @@ function TargetingBox({
         className={`absolute z-20 flex flex-col divide-y-2 divide-red border-2 border-red shadow-lg ${translateX} ${translateY}`}
         style={{ top: imageY, left: imageX }}
         role="menu"
+        aria-label="select character you found"
       >
         {characters.map((character) => (
           <li key={character} role="menuitem">
