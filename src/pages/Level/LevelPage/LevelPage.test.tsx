@@ -65,7 +65,21 @@ describe('Level page', () => {
     );
   });
 
-  // TODO: clicking through all characters and getting input name box
+  it('right clicks on the image to pop up character selection menu', async () => {
+    await setupTestDb('levelsDb');
 
-  // TODO: getting input name box and inputting and going to scoreboard page with correct parameter
+    render(
+      <Routes>
+        <Route path="/level/:levelId" element={<LevelPage />} />
+      </Routes>,
+      { wrapper }
+    );
+
+    const user = userEvent.setup();
+    const image = await screen.findByRole('img', { name: /level 1/i });
+    user.pointer({ target: image, keys: '[MouseRight]' });
+    expect(
+      await screen.findByRole('menu', { name: /select character you found/i })
+    );
+  });
 });
