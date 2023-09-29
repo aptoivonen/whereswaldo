@@ -146,6 +146,7 @@ describe('App', () => {
       expect(screen.getByRole('heading', { level: 1, name: /scoreboard/i }));
     });
 
+    // TODO: move to level page test
     it('from homepage to level game page from level card', async () => {
       await setWholeDbWithoutRule({
         levels: {
@@ -246,6 +247,7 @@ describe('App', () => {
       );
     });
 
+    // TODO: move to scoreboard page test
     it('from scoreboardpage to home page using start playing link when no scores', async () => {
       await setWholeDbWithoutRule({
         levels: {
@@ -278,6 +280,7 @@ describe('App', () => {
       );
     });
 
+    // TODO: move to not found page test
     it('from not-found-page to home page using home link', async () => {
       await setWholeDbWithoutRule({
         levels: {
