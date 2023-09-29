@@ -7,7 +7,7 @@ import {
   RulesTestContext,
   RulesTestEnvironment,
 } from '@firebase/rules-unit-testing';
-import { beforeAll, beforeEach, afterEach, afterAll } from 'vitest';
+import { beforeAll, afterEach, afterAll } from 'vitest';
 import fs from 'fs';
 import * as firebaseJson from '../../firebase.json';
 import { setDb } from '@/config/firebaseConfig';
@@ -75,6 +75,10 @@ export function setupDescribe(): void {
         port: FIRESTORE_EMULATOR_PORT,
       },
     });
+    unauthedDb = testEnv
+      .unauthenticatedContext()
+      .firestore() as unknown as Firestore;
+    setDb(unauthedDb);
   });
 
   afterEach(async () => {
@@ -84,13 +88,6 @@ export function setupDescribe(): void {
 
   afterAll(async () => {
     await testEnv.cleanup();
-  });
-
-  beforeEach(async () => {
-    unauthedDb = testEnv
-      .unauthenticatedContext()
-      .firestore() as unknown as Firestore;
-    setDb(unauthedDb);
   });
 }
 
