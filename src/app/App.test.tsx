@@ -146,39 +146,6 @@ describe('App', () => {
       expect(screen.getByRole('heading', { level: 1, name: /scoreboard/i }));
     });
 
-    // TODO: move to level page test
-    it('from homepage to level game page from level card', async () => {
-      await setWholeDbWithoutRule({
-        levels: {
-          '1': {
-            imgUrl: 'level-1.jpg',
-            thumbnailUrl: 'thumbnail-level-1.jpg',
-            title: 'Level 1',
-            characterCoordinates: { Waldo: [1, 1] },
-            characters: ['Waldo'],
-            foundAcceptanceRadius: 3,
-          },
-        },
-      });
-
-      render(
-        <MemoryRouter initialEntries={['/']}>
-          <QueryClientWrapper>
-            <App />
-          </QueryClientWrapper>
-        </MemoryRouter>
-      );
-      const user = userEvent.setup();
-      const level1Link = await screen.findByRole('link', {
-        name: /level 1/i,
-      });
-      await user.click(level1Link);
-      const level1Heading = await screen.findByRole('heading', {
-        name: /level 1/i,
-      });
-      expect(level1Heading);
-    });
-
     it('from scoreboardpage to home page using home link', async () => {
       await setWholeDbWithoutRule({
         levels: {

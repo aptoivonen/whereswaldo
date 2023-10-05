@@ -1,13 +1,16 @@
 import { describe, it } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import {
   QueryClientWrapper,
   setupDescribe,
   setupTest,
   setWholeDbWithoutRule,
 } from '@/tests/setupTests';
+
 import HomePage from './HomePage';
+import LevelPage from '@/pages/Level/LevelPage/LevelPage';
 
 setupTest();
 
@@ -118,5 +121,40 @@ describe('HomePage', () => {
 
     const noLevelsFoundTextEl = await screen.findByText(/no levels found/i);
     expect(noLevelsFoundTextEl).toBeInTheDocument();
+  });
+
+  it('navigates to level game page from level card', async () => {
+    await setWholeDbWithoutRule({
+      levels: {
+        '1': {
+          imgUrl: 'level-1.jpg',
+          thumbnailUrl: 'thumbnail-level-1.jpg',
+          title: 'Level 1',
+          characterCoordinates: { Waldo: [1, 1] },
+          characters: ['Waldo'],
+          foundAcceptanceRadius: 3,
+        },
+      },
+    });
+
+    render(
+      <QueryClientWrapper>
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/level/:levelId" element={<LevelPage />} />
+          </Routes>
+        </MemoryRouter>
+      </QueryClientWrapper>
+    );
+    const user = userEvent.setup();
+    const level1Link = await screen.findByRole('link', {
+      name: /level 1/i,
+    });
+    await user.click(level1Link);
+    const level1Heading = await screen.findByRole('heading', {
+      name: /level 1/i,
+    });
+    expect(level1Heading);
   });
 });
