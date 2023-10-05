@@ -25,17 +25,17 @@ const LEVELS_AND_SCORES_DB = {
     abc: {
       userName: 'Mikko',
       levelId: '1',
-      time: 11,
+      time: 16,
     },
     def: {
       userName: 'Jack',
       levelId: '1',
-      time: 16,
+      time: 11,
     },
     ghi: {
       userName: 'Anna',
       levelId: '2',
-      time: 11,
+      time: 12,
     },
   },
 };
