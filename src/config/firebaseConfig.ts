@@ -3,6 +3,7 @@ import {
   getFirestore,
   connectFirestoreEmulator,
   type Firestore,
+  initializeFirestore,
 } from 'firebase/firestore';
 import * as firebaseJson from '../../firebase.json';
 
@@ -31,7 +32,10 @@ if (isDevelopment) {
     projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
     storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   });
-  db = getFirestore(app);
+  // For Cypress
+  db = initializeFirestore(app, {
+    experimentalAutoDetectLongPolling: true,
+  });
   connectFirestoreEmulator(db, 'localhost', port);
 }
 
