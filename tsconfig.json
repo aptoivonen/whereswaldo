@@ -18,14 +18,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["cypress"]
   },
   "include": [
     "vite.config.ts",
     ".eslintrc.cjs",
     "tailwind.config.cjs",
     "postcss.config.cjs",
-    "src"
+    "src",
+    "**/*.cy.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
