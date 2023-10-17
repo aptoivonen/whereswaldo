@@ -144,7 +144,7 @@ function LevelViewer({ level }: LevelViewerProps) {
               onMouseMove={handleMouseMove}
             >
               <div className="inline-block" onContextMenu={handleImageClick}>
-                <img src={level.imgUrl} alt={level.title} />
+                <img src={level.imgUrl} alt={level.title} data-cy="level-img" />
               </div>
             </TargetingCircle>
           </TargetingBox>

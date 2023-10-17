@@ -49,6 +49,7 @@ function TargetingBox({
               onClick={() => onSelect(character)}
               tabIndex={0}
               disabled={charactersFound[character]}
+              data-cy={`${character.toLowerCase()}-menubutton`}
             >
               <img
                 className="cursor-pointer object-cover"

@@ -16,6 +16,7 @@ function HeaderIcon({ character, isFound }: HeaderIconProps) {
       src={CHARACTER_IMG[character]}
       alt={character}
       title={character}
+      data-cy={`${character.toLowerCase()}-found-icon`}
     />
   );
 }
