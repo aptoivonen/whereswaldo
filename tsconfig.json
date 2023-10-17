@@ -26,6 +26,7 @@
     ".eslintrc.cjs",
     "tailwind.config.cjs",
     "postcss.config.cjs",
+    "cypress.config.ts",
     "src",
     "**/*.cy.ts"
   ],
