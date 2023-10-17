@@ -70,7 +70,11 @@ function Scoreboard({ activeScoreId }: ScoreboardProps) {
   ) : (
     <div>
       No scores yet. Start{' '}
-      <Link to="/" className="text-red underline hover:text-red-light">
+      <Link
+        to="/"
+        className="text-red underline hover:text-red-light"
+        data-cy="playing-link"
+      >
         playing
       </Link>{' '}
       to create one!
