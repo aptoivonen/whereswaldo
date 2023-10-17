@@ -1,7 +1,10 @@
 describe('game', () => {
-  it('user selects a game and quits it', () => {
+  beforeEach(() => {
+    cy.task('empty:db');
     cy.visit('/');
+  });
 
+  it('user selects a game and quits it', () => {
     cy.get('[data-cy="level-1-link"]').click();
 
     cy.get('h1').contains(/at the fair/i);
@@ -22,8 +25,6 @@ describe('game', () => {
     ).padStart(2, '0')}`;
     const PLAYER_NAME = 'Jack';
     const LEVEL_ID = '1';
-
-    cy.visit('/');
 
     cy.get(`[data-cy="level-${LEVEL_ID}-link"]`).click();
 
