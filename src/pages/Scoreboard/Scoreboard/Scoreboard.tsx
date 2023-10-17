@@ -3,7 +3,7 @@ import { withErrorBoundary, FallbackRender } from '@/components/common';
 import useScores from './useScores';
 import formatTime from '@/utils/helpers/formatTime';
 import type { Score } from '@/model/schemas';
-import { scrollRowIntoView, getRowColor } from './helpers';
+import { scrollRowIntoView, getRowColor, isActivePlayerRow } from './helpers';
 
 export type ScoreboardProps = {
   activeScoreId: string | null;
@@ -45,17 +45,43 @@ function Scoreboard({ activeScoreId }: ScoreboardProps) {
                 index
               )}`}
               ref={scrollRowIntoView(activeScoreId, score.id)}
+              data-cy={
+                isActivePlayerRow(activeScoreId, score.id)
+                  ? 'active-score-row'
+                  : undefined
+              }
             >
               <td className="whitespace-nowrap px-6 py-4 font-bold">
                 {index + 1}
               </td>
-              <td className="whitespace-nowrap px-6 py-4 font-bold">
+              <td
+                className="whitespace-nowrap px-6 py-4 font-bold"
+                data-cy={
+                  isActivePlayerRow(activeScoreId, score.id)
+                    ? 'active-score-name'
+                    : undefined
+                }
+              >
                 {score.userName}
               </td>
-              <td className="whitespace-nowrap px-6 py-4 font-medium">
+              <td
+                className="whitespace-nowrap px-6 py-4 font-medium"
+                data-cy={
+                  isActivePlayerRow(activeScoreId, score.id)
+                    ? 'active-score-level-id'
+                    : undefined
+                }
+              >
                 {score.levelId}
               </td>
-              <td className="whitespace-nowrap px-6 py-4 font-medium">
+              <td
+                className="whitespace-nowrap px-6 py-4 font-medium"
+                data-cy={
+                  isActivePlayerRow(activeScoreId, score.id)
+                    ? 'active-score-time'
+                    : undefined
+                }
+              >
                 {formatTime(score.time)}
               </td>
             </tr>
