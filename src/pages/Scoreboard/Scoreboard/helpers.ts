@@ -1,4 +1,7 @@
-function isActivePlayerRow(activePlayerId: string | null, rowPlayerId: string) {
+export function isActivePlayerRow(
+  activePlayerId: string | null,
+  rowPlayerId: string
+) {
   return activePlayerId && activePlayerId === rowPlayerId;
 }
 
