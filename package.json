@@ -13,6 +13,7 @@
     "preview": "vite preview",
     "test": "vitest --silent",
     "cy:run": "cypress run",
+    "cy:open": "cypress open",
     "deploy": "firebase deploy --project whereswaldo-dev"
   },
   "dependencies": {
