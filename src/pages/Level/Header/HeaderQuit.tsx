@@ -6,7 +6,7 @@ type HeaderQuitProps = {
 
 function HeaderQuit({ children }: HeaderQuitProps) {
   return (
-    <Link className="text-xl text-red" to="/">
+    <Link className="text-xl text-red" to="/" data-cy="level-quit-link">
       {children}
     </Link>
   );

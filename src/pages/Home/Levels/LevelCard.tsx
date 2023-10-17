@@ -10,7 +10,11 @@ type LevelCardProps = {
 function LevelCard({ level }: LevelCardProps) {
   const titleId = `card-title-${level.id}`;
   return (
-    <Link to={`level/${level.id}`} aria-labelledby={titleId}>
+    <Link
+      to={`level/${level.id}`}
+      aria-labelledby={titleId}
+      data-cy={`level-${level.id}-link`}
+    >
       <Card className="border-8 border-blue">
         <Card.Img
           className="aspect-h-1 aspect-w-2"
