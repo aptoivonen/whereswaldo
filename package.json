@@ -14,7 +14,7 @@
     "test": "vitest --silent",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "deploy": "firebase deploy --project whereswaldo-dev"
+    "deploy": "firebase deploy --only hosting,firestore:rules --project whereswaldo-dev"
   },
   "dependencies": {
     "@loadable/component": "^5.15.3",
