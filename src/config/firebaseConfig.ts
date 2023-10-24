@@ -35,6 +35,11 @@ if (isDevelopment) {
     experimentalAutoDetectLongPolling: true,
   });
   connectFirestoreEmulator(db, 'localhost', port);
+  const { default: React } = await import('react');
+  const { default: ReactDOM } = await import('react-dom');
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  const { default: axe } = await import('@axe-core/react');
+  axe(React, ReactDOM, 1000);
 }
 
 // In testing, the firestore instance will be set by tests, just setting it here for types
