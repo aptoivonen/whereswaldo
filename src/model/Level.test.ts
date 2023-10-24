@@ -1,4 +1,4 @@
-import { describe, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import Level from './Level';
 import { LevelGameInfo } from './schemas';
 
