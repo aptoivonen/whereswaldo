@@ -1,10 +1,5 @@
 import { FirebaseApp, initializeApp } from 'firebase/app';
-import {
-  getFirestore,
-  connectFirestoreEmulator,
-  type Firestore,
-  initializeFirestore,
-} from 'firebase/firestore';
+import { getFirestore, type Firestore } from 'firebase/firestore';
 import * as firebaseJson from '../../firebase.json';
 
 const isProduction = import.meta.env.PROD;
@@ -32,7 +27,10 @@ if (isDevelopment) {
     projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
     storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   });
-  // For Cypress
+  const { initializeFirestore, connectFirestoreEmulator } = await import(
+    'firebase/firestore'
+  );
+  // Cypress requires experimentalAutoDetectLongPolling
   db = initializeFirestore(app, {
     experimentalAutoDetectLongPolling: true,
   });
