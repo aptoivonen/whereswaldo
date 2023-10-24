@@ -25,9 +25,8 @@
     ".eslintrc.cjs",
     "tailwind.config.cjs",
     "postcss.config.cjs",
-    "cypress.config.ts",
-    "src",
-    "**/*.cy.ts"
+    "src"
   ],
+  "exclude": ["cypress.config.ts", "cypress", "node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
