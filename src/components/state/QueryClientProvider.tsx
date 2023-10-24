@@ -6,23 +6,20 @@ import {
   QueryClientProvider as TanstackQueryClientProvider,
 } from '@tanstack/react-query';
 import { Toast, toast } from '@/components/common';
+import makeError from '@/utils/helpers/makeError';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error) => {
       toast.custom(() => (
-        <Toast variant="danger">
-          Error: {error instanceof Error ? error.message : String(error)}
-        </Toast>
+        <Toast variant="danger">Error: {makeError(error).message}</Toast>
       ));
     },
   }),
   mutationCache: new MutationCache({
     onError: (error) => {
       toast.custom(() => (
-        <Toast variant="danger">
-          Error: {error instanceof Error ? error.message : String(error)}
-        </Toast>
+        <Toast variant="danger">Error: {makeError(error).message}</Toast>
       ));
     },
   }),

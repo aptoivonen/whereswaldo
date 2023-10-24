@@ -27,5 +27,6 @@
     "postcss.config.cjs",
     "src"
   ],
+  "exclude": ["cypress.config.ts", "cypress", "node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

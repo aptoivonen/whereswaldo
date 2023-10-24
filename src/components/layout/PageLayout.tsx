@@ -36,7 +36,10 @@ function PageLayout() {
               <Nav className="ml-10 sm:ml-20">
                 {navLinks.map((navLink) => (
                   <Nav.Link key={navLink.id} to={navLink.route}>
-                    <span className="text-lg sm:text-2xl">
+                    <span
+                      className="text-lg sm:text-2xl"
+                      data-cy={`${navLink.content.toLowerCase()}-link`}
+                    >
                       {navLink.content}
                     </span>
                   </Nav.Link>

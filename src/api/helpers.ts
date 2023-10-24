@@ -11,13 +11,14 @@ import type {
   QueryConstraint,
   DocumentSnapshot,
   QueryDocumentSnapshot,
+  Firestore,
 } from 'firebase/firestore';
-import type { DB, QueryOptions } from './types';
+import type { QueryOptions } from './types';
 import type { BasicDocument } from '@/model/schemas';
 
 export function constructQuery(
   collectionId: string,
-  database: DB,
+  database: Firestore,
   queryOptions: QueryOptions = {}
 ) {
   const docsRef = collection(database, collectionId);

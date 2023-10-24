@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, afterEach } from 'vitest';
+import { describe, it, afterEach, beforeAll, afterAll, expect } from 'vitest';
 import {
   initializeTestEnvironment,
   RulesTestEnvironment,
@@ -13,8 +13,9 @@ import {
 } from 'firebase/firestore';
 import * as firebaseJson from '../../firebase.json';
 import backendApi from './backendApi';
+import { setDb } from '@/config/firebaseConfig';
 
-const MY_PROJECT_ID = import.meta.env.VITE_FIREBASE_PROJECT_ID;
+const MY_PROJECT_ID = 'demo-test-id-backendapi';
 const { port: FIRESTORE_EMULATOR_PORT } = firebaseJson.emulators.firestore;
 
 let testEnv: RulesTestEnvironment;
@@ -30,7 +31,7 @@ service cloud.firestore {
 }`;
 
 describe('BackendApi', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     testEnv = await initializeTestEnvironment({
       projectId: MY_PROJECT_ID,
       firestore: {
@@ -39,15 +40,21 @@ describe('BackendApi', () => {
         port: FIRESTORE_EMULATOR_PORT,
       },
     });
-    unauthedDb = {
-      ...testEnv.unauthenticatedContext().firestore(),
-      type: 'firestore',
-      toJSON: () => ({}),
-    };
+
+    unauthedDb = testEnv
+      .unauthenticatedContext()
+      .firestore() as unknown as Firestore;
+  });
+
+  beforeEach(async () => {
+    setDb(unauthedDb);
   });
 
   afterEach(async () => {
     await testEnv.clearFirestore();
+  });
+
+  afterAll(async () => {
     await testEnv.cleanup();
   });
 

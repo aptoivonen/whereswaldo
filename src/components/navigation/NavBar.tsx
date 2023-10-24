@@ -5,7 +5,11 @@ type NavBarProps = {
 };
 
 function NavBar({ children }: NavBarProps) {
-  return <nav className="flex">{children}</nav>;
+  return (
+    <nav className="flex" aria-label="Main">
+      {children}
+    </nav>
+  );
 }
 
 NavBar.Brand = NavBarBrand;

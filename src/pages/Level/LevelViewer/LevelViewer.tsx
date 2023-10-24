@@ -128,7 +128,7 @@ function LevelViewer({ level }: LevelViewerProps) {
         </Header.ItemContainer>
         <Header.Quit>Quit</Header.Quit>
       </Header>
-      <div className="flex-1 overflow-hidden bg-blue">
+      <main className="flex-1 overflow-hidden bg-blue">
         <ZoomPanViewer onZoom={handleZoom}>
           <TargetingBox
             imageDimensions={imageDimensions}
@@ -144,12 +144,12 @@ function LevelViewer({ level }: LevelViewerProps) {
               onMouseMove={handleMouseMove}
             >
               <div className="inline-block" onContextMenu={handleImageClick}>
-                <img src={level.imgUrl} alt={level.title} />
+                <img src={level.imgUrl} alt={level.title} data-cy="level-img" />
               </div>
             </TargetingCircle>
           </TargetingBox>
         </ZoomPanViewer>
-      </div>
+      </main>
     </div>
   );
 }

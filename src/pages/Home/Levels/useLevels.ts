@@ -11,7 +11,6 @@ async function getLevels() {
 function useLevels() {
   const queryFn = getLevels;
   const queryKey = ['levels'];
-
   return useTypedQuery(queryKey, queryFn);
 }
 

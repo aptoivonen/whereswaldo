@@ -11,20 +11,27 @@ function LevelCardList() {
 
   if (!levels.data) {
     return (
-      <div className={gridClassname}>
+      <ul className={gridClassname}>
         {[1, 2].map((i) => (
-          <LevelCardSkeleton key={i} />
+          <li key={i}>
+            <LevelCardSkeleton />
+          </li>
         ))}
-      </div>
+      </ul>
     );
   }
 
   return levels.data.length > 0 ? (
-    <div className={gridClassname}>
+    <ul className={gridClassname}>
       {levels.data.map((level) => (
-        <LevelCard key={level.id} level={level} />
+        <li
+          key={level.id}
+          className="transition-transform duration-100 ease-in-out hover:scale-105 focus:scale-105"
+        >
+          <LevelCard level={level} />
+        </li>
       ))}
-    </div>
+    </ul>
   ) : (
     <span className="italic">No levels found.</span>
   );

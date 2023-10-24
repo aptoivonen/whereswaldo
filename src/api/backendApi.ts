@@ -11,7 +11,7 @@ import {
 import { transformDoc, constructQuery, transformData } from './helpers';
 import type { QueryOptions } from './types';
 import type { BasicDocument } from '@/model/schemas';
-import db from '@/config/firebaseConfig';
+import { getDb } from '@/config/firebaseConfig';
 
 /**
  * Gets one document from firestore and returns it (or null if not found) inside a promise.
@@ -27,6 +27,7 @@ function get(collectionPath: string): Promise<BasicDocument | null> {
   if (!docId) {
     return Promise.reject(new Error('DocId was empty'));
   }
+  const db = getDb();
 
   return getDoc(doc(db, collectionId, docId)).then(transformDoc);
 }
@@ -50,6 +51,7 @@ function getAll(
   if (!collectionId) {
     return Promise.reject(new Error('CollectionId was empty'));
   }
+  const db = getDb();
   const docsQuery = constructQuery(collectionId, db, queryOptions);
 
   return getDocs(docsQuery).then(
@@ -69,7 +71,7 @@ function post(collectionId: string, data: object): Promise<string> {
   if (!collectionId) {
     return Promise.reject(new Error('CollectionId was empty'));
   }
-
+  const db = getDb();
   const collectionRef = collection(db, collectionId);
   const transformedData = transformData(data);
   return addDoc(collectionRef, transformedData).then((docRef) => docRef.id);
@@ -92,6 +94,7 @@ function patch(collectionPath: string, data: object): Promise<void> {
   }
 
   const transformedData = transformData(data);
+  const db = getDb();
   return updateDoc(doc(db, collectionId, docId), transformedData);
 }
 
@@ -112,6 +115,7 @@ function put(collectionPath: string, data: object): Promise<void> {
   }
 
   const transformedData = transformData(data);
+  const db = getDb();
   return setDoc(doc(db, collectionId, docId), transformedData);
 }
 
@@ -130,6 +134,7 @@ function remove(collectionPath: string): Promise<void> {
     return Promise.reject(new Error('DocId was empty'));
   }
 
+  const db = getDb();
   return deleteDoc(doc(db, collectionId, docId));
 }
 
