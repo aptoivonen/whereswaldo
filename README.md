@@ -5,6 +5,7 @@
 ## Gameplay
 
 Players can select a level to play from the homepage. In the game player aught to find the character(s) as quickly as possible.
+The picture can be dragged around and zoom in and out. Right-clicking pops up a menu to select character from.
 After success, a screen appears, asking for the player to enter his/her name for the scoreboard. The game then takes the player
 to the scoreboard page. Go back to the homepage to try another level!
 
