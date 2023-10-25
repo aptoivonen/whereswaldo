@@ -12,14 +12,14 @@ to the scoreboard page. Go back to the homepage to try another level!
 <p align="center">
     <img src="./readme_img/waldohome.png" alt="Where's Waldo home page" width="700">
 </p>
-<figcaption align="center">Where's Waldo home page, where players can pick a game to play.</figcaption>
+<p align="center">Where's Waldo home page, where players can pick a game to play.</p>
 
 <br />
 <br />
 <p align="center">
     <img src="./readme_img/waldogame.png" alt="Where's Waldo game page" width="700">
 </p>
-<figcaption align="center">After picking a game to play, the game starts.</figcaption>
+<p align="center">After picking a game to play, the game starts.</p>
 <br />
 
 ## Technologies used
