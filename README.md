@@ -1,6 +1,6 @@
 # Where's Waldo
 
-_Where's Waldo_ is a browser game to find characters in a busy image. Players can also record their results on the scoreboard.
+[_Where's Waldo_](https://whereswaldo-dev.web.app/) is a browser game to find characters in a busy image. Players can also record their results on the scoreboard.
 
 ## Gameplay
 
@@ -20,7 +20,7 @@ to the scoreboard page. Go back to the homepage to try another level!
 <p align="center">
     <img src="./readme_img/waldogame.png" alt="Where's Waldo game page" width="700">
     <br />
-    <em>After picking a game to play, the game starts.</em>
+    <em>After picking a game to play, a picture containing characters is shown and the game timer starts.</em>
 </p>
 <br />
 
@@ -43,3 +43,7 @@ Here's a list of technologies used:
 - Cypress for e2e tests
 - Axe for accessibility tests
 - Firebase emulator for testing and development
+
+## Live Game
+
+The game is [hosted live at Firebase](https://whereswaldo-dev.web.app/).
