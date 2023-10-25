@@ -8,15 +8,19 @@ Players can select a level to play from the homepage. In the game player aught t
 After success, a screen appears, asking for the player to enter his/her name for the scoreboard. The game then takes the player
 to the scoreboard page. Go back to the homepage to try another level!
 
-<figure align="center" >
-  <img src="./readme_img/waldohome.png" alt="Where's Waldo home page" width="700">
-  <figcaption>Where's Waldo home page, where players can pick a game to play.</figcaption>
-</figure>
+<p align="center" >
+  <figure>
+    <img src="./readme_img/waldohome.png" alt="Where's Waldo home page" width="700">
+    <figcaption>Where's Waldo home page, where players can pick a game to play.</figcaption>
+  </figure>
+</p>
 
-<figure align="center" >
-  <img src="./readme_img/waldogame.png" alt="Where's Waldo game page" width="700">
-  <figcaption>After picking a game to play, the game starts.</figcaption>
-</figure>
+<p align="center" >
+  <figure>
+    <img src="./readme_img/waldogame.png" alt="Where's Waldo game page" width="700">
+    <figcaption>After picking a game to play, the game starts.</figcaption>
+  </figure>
+</p>
 
 ## Technologies used
 
